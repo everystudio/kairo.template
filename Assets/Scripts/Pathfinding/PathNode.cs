@@ -14,4 +14,10 @@ public class PathNode
     public List<PathNode> neighbors = new List<PathNode>();
     public bool isWalkable = true;
     public bool isArrived = false;
+
+    // vector2intと一致しているか確認するメソッド
+    public bool Equals(Vector2Int position)
+    {
+        return this.position == position;
+    }
 }

@@ -14,5 +14,25 @@ public class ShelfController : MonoBehaviour
         this.shelfPosition = shelfPosition;
     }
 
+    public void SetItemController(ItemController itemController)
+    {
+        this.itemController = itemController;
+    }
+
+    public ItemController GetItemController()
+    {
+        return itemController;
+    }
+
+    public bool HasItem()
+    {
+        return itemController != null;
+    }
+
+    public void RemoveItem()
+    {
+        itemController = null;
+    }
+
 
 }

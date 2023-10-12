@@ -13,6 +13,8 @@ public class TestingShop : MonoBehaviour
 
     private List<ShelfController> shelfControllerList = new List<ShelfController>();
 
+    private List<ItemController> itemControllerList = new List<ItemController>();
+
     private void Start()
     {
 
@@ -52,18 +54,51 @@ public class TestingShop : MonoBehaviour
         TestingRandomAddItem();
     }
 
+    public Vector3Int GetStandingPointRandom()
+    {
+        List<Vector3Int> standingPointList = new List<Vector3Int>(){
+            new Vector3Int(1, -7, 0),
+            new Vector3Int(2, -7, 0)
+        };
+
+        var randomIndex = Random.Range(0, standingPointList.Count);
+        return standingPointList[randomIndex];
+    }
+
+    public Vector3Int GetGridPosition(Vector3 position)
+    {
+        // 床のタイルマップにしておきたい
+        return shelfTilemap.WorldToCell(position);
+    }
+
     public void TestingRandomAddItem()
     {
         var randomIndex = Random.Range(0, shelfControllerList.Count);
         var shelf = shelfControllerList[randomIndex];
-        var itemPosition = shelfTilemap.GetCellCenterWorld(shelf.ShelfPosition);
-        var item = Instantiate(itemPrefab, itemPosition, Quaternion.identity);
-        item.transform.SetParent(shelf.transform);
+        Debug.Log(shelf);
+        Debug.Log(shelf.ShelfPosition);
+        AddItem(shelf.ShelfPosition);
     }
 
-    public Vector3Int GetTargetItemGrid()
+    public void AddItem(Vector3Int position)
     {
+        var shelf = GetShelf(position);
+        if (shelf == null)
+        {
+            Debug.Log("shelf not found");
+            return;
+        }
+        var itemPosition = shelfTilemap.GetCellCenterWorld(shelf.ShelfPosition);
+        var item = Instantiate(itemPrefab, itemPosition, Quaternion.identity).GetComponent<ItemController>();
 
+        shelf.SetItemController(item);
+        item.transform.SetParent(shelf.transform);
+        itemControllerList.Add(item);
+    }
+
+    public bool GetTargetItemGrid(out Vector3Int targetGridPosition)
+    {
+        targetGridPosition = Vector3Int.zero;
         var appleIndex = -1;
         foreach (var shelf in shelfControllerList)
         {
@@ -80,13 +115,27 @@ public class TestingShop : MonoBehaviour
         if (appleIndex == -1)
         {
             Debug.Log("apple not found");
-            return Vector3Int.zero;
+            return false;
         }
 
         var targetShelf = shelfControllerList[appleIndex];
-        var targetPosition = targetShelf.ShelfPosition;
+        targetGridPosition = targetShelf.ShelfPosition;
         //Debug.Log("targetPosition:" + targetPosition);
-        return targetPosition;
-
+        return true;
     }
+
+    public ShelfController GetShelf(Vector3Int position)
+    {
+        foreach (var shelf in shelfControllerList)
+        {
+            if (shelf.ShelfPosition == position)
+            {
+                return shelf;
+            }
+        }
+        return null;
+    }
+
+
+
 }

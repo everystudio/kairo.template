@@ -233,7 +233,7 @@ public class Test : MonoBehaviour
                 TileBase tile = floorTilemap.GetTile(pos);
                 if (tile != null)
                 {
-                    Debug.Log(tile.name + " " + pos);
+                    //Debug.Log(tile.name + " " + pos);
                 }
             }
         }

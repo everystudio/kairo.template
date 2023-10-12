@@ -70,18 +70,18 @@ public class SaveSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("SaveData 見つかった");
+            //Debug.Log("SaveData 見つかった");
             string json = PlayerPrefs.GetString("SaveData");
-            Debug.Log(json);
+            //Debug.Log(json);
 
             SaveData data = JsonUtility.FromJson<SaveData>(json);
-            Debug.Log(data.user_name);
-            Debug.Log(data.coinNum);
+            //Debug.Log(data.user_name);
+            //Debug.Log(data.coinNum);
 
             foreach (CardData card in data.cardList)
             {
-                Debug.Log(card.card_id);
-                Debug.Log(card.card_name);
+                //Debug.Log(card.card_id);
+                //Debug.Log(card.card_name);
             }
         }
 

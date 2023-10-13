@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using DG.Tweening;
 using anogame;
 using System.Threading;
@@ -30,6 +31,9 @@ public class CustomerController : StateMachineBase<CustomerController>
     public NodeMover nodeMover;
 
     private ItemController buyItemController;
+
+    public static UnityEvent<ItemController> OnBuyItem = new UnityEvent<ItemController>();
+
 
     private void Start()
     {
@@ -194,6 +198,8 @@ public class CustomerController : StateMachineBase<CustomerController>
     {
         buyItemController = shelf.GetItemController();
         shelf.RemoveItem();
+
+        OnBuyItem?.Invoke(buyItemController);
 
         buyItemController.transform.SetParent(transform);
         buyItemController.transform.DOLocalMove(new Vector3(0, 1, 4), 1f).OnComplete(() =>

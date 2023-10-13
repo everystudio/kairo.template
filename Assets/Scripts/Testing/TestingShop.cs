@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+using TMPro;
 
 public class TestingShop : MonoBehaviour
 {
@@ -15,8 +17,18 @@ public class TestingShop : MonoBehaviour
 
     private List<ItemController> itemControllerList = new List<ItemController>();
 
+    private int money = 1000;
+    [SerializeField] private TextMeshProUGUI moneyText;
+
     private void Start()
     {
+        moneyText.text = money.ToString();
+        CustomerController.OnBuyItem.AddListener((itemController) =>
+        {
+            //money += itemController.Price;
+            money += 100;
+            moneyText.text = money.ToString();
+        });
 
         BoundsInt bounds = shelfTilemap.cellBounds;
         TileBase[] allTilesArray = shelfTilemap.GetTilesBlock(bounds);

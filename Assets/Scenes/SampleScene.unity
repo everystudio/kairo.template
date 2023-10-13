@@ -567,7 +567,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612649044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -782,7 +782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &961755546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6367,6 +6367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 1491421311466174346, guid: 7a4f777b838bf9645826febae0c80c2b, type: 3}
   shelfTilemap: {fileID: 612649047}
+  moneyText: {fileID: 1092619108}
 --- !u!4 &1974032901
 Transform:
   m_ObjectHideFlags: 0

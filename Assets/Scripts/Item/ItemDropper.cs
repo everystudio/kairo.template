@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class ItemDropper : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private CollectableItem itemToDrop;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

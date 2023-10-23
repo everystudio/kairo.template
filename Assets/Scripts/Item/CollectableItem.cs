@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using anogame;
+using TMPro;
 
 public class CollectableItem : MonoBehaviour
 {
@@ -10,6 +10,60 @@ public class CollectableItem : MonoBehaviour
     [SerializeField] private AudioClip coinSound;
 
     [SerializeField] private EventCollectableItem OnCollectedItem;
+
+    [System.Serializable]
+    public class References
+    {
+        public Rigidbody2D rigidBody2D;
+        public SpriteRenderer spriteRenderer;
+        public TextMeshPro amountText;
+        public BoxCollider2D boxCollider2D;
+    }
+
+    [System.Serializable]
+    public class Configuration
+    {
+        public ItemData data;
+        public int amount;
+        public float moveSpeed = 2;
+        public float activationWait = 1;
+    }
+    public float PickupDistance()
+    {
+        return references.boxCollider2D.size.magnitude * 0.5f;
+    }
+    public void Configure(ItemData data, int amount)
+    {
+        configuration.data = data;
+        configuration.amount = amount;
+        //isLooted = false;
+        Refresh();
+    }
+
+    [SerializeField]
+    private References references;
+
+    [SerializeField]
+    private Configuration configuration;
+    //private bool isLooted;
+
+    private void Refresh()
+    {
+        if (configuration.data != null)
+        {
+            references.spriteRenderer.sprite = configuration.data.Icon;
+
+            if (configuration.amount > 1 && configuration.data.CanStack)
+            {
+                references.amountText.text = configuration.amount.ToString();
+                references.amountText.gameObject.SetActive(true);
+            }
+            else
+            {
+                references.amountText.gameObject.SetActive(false);
+            }
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

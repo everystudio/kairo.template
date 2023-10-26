@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 [System.Serializable]
 public class RecipeRequireItem
 {
@@ -17,3 +17,4 @@ public class RecipeModel : ScriptableObject
     public ItemData createdItem;
     public int createdAmount;
 }
+*/

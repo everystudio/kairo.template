@@ -16,4 +16,5 @@ MonoBehaviour:
   displayName: "\u308A\u3093\u3054"
   description: "\u304A\u3044\u3057\u3044\u308A\u3093\u3054"
   icon: {fileID: 21300000, guid: 386b17628013b6f469cd04f9e91cefd6, type: 3}
+  pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
   stackable: 0

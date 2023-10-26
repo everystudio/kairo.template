@@ -11,14 +11,16 @@ public class TestItemPickup : MonoBehaviour
     private void Awake()
     {
         pickableItem = GetComponent<PickableItem>();
-        pickableItem.SetItem(pickupItem);
+        pickableItem.SetItem(pickupItem, 1);
     }
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             pickableItem.PickupItem();
         }
+        */
     }
 }

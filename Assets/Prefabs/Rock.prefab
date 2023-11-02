@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 3234826253458740419}
   - component: {fileID: 6665163253939706144}
   - component: {fileID: 592382621}
+  - component: {fileID: 2865311332221473088}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -266,3 +267,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2865311332221473088}
+        m_TargetAssemblyTypeName: anogame.inventory.ItemDropper, Assembly-CSharp
+        m_MethodName: DropItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2865311332221473088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234826253458740429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98f7894f0ebf874f9076bfa019a62c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItemArray:
+  - item: {fileID: 11400000, guid: de2ef7c631f6a6746aed2ba97867fc29, type: 2}
+    amountRange: {x: 1, y: 1}
+    dropCountRange: {x: 3, y: 3}
+  dropRadius: 0.5

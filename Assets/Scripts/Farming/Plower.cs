@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,34 @@ using UnityEngine.Tilemaps;
 public class Plower : MonoBehaviour
 {
     [SerializeField] private Tilemap targetTile;
+
     [SerializeField] private TileBase plowedTile;
 
+    private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
+
+    private void Start()
+    {
+        Tilemap.tilemapTileChanged += OnTileChanged;
+
+    }
+
+    private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
+    {
+        if (tilemap == targetTile)
+        {
+            UpdateWetTile();
+        }
+
+
+    }
+
+    private void UpdateWetTile()
+    {
+        foreach (var wetTilePosition in wetTilePositionList)
+        {
+            targetTile.SetAnimationFrame(wetTilePosition, 1);
+        }
+    }
 
     private void Update()
     {
@@ -20,7 +47,16 @@ public class Plower : MonoBehaviour
 
             if (targetTile.HasTile(grid))
             {
-                targetTile.SetTile(grid, plowedTile);
+                var tile = targetTile.GetTile(grid);
+                if (tile == plowedTile)
+                {
+                    wetTilePositionList.Add(grid);
+                    UpdateWetTile();
+                }
+                else
+                {
+                    targetTile.SetTile(grid, plowedTile);
+                }
             }
             else
             {

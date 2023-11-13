@@ -10,12 +10,29 @@ public class TestPickup : MonoBehaviour
     {
         if (Input.GetKeyDown(pickupKey))
         {
-            Debug.Log("Pickup");
-            var pickableItem = GetComponent<PickupSpawner>();
-            if (pickableItem != null)
+            //Debug.Log("Pickup");
+
+            // シーン内で一番近いPickupSpawnerを取得
+            var pickupSpawners = FindObjectsOfType<PickableItem>();
+            if (pickupSpawners != null)
             {
-                pickableItem.PickupItem();
+                PickableItem closestSpawner = null;
+                float closestDistance = 0f;
+                foreach (var spawner in pickupSpawners)
+                {
+                    var distance = Vector3.Distance(transform.position, spawner.transform.position);
+                    if (closestSpawner == null || distance < closestDistance)
+                    {
+                        closestSpawner = spawner;
+                        closestDistance = distance;
+                    }
+                }
+                if (closestSpawner != null)
+                {
+                    closestSpawner.PickupItem();
+                }
             }
+
         }
     }
 }

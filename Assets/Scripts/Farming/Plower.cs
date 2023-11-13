@@ -10,6 +10,8 @@ public class Plower : MonoBehaviour
 
     [SerializeField] private TileBase plowedTile;
 
+    [SerializeField] private Crop cropPrefab;
+
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private void Start()
@@ -62,8 +64,30 @@ public class Plower : MonoBehaviour
             {
                 Debug.Log("タイルがありません");
             }
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f;
+            Vector3Int grid = targetTile.WorldToCell(mousePosition);
 
-
+            if (targetTile.HasTile(grid))
+            {
+                var tile = targetTile.GetTile(grid);
+                if (tile == plowedTile)
+                {
+                    var crop = Instantiate(cropPrefab);
+                    crop.Initialize(targetTile, grid);
+                }
+                else
+                {
+                    Debug.Log("耕されていません");
+                }
+            }
+            else
+            {
+                Debug.Log("タイルがありません");
+            }
 
         }
     }

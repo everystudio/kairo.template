@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, vertical, 0f);
         transform.position += movement * speed * Time.deltaTime;
 
-        if (isSwinging == false && Input.GetButtonDown("Fire1"))
+        if (isSwinging == false && Input.GetKeyDown(KeyCode.Space))
         {
             isSwinging = true;
             GetComponent<Animator>().SetTrigger("swing");

@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7289122452978038893}
   - component: {fileID: 7289122452978038892}
   m_Layer: 0
-  m_Name: PickableItemPrefabBase
+  m_Name: _PickableItemPrefabBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

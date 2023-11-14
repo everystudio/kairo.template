@@ -9,17 +9,19 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
         Vector3 movement = new Vector3(horizontal, vertical, 0f);
         transform.position += movement * speed * Time.deltaTime;
 
+        /*
         if (isSwinging == false && Input.GetKeyDown(KeyCode.Space))
         {
             isSwinging = true;
             GetComponent<Animator>().SetTrigger("swing");
         }
+        */
 
     }
 
@@ -29,7 +31,6 @@ public class Player : MonoBehaviour
     }
     private void OnAnimationSwingEnd()
     {
-        //Debug.Log("swing end");
         isSwinging = false;
     }
 }

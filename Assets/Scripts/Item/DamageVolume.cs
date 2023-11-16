@@ -27,9 +27,16 @@ public class DamageVolume : MonoBehaviour
     // この初期化あまり良くないけど
     public void OnEnable()
     {
+        Refresh();
+    }
+
+    public void Refresh()
+    {
         hitCount = 0;
         attackedInstanceIDs.Clear();
     }
+
+
     public void SetCallBack(IDamageCallback callbackInterface)
     {
         this.callbackInterface = callbackInterface;

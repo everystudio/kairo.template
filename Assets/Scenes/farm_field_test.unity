@@ -5857,7 +5857,6 @@ GameObject:
   - component: {fileID: 1054074901}
   - component: {fileID: 1054074900}
   - component: {fileID: 1054074906}
-  - component: {fileID: 1054074904}
   - component: {fileID: 1054074905}
   m_Layer: 0
   m_Name: Player
@@ -5879,6 +5878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  toolTransform: {fileID: 7319842085756037090}
+  toolDamageVolume: {fileID: 7188355853401118094}
 --- !u!4 &1054074898
 Transform:
   m_ObjectHideFlags: 0
@@ -5933,22 +5934,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1054074904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054074895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b7bffd7c271ba478b92fdd52af30eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capacity: 8
-  inventoryUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1054074905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7152,8 +7137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9788a8bfa49fd1a489081a17f5322046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: a184d2697e213db4c915e374eb14cf9d, type: 2}
-  amount: 2
+  item: {fileID: 11400000, guid: 63ced06833726df49b3e82158b91fb01, type: 2}
+  amount: 1
 --- !u!4 &1249861479
 Transform:
   m_ObjectHideFlags: 0
@@ -11006,7 +10991,7 @@ GameObject:
   - component: {fileID: 7319842085756037090}
   - component: {fileID: 407895656144234072}
   m_Layer: 0
-  m_Name: item
+  m_Name: tool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

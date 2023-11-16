@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using anogame.inventory;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -10,9 +13,25 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform toolTransform;
     [SerializeField] private DamageVolume toolDamageVolume;
 
+    [SerializeField] private ActiveGridCursor activeGridCursor;
+    private InventoryItem selectingItem;
+
+    [SerializeField] private Tilemap targetTilemap;
+    [SerializeField] private Plower plower;
+
+    [SerializeField] private ActionInventoryUI actionInventoryUI;
+
+
     private void Start()
     {
         RemoveTool();
+        ActionInventoryUI.OnSelectItem.AddListener(SetSelectingItem);
+
+    }
+
+    private void SetSelectingItem(InventoryItem arg0)
+    {
+        selectingItem = arg0;
     }
 
     private void Update()
@@ -23,6 +42,27 @@ public class Player : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, vertical, 0f);
         transform.position += movement * speed * Time.deltaTime;
 
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f;
+        Vector3Int gridPosition = targetTilemap.WorldToCell(mousePosition);
+
+        activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
+
+        if (Input.GetMouseButtonDown(0) && isRange)
+        {
+            // 使う許可を取って
+            if (actionInventoryUI.Use())
+            {
+                // 実際の処理はこっち
+                Interaction(gridPosition);
+            }
+        }
+        else
+        {
+            //Debug.Log("範囲外");
+        }
+
         /*
         if (isSwinging == false && Input.GetKeyDown(KeyCode.Space))
         {
@@ -30,6 +70,39 @@ public class Player : MonoBehaviour
             GetComponent<Animator>().SetTrigger("swing");
         }
         */
+    }
+
+    private void Interaction(Vector3Int gridPosition)
+    {
+        if (selectingItem == null)
+        {
+            // 実際はやることある
+            return;
+        }
+
+        IItemAction itemAction = selectingItem as IItemAction;
+        IItemType itemType = selectingItem as IItemType;
+
+        if (itemType != null)
+        {
+
+            switch (itemType.GetItemType())
+            {
+                case ITEM_TYPE.NONE:
+                    break;
+                case ITEM_TYPE.WATERING_CAN:
+                    plower.Water(gridPosition);
+                    break;
+
+                case ITEM_TYPE.HOE:
+                    plower.Plow(gridPosition);
+                    break;
+
+            }
+
+        }
+
+
 
     }
 

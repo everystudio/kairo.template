@@ -12,12 +12,41 @@ public class Plower : MonoBehaviour
 
     [SerializeField] private Crop cropPrefab;
 
+    [SerializeField] private SpriteRenderer gridCursor;
+
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private void Start()
     {
         Tilemap.tilemapTileChanged += OnTileChanged;
 
+    }
+
+    public bool IsPlowed(Vector3Int grid)
+    {
+        return targetTile.GetTile(grid) == plowedTile;
+    }
+
+    //掘ることができるタイルのばあいtrueを返す
+    public bool CanPlow(Vector3Int grid)
+    {
+        if (targetTile.HasTile(grid))
+        {
+            var tile = targetTile.GetTile(grid);
+            if (tile == plowedTile)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            Debug.Log("タイルがありません");
+            return false;
+        }
     }
 
     private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
@@ -38,8 +67,60 @@ public class Plower : MonoBehaviour
         }
     }
 
-    private void Update()
+    // 地面を掘るメソッド
+    public bool Plow(Vector3Int grid)
     {
+        if (targetTile.HasTile(grid))
+        {
+            var tile = targetTile.GetTile(grid);
+            if (tile == plowedTile)
+            {
+                return false;
+            }
+            else
+            {
+                targetTile.SetTile(grid, plowedTile);
+                return true;
+            }
+        }
+        else
+        {
+            Debug.Log("タイルがありません");
+            return false;
+        }
+    }
+
+    // 水やりをするメソッド
+    public bool Water(Vector3Int grid)
+    {
+        if (targetTile.HasTile(grid))
+        {
+            var tile = targetTile.GetTile(grid);
+            if (tile == plowedTile)
+            {
+                wetTilePositionList.Add(grid);
+                UpdateWetTile();
+                return true;
+            }
+            else
+            {
+                Debug.Log("耕されていません");
+                return false;
+            }
+        }
+        else
+        {
+            Debug.Log("タイルがありません");
+            return false;
+        }
+    }
+
+    private void Updateaa()
+    {
+        //DrawCursor();
+
+
+
         // クリックされた位置のタイルを耕す
         if (Input.GetMouseButtonDown(0))
         {
@@ -89,6 +170,26 @@ public class Plower : MonoBehaviour
                 Debug.Log("タイルがありません");
             }
 
+        }
+    }
+
+    private void DrawCursor()
+    {
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f;
+        Vector3Int grid = targetTile.WorldToCell(mousePosition);
+
+        gridCursor.transform.position = targetTile.GetCellCenterWorld(grid);
+
+        if (grid.x == -9 && grid.y == -12)
+        {
+            //　グリッドの色を変える
+            gridCursor.color = Color.blue;
+        }
+        else
+        {
+            gridCursor.color = Color.white;
         }
     }
 }

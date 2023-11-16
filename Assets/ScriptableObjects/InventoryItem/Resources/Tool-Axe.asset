@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e66c9ebd403d7ad43b3428e9bdb5ae51, type: 3}
-  m_Name: Tool-Pickaxe
+  m_Name: Tool-Axe
   m_EditorClassIdentifier: 
   itemID: 43f3ad60-e8ba-4139-b04f-5a199f38dd98
-  displayName: "\u30D4\u30C3\u30B1\u30EB"
-  description: "\u3044\u308F\u3092\u5272\u308B\u3053\u3068\u304C\u3067\u304D\u308B"
-  icon: {fileID: 21300000, guid: 9016a99499f0be64eb7ac977f659c821, type: 3}
+  displayName: "\u30AA\u30CE"
+  description: "\u6728\u3092\u5207\u308B\u3053\u3068\u304C\u3067\u304D\u308B"
+  icon: {fileID: 21300000, guid: c88791c075596c34cb0dc5cbd2ad5d89, type: 3}
   pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
   stackable: 0
-  itemType: 2
   animationTriggerName: swing

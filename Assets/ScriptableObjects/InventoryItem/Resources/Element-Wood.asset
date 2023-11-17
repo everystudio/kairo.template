@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d65abbdac603e3488c5d2997b97b5ff, type: 3}
+  m_Name: Element-Wood
+  m_EditorClassIdentifier: 
+  itemID: 48c3db8f-5fe0-4955-8dad-019e205b75a3
+  displayName: "\u6728\u6750"
+  description: "\u6728\u304B\u3089\u5165\u624B\u3067\u304D\u308B\u3002\u30AF\u30E9\u30D5\u30C8\u3067\u5927\u6D3B\u8E8D"
+  icon: {fileID: 21300000, guid: e6f627c6f6fb25f44acc6481259ebc7f, type: 3}
+  pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
+  stackable: 1

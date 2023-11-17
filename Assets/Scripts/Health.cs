@@ -9,10 +9,10 @@ public class Health : MonoBehaviour
     protected List<IHealable> iHealableInterfaces = new List<IHealable>();
     protected List<IKillable> iKillableInterfaces = new List<IKillable>();
     [SerializeField]
-    protected float minHP;
+    protected float currentHP;
     public float MinHP
     {
-        get { return minHP; }
+        get { return currentHP; }
     }
 
     [SerializeField]
@@ -48,7 +48,7 @@ public class Health : MonoBehaviour
 
     protected virtual void Initialize()
     {
-        minHP = maxHP;
+        currentHP = maxHP;
         collider = this.gameObject.GetComponentInChildren<Collider>();
 
         if (startInvulnerable)
@@ -59,10 +59,14 @@ public class Health : MonoBehaviour
 
     public void Revive()
     {
-        minHP = maxHP;
-        isDead = false;
+        Revive(maxHP);
     }
 
+    public void Revive(float heal)
+    {
+        Heal(heal);
+        isDead = false;
+    }
 
     public void AddListener(IDamageable iDamageable)
     {
@@ -132,18 +136,18 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
-        minHP = Mathf.Clamp(minHP + amount, 0, maxHP);
+        currentHP = Mathf.Clamp(currentHP + amount, 0, maxHP);
 
         for (int i = 0; i < iHealableInterfaces.Count; i++)
         {
-            iHealableInterfaces[i].OnHealed(minHP, maxHP);
+            iHealableInterfaces[i].OnHealed(currentHP, maxHP);
         }
     }
 
 
     public void Kill()
     {
-        Damage(minHP, this.transform.position, null);
+        Damage(currentHP, this.transform.position, null);
     }
 
     public void Damage(float amount, Vector3 hitlocation, GameObject cause)
@@ -153,16 +157,16 @@ public class Health : MonoBehaviour
             return;
         }
 
-        minHP -= amount;
+        currentHP -= amount;
         if (!isDead)
         {
             for (int i = 0; i < iDamageableInterfaces.Count; i++)
             {
-                iDamageableInterfaces[i].OnDamaged(new DamageInfo(minHP, maxHP, hitlocation, (cause != null) ? cause.transform.position : Vector3.zero, (cause != null) ? cause.name : "", amount));
+                iDamageableInterfaces[i].OnDamaged(new DamageInfo(currentHP, maxHP, hitlocation, (cause != null) ? cause.transform.position : Vector3.zero, (cause != null) ? cause.name : "", amount));
             }
         }
 
-        if (minHP <= 0 && !isDead)
+        if (currentHP <= 0 && !isDead)
         {
             for (int i = 0; i < iKillableInterfaces.Count; i++)
             {
@@ -180,7 +184,7 @@ public class Health : MonoBehaviour
 
         for (int i = 0; i < iHealableInterfaces.Count; i++)
         {
-            iHealableInterfaces[i].OnHealed(minHP, maxHP);
+            iHealableInterfaces[i].OnHealed(currentHP, maxHP);
         }
     }
     public void DecreaseHealth(int amount)
@@ -189,9 +193,9 @@ public class Health : MonoBehaviour
 
         for (int i = 0; i < iHealableInterfaces.Count; i++)
         {
-            iHealableInterfaces[i].OnHealed(minHP, maxHP);
+            iHealableInterfaces[i].OnHealed(currentHP, maxHP);
         }
     }
 
-    public bool IsDamaged { get { return minHP < maxHP; } }
+    public bool IsDamaged { get { return currentHP < maxHP; } }
 }

@@ -44,7 +44,7 @@ public class Plower : MonoBehaviour
         }
         else
         {
-            Debug.Log("タイルがありません");
+            //Debug.Log("タイルがありません");
             return false;
         }
     }

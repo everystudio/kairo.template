@@ -23,15 +23,22 @@ public class DamageVolume : MonoBehaviour
         owner = this.gameObject;
         collider = GetComponent<Collider2D>();
     }
-
+    /*
     // この初期化あまり良くないけど
     public void OnEnable()
     {
         Refresh();
     }
+    */
+
+    public void Disable()
+    {
+        canDealDamage = false;
+    }
 
     public void Refresh()
     {
+        canDealDamage = true;
         hitCount = 0;
         attackedInstanceIDs.Clear();
     }

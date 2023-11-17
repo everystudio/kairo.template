@@ -43,9 +43,7 @@ public class FarmTree : MonoBehaviour
                 offset = bodyRenderer.sprite.bounds.center;
 
                 //bodyRendererは回転しているためそのままオフセットを利用できないので変換する
-                Debug.Log(offset);
                 offset = bodyTransform.TransformPoint(offset);
-                Debug.Log(offset);
 
                 bodyItemDropper.SetOffset(offset);
                 bodyItemDropper.DropItem();

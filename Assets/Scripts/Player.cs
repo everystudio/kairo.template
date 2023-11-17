@@ -110,6 +110,7 @@ public class Player : MonoBehaviour
     {
         toolTransform.gameObject.SetActive(true);
         toolTransform.GetComponent<SpriteRenderer>().sprite = toolItem.GetIcon();
+        toolDamageVolume.SetDamageableTags(new string[] { toolItem.GetItemType().ToString().ToLower() });
 
         // 構えているときは判定が出ないようにする
         toolDamageVolume.Disable();

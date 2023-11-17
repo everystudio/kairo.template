@@ -43,6 +43,11 @@ public class DamageVolume : MonoBehaviour
         attackedInstanceIDs.Clear();
     }
 
+    public void SetDamageableTags(string[] tags)
+    {
+        damageableTags = tags;
+    }
+
 
     public void SetCallBack(IDamageCallback callbackInterface)
     {
@@ -77,7 +82,7 @@ public class DamageVolume : MonoBehaviour
 
         int getInstanceID = health.gameObject.GetInstanceID();
 
-        if (!IsAttackedInstance(getInstanceID) && HasDamageableTag(health.tag))
+        if (!IsAttackedInstance(getInstanceID) && HasDamageableTag(health.DamageableTag))
         {
             attackedInstanceIDs.Add(getInstanceID);
 
@@ -124,35 +129,41 @@ public class DamageVolume : MonoBehaviour
     }
 
     public virtual void OnDamageRequested(Health health) { }
-    private void ApplyDamage(Collider2D other)
+    private void ApplyDamage(Health health)
     {
-        Health getHealth = other.GetComponent<Health>();
-        if (getHealth != null)
+        if (health != null)
         {
-            float getDamage = RequestDamage(getHealth);
+            float getDamage = RequestDamage(health);
             if (getDamage != 0)
             {
                 hitCount += 1;
-                Vector3 hitLocation = collider.bounds.ClosestPoint(((other.transform.position - this.transform.position) * 0.5f) + this.transform.position);
-                getHealth.Damage(getDamage, hitLocation, owner);
+                Vector3 hitLocation = collider.bounds.ClosestPoint(((health.transform.position - this.transform.position) * 0.5f) + this.transform.position);
+                health.Damage(getDamage, hitLocation, owner);
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (HasDamageableTag(other.tag))
+        if (other.gameObject.TryGetComponent(out Health health))
         {
             //Debug.Log("Trigger:" + other.gameObject.name);
-            ApplyDamage(other);
+            if (HasDamageableTag(health.DamageableTag))
+            {
+                ApplyDamage(health);
+            }
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (HasDamageableTag(collision.gameObject.tag))
+        if (collision.gameObject.TryGetComponent(out Health health))
         {
-            ApplyDamage(collision.collider);
+            //Debug.Log("Collision:" + collision.gameObject.name);
+            if (HasDamageableTag(health.DamageableTag))
+            {
+                ApplyDamage(health);
+            }
         }
     }
 }

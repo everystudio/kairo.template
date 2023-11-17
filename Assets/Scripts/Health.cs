@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDamageableTag
 {
     protected List<IDamageable> iDamageableInterfaces = new List<IDamageable>();
     protected List<IInvulnerable> iInvulnerableInterfaces = new List<IInvulnerable>();
     protected List<IHealable> iHealableInterfaces = new List<IHealable>();
     protected List<IKillable> iKillableInterfaces = new List<IKillable>();
+
+    public string damageableTag;
+    public string DamageableTag => damageableTag;
+
     [SerializeField]
     protected float currentHP;
     public float MinHP
@@ -199,3 +203,4 @@ public class Health : MonoBehaviour
 
     public bool IsDamaged { get { return currentHP < maxHP; } }
 }
+

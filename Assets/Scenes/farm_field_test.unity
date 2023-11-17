@@ -8250,6 +8250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7be25038c90a4489e5c03717f0c18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageableTag: axe
   currentHP: 3
   maxHP: 3
   canBecomeInvulnerable: 0
@@ -8315,7 +8316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targets:
   - {fileID: 1584092651}
-  delay: 0
+  delay: 0.3
   OnDeadEvent:
     m_PersistentCalls:
       m_Calls:

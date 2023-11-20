@@ -20,9 +20,6 @@ public class FarmTree : MonoBehaviour
         // bodyRendererの画像の中心座標を取得
         var bodyCenter = bodyRenderer.sprite.bounds.center;
 
-        Debug.Log(transform.position);
-        Debug.Log(bodyCenter);
-
     }
 
     public void Shake()

@@ -21,11 +21,17 @@ public class Player : MonoBehaviour
 
     [SerializeField] private ActionInventoryUI actionInventoryUI;
 
+    private Animator animator;
+
 
     private void Start()
     {
         RemoveTool();
         ActionInventoryUI.OnSelectItem.AddListener(SetSelectingItem);
+
+        animator = GetComponent<Animator>();
+        animator.SetFloat("x", 0f);
+        animator.SetFloat("y", -1f);
 
     }
 
@@ -41,6 +47,12 @@ public class Player : MonoBehaviour
 
         Vector3 movement = new Vector3(horizontal, vertical, 0f);
         transform.position += movement * speed * Time.deltaTime;
+
+        if (0 < movement.magnitude)
+        {
+            animator.SetFloat("x", movement.x);
+            animator.SetFloat("y", movement.y);
+        }
 
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

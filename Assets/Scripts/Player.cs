@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using anogame.inventory;
 using System;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class Player : MonoBehaviour
 
     private Animator animator;
 
+    private PlayerInputActions playerInputActions;
+
+    [SerializeField] private GameObject inventoryUI;
+
 
     private void Start()
     {
@@ -33,6 +38,16 @@ public class Player : MonoBehaviour
         animator.SetFloat("x", 0f);
         animator.SetFloat("y", -1f);
 
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Enable();
+        playerInputActions.Player.OpenInventory.performed += ctx => OpenInventory(ctx);
+
+    }
+
+    private void OpenInventory(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("OpenInventory");
+        inventoryUI.SetActive(!inventoryUI.activeSelf);
     }
 
     private void SetSelectingItem(InventoryItem arg0)
@@ -42,10 +57,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
 
-        Vector3 movement = new Vector3(horizontal, vertical, 0f);
+        Vector2 isometricDirectionX = new Vector2(1f, 0.5f).normalized;
+        Vector2 isometricDirectionY = new Vector2(-1f, 0.5f).normalized;
+
+        Vector3 movement = new Vector3(
+            movementInput.x * isometricDirectionX.x + movementInput.y * isometricDirectionY.x,
+            movementInput.x * isometricDirectionX.y + movementInput.y * isometricDirectionY.y,
+            0f);
+
         transform.position += movement * speed * Time.deltaTime;
 
         if (0 < movement.magnitude)
@@ -61,7 +82,7 @@ public class Player : MonoBehaviour
 
         activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
 
-        if (Input.GetMouseButtonDown(0) && isRange)
+        if (playerInputActions.Player.Interaction.inProgress && isRange)
         {
             // 使う許可を取って
             if (actionInventoryUI.Use())
@@ -75,13 +96,6 @@ public class Player : MonoBehaviour
             //Debug.Log("範囲外");
         }
 
-        /*
-        if (isSwinging == false && Input.GetKeyDown(KeyCode.Space))
-        {
-            isSwinging = true;
-            GetComponent<Animator>().SetTrigger("swing");
-        }
-        */
     }
 
     private void Interaction(Vector3Int gridPosition)

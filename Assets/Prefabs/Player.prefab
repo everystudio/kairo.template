@@ -71,10 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792fc6f84d40ac4428c9e4732d7f12b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
   damageableTags: []
   damage: 1
-  owner: {fileID: 0}
 --- !u!1 &2794647343389321714
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +121,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  toolTransform: {fileID: 0}
+  toolDamageVolume: {fileID: 0}
+  activeGridCursor: {fileID: 0}
+  targetTilemap: {fileID: 0}
+  plower: {fileID: 0}
+  actionInventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!95 &7506893034176138196
 Animator:
   serializedVersion: 5
@@ -229,7 +234,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,7 +362,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

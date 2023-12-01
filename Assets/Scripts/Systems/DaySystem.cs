@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using anogame;
 
-public class DaySystem : MonoBehaviour
+public class DaySystem : SystemCore
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnLoadSystem()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

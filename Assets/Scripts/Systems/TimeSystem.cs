@@ -6,7 +6,8 @@ using anogame;
 public class TimeSystem : SystemCore
 {
     [SerializeField] private EventInt OnTime;
-    private float time;
+    public float time;
+
 
     [SerializeField] private int oneDayMinute = 10;
     private float timeRate
@@ -16,6 +17,12 @@ public class TimeSystem : SystemCore
             // 一日の時間とかが変わったら変更する必要あり
             return (20 * 60) / oneDayMinute;
         }
+    }
+
+    public void StartDay(int addDay)
+    {
+        time = 0;
+        OnTick(0);
     }
 
     public override void OnLoadSystem()

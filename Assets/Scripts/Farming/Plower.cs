@@ -22,6 +22,20 @@ public class Plower : MonoBehaviour
 
     }
 
+    public void AdvanceDay(int addDay)
+    {
+        DryTileAll();
+    }
+
+    private void DryTileAll()
+    {
+        foreach (var wetTilePosition in wetTilePositionList)
+        {
+            targetTile.SetAnimationFrame(wetTilePosition, 0);
+        }
+        wetTilePositionList.Clear();
+    }
+
     public bool IsPlowed(Vector3Int grid)
     {
         return targetTile.GetTile(grid) == plowedTile;

@@ -24,10 +24,10 @@ public class TestSleep : MonoBehaviour
             fadeScreenImage.DOFade(1, 1).OnComplete(() =>
             {
                 // ここで一日の清算処理などを行う
+                OnAdvanceDay?.Invoke(1);
 
                 fadeScreenImage.DOFade(0, 1).OnComplete(() =>
                 {
-                    OnAdvanceDay?.Invoke(1);
                     OnPauseTime?.Invoke(false);
                 });
 

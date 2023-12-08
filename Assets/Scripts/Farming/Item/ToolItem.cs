@@ -25,12 +25,14 @@ public class ToolItem : InventoryItem, IItemAction, IItemType
         }
     }
 
-    public void Use(GameObject owner)
+    public bool Use(GameObject owner)
     {
         if (owner.TryGetComponent(out Player player))
         {
             player.ToolAnimationStart(animationTriggerName);
+            return true;
         }
+        return false;
     }
 
     public bool IsConsumable()

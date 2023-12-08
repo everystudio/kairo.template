@@ -908,9 +908,10 @@ MonoBehaviour:
   targetTilemap: {fileID: 0}
   growSprites:
   - sprite: {fileID: -460725948, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
-    seconds: 0
+    days: 0
   - sprite: {fileID: 382758211, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
-    seconds: 10
+    days: 0
+  growDays: 0
 --- !u!1 &192120497
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +923,8 @@ GameObject:
   - component: {fileID: 192120498}
   - component: {fileID: 192120500}
   - component: {fileID: 192120499}
+  - component: {fileID: 192120502}
+  - component: {fileID: 192120501}
   m_Layer: 0
   m_Name: ground
   m_TagString: Untagged
@@ -3759,6 +3762,48 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &192120501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192120497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6786570590fda94b87d610cb6c918ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventObject: {fileID: 11400000, guid: 12b9935373eec0246b06168b182e79fa, type: 2}
+  eventAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 192120502}
+        m_TargetAssemblyTypeName: Plowland, Assembly-CSharp
+        m_MethodName: AdvanceDay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &192120502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192120497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9862488690aff14e9d6ba0e628396bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridCursor: {fileID: 576191997}
+  plowedTile: {fileID: 11400000, guid: 72594f5dc0fdd96488021f55d197a4a8, type: 2}
 --- !u!1 &206035246
 GameObject:
   m_ObjectHideFlags: 0
@@ -9852,7 +9897,7 @@ MonoBehaviour:
   toolDamageVolume: {fileID: 7188355853401118094}
   activeGridCursor: {fileID: 576191999}
   targetTilemap: {fileID: 192120500}
-  plower: {fileID: 1150082220}
+  plowland: {fileID: 192120502}
   actionInventoryUI: {fileID: 1148942054}
   inventoryUI: {fileID: 2072576596}
 --- !u!4 &1054074898
@@ -10896,8 +10941,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1150082220}
         m_TargetAssemblyTypeName: Plower, Assembly-CSharp
-        m_MethodName: AdvanceDay
-        m_Mode: 0
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -18940,7 +18985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c91cddc252835418f3522d3c82a4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickableItem: {fileID: 11400000, guid: 2e48882d57a6cfd4a894300d98b8da05, type: 2}
+  pickableItem: {fileID: 11400000, guid: 9b843a6de11357645a2e2addd78c52fd, type: 2}
 --- !u!4 &2141070026
 Transform:
   m_ObjectHideFlags: 0

@@ -4,41 +4,77 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Plower : MonoBehaviour
+[RequireComponent(typeof(Tilemap))]
+public class Plowland : MonoBehaviour
 {
-    [SerializeField] private Tilemap targetTile;
-
-    [SerializeField] private TileBase plowedTile;
-
-    [SerializeField] private Crop cropPrefab;
-
+    private Tilemap targetTile;
     [SerializeField] private SpriteRenderer gridCursor;
 
+    [SerializeField] private TileBase plowedTile;
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
+
+    private Dictionary<Vector3Int, Crop> cropDictionary = new Dictionary<Vector3Int, Crop>();
+
+    public Tilemap GetTilemap()
+    {
+        return targetTile;
+    }
 
     private void Start()
     {
+        targetTile = GetComponent<Tilemap>();
         Tilemap.tilemapTileChanged += OnTileChanged;
 
     }
-
     public void AdvanceDay(int addDay)
     {
+        // 作物の育成
+        Debug.Log("Plowland.AdvanceDay:" + cropDictionary.Count + "個の作物を育成");
+        foreach (var dict in cropDictionary)
+        {
+            Debug.Log(dict.Key);
+            if (IsWet(dict.Key))
+            {
+                Debug.Log("水があります");
+                dict.Value.GrowupDay(addDay);
+            }
+            else
+            {
+                Debug.Log("水がありません");
+            }
+        }
+
         DryTileAll();
     }
 
     private void DryTileAll()
     {
+        Debug.Log("wetTilePositionList.Count:" + wetTilePositionList.Count);
         foreach (var wetTilePosition in wetTilePositionList)
         {
             targetTile.SetAnimationFrame(wetTilePosition, 0);
         }
         wetTilePositionList.Clear();
     }
-
     public bool IsPlowed(Vector3Int grid)
     {
         return targetTile.GetTile(grid) == plowedTile;
+    }
+    public bool IsWet(Vector3Int grid)
+    {
+        if (targetTile == null)
+        {
+            return false;
+        }
+
+        int animationFrame = targetTile.GetAnimationFrame(grid);
+        Debug.Log(animationFrame);
+        if (animationFrame == 1)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     //掘ることができるタイルのばあいtrueを返す
@@ -62,7 +98,6 @@ public class Plower : MonoBehaviour
             return false;
         }
     }
-
     private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
     {
         if (tilemap == targetTile)
@@ -70,7 +105,6 @@ public class Plower : MonoBehaviour
             UpdateWetTile();
         }
     }
-
     private void UpdateWetTile()
     {
         foreach (var wetTilePosition in wetTilePositionList)
@@ -109,9 +143,10 @@ public class Plower : MonoBehaviour
         {
             if (wetTilePositionList.Contains(grid))
             {
-                Debug.Log("すでに水やりされています");
+                //Debug.Log("すでに水やりされています");
                 return false;
             }
+
             var tile = targetTile.GetTile(grid);
             if (tile == plowedTile)
             {
@@ -121,92 +156,49 @@ public class Plower : MonoBehaviour
             }
             else
             {
-                Debug.Log("耕されていません");
+                //Debug.Log("耕されていません");
                 return false;
             }
         }
         else
         {
-            Debug.Log("タイルがありません");
+            //Debug.Log("タイルがありません");
             return false;
         }
     }
 
-    private void Updateaa()
+    public bool AddCrop(Vector3Int grid, Crop cropPrefab)
     {
-        //DrawCursor();
-
-
-
-        // クリックされた位置のタイルを耕す
-        if (Input.GetMouseButtonDown(0))
+        if (IsPlowed(grid) == false)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0f;
-            Vector3Int grid = targetTile.WorldToCell(mousePosition);
-
-            if (targetTile.HasTile(grid))
-            {
-                var tile = targetTile.GetTile(grid);
-                if (tile == plowedTile)
-                {
-                    wetTilePositionList.Add(grid);
-                    UpdateWetTile();
-                }
-                else
-                {
-                    targetTile.SetTile(grid, plowedTile);
-                }
-            }
-            else
-            {
-                Debug.Log("タイルがありません");
-            }
+            //Debug.Log("耕されていません");
+            return false;
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (cropDictionary.ContainsKey(grid))
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0f;
-            Vector3Int grid = targetTile.WorldToCell(mousePosition);
-
-            if (targetTile.HasTile(grid))
-            {
-                var tile = targetTile.GetTile(grid);
-                if (tile == plowedTile)
-                {
-                    var crop = Instantiate(cropPrefab);
-                    crop.Initialize(targetTile, grid);
-                }
-                else
-                {
-                    Debug.Log("耕されていません");
-                }
-            }
-            else
-            {
-                Debug.Log("タイルがありません");
-            }
-
-        }
-    }
-
-    private void DrawCursor()
-    {
-
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f;
-        Vector3Int grid = targetTile.WorldToCell(mousePosition);
-
-        gridCursor.transform.position = targetTile.GetCellCenterWorld(grid);
-
-        if (grid.x == -9 && grid.y == -12)
-        {
-            //　グリッドの色を変える
-            gridCursor.color = Color.blue;
+            //Debug.Log("すでに作物があります");
+            return false;
         }
         else
         {
-            gridCursor.color = Color.white;
+            var cropInstance = Instantiate(cropPrefab);
+            cropInstance.Initialize(targetTile, grid);
+
+            cropDictionary.Add(grid, cropInstance);
+            return true;
         }
+    }
+
+    public bool Harvest(Vector3Int gridPosition)
+    {
+        if (cropDictionary.ContainsKey(gridPosition))
+        {
+            if (cropDictionary[gridPosition].Harvest())
+            {
+                cropDictionary.Remove(gridPosition);
+                return true;
+            }
+        }
+        return false;
     }
 }

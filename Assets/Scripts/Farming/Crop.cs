@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class Crop : MonoBehaviour
 {
     private SpriteRenderer model;
-    private float growTime;
+    //private float growTime;
 
     [SerializeField] private Tilemap targetTilemap;
     private Vector3Int gridPosition;
@@ -15,9 +15,36 @@ public class Crop : MonoBehaviour
     public class GrowSprites
     {
         public Sprite sprite;
-        public int seconds;
+        public int days;
     }
     [SerializeField] private GrowSprites[] growSprites;
+
+    // 経過した日数
+    public int growDays;
+
+    private bool IsGrowup()
+    {
+        //Debug.Log(growSprites[growSprites.Length - 1].days);
+        //Debug.Log(growDays);
+        if (growSprites[growSprites.Length - 1].days <= growDays)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool Harvest()
+    {
+        //Debug.Log("Harvest");
+        if (IsGrowup() == false)
+        {
+            return false;
+        }
+        GetComponent<Health>().Kill();
+        return true;
+    }
+
+
 
     private void Awake()
     {
@@ -54,30 +81,56 @@ public class Crop : MonoBehaviour
         return false;
     }
 
-    private void Update()
+    public void GrowupDay(int addDay)
     {
-        if (targetTilemap == null)
-        {
-            return;
-        }
-
+        /*
+        濡れているかどうかは自分で判断させないようにする
         if (IsWet() == false)
         {
             return;
         }
+        */
 
-        growTime += Time.deltaTime;
-
-        // どのスプライトを表示するかを決める
+        growDays += addDay;
         for (int i = 0; i < growSprites.Length; i++)
         {
-            if (growSprites[i].seconds < growTime)
+            if (growSprites[i].days <= growDays)
             {
                 model.sprite = growSprites[i].sprite;
             }
         }
+    }
+
+    private void UpdateVisual()
+    {
 
     }
 
+    /*
+        private void Update()
+        {
+            if (targetTilemap == null)
+            {
+                return;
+            }
+
+            if (IsWet() == false)
+            {
+                return;
+            }
+
+            //growTime += Time.deltaTime;
+
+            // どのスプライトを表示するかを決める
+            for (int i = 0; i < growSprites.Length; i++)
+            {
+                if (growSprites[i].days < growDays)
+                {
+                    model.sprite = growSprites[i].sprite;
+                }
+            }
+
+        }
+    */
 
 }

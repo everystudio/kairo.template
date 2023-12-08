@@ -18,7 +18,9 @@ public class Player : MonoBehaviour
     private InventoryItem selectingItem;
 
     [SerializeField] private Tilemap targetTilemap;
-    [SerializeField] private Plower plower;
+    //[SerializeField] private Plower plower;
+
+    [SerializeField] private Plowland plowland;
 
     [SerializeField] private ActionInventoryUI actionInventoryUI;
 
@@ -27,6 +29,11 @@ public class Player : MonoBehaviour
     private PlayerInputActions playerInputActions;
 
     [SerializeField] private GameObject inventoryUI;
+
+    public Plowland GetPlowland()
+    {
+        return plowland;
+    }
 
 
     private void Start()
@@ -90,6 +97,10 @@ public class Player : MonoBehaviour
                 // 実際の処理はこっち
                 Interaction(gridPosition);
             }
+            else
+            {
+                InteractionHand(gridPosition);
+            }
         }
         else
         {
@@ -117,20 +128,26 @@ public class Player : MonoBehaviour
                 case ITEM_TYPE.NONE:
                     break;
                 case ITEM_TYPE.WATERING_CAN:
-                    plower.Water(gridPosition);
+                    plowland.Water(gridPosition);
                     break;
 
                 case ITEM_TYPE.HOE:
-                    plower.Plow(gridPosition);
+                    plowland.Plow(gridPosition);
                     break;
-
             }
-
         }
-
-
-
     }
+    private void InteractionHand(Vector3Int gridPosition)
+    {
+        // 手とかで作業
+        // plowlandに収穫できるものがあるか調べる
+        if (plowland.Harvest(gridPosition))
+        {
+            // 収穫できたら終了
+            return;
+        }
+    }
+
 
     public void SetTool(ToolItem toolItem)
     {

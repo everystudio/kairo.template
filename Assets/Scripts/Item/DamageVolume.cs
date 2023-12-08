@@ -57,7 +57,7 @@ public class DamageVolume : MonoBehaviour
     private bool HasDamageableTag(string targetTag)
     {
         // タグがなにもない場合は全部にダメージが通る
-        if (damageableTags.Length == 0)
+        if (targetTag.Length == 0)
         {
             return true;
         }
@@ -147,7 +147,8 @@ public class DamageVolume : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Health health))
         {
-            //Debug.Log("Trigger:" + other.gameObject.name);
+            Debug.Log("Trigger:" + other.gameObject.name);
+            Debug.Log("DamageableTag:" + health.DamageableTag);
             if (HasDamageableTag(health.DamageableTag))
             {
                 ApplyDamage(health);

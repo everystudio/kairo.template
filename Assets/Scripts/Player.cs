@@ -89,6 +89,22 @@ public class Player : MonoBehaviour
 
         activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
 
+        if (playerInputActions.Player.Interaction.triggered)
+        {
+
+            // マウスの位置にTrigger2Dの当たり判定があるか調べる
+            Collider2D[] collider2Ds = Physics2D.OverlapPointAll(mousePosition);
+            foreach (var collider2D in collider2Ds)
+            {
+                //Debug.Log(collider2D.name);
+                if (collider2D.TryGetComponent<IInteractable>(out var interactable))
+                {
+                    interactable.Interact(gameObject);
+                }
+            }
+
+        }
+
         if (playerInputActions.Player.Interaction.inProgress && isRange)
         {
             // 使う許可を取って

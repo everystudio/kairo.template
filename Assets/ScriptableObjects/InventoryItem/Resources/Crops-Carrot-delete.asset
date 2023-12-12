@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba912782ef16ace48a8b3abc497a4bf3, type: 3}
-  m_Name: Crops-Carrot
+  m_Script: {fileID: 11500000, guid: d210a7e6382aa2e4bbd5340b481a51e5, type: 3}
+  m_Name: Crops-Carrot-delete
   m_EditorClassIdentifier: 
-  itemID: 8d8b7b4d-7737-4f48-a3a9-06f51618e29f
+  itemID: d0b587c0-ab69-4e53-a69c-fb98e71f0f09
   displayName: "\u30CB\u30F3\u30B8\u30F3"
-  description: "\u3046\u3055\u304E\u304C\u5927\u597D\u304D"
+  description: 
   icon: {fileID: 21300000, guid: 2348db71ceda124468a77a3515d6e4a3, type: 3}
-  pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
-  stackable: 0
-  itemType: 0
+  pickable: {fileID: 7020721006917378986, guid: e9ba49c3970dea844920ffa1ffceba3a, type: 3}
+  stackable: 1
+  consumable: 1

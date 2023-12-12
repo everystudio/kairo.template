@@ -53,8 +53,8 @@ public class Player : MonoBehaviour
 
     private void OpenInventory(InputAction.CallbackContext ctx)
     {
-        Debug.Log("OpenInventory");
         inventoryUI.SetActive(!inventoryUI.activeSelf);
+        Debug.Log(inventoryUI.activeSelf ? "OpenInventory" : "CloseInventory");
     }
 
     private void SetSelectingItem(InventoryItem arg0)

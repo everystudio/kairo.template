@@ -109,7 +109,10 @@ public class WorldLight : Singleton<WorldLight>
 
     public void UnregisterShadow(ShadowInstance shadowInstance)
     {
-        shadowInstansList.Remove(shadowInstance);
+        if (shadowInstansList.Contains(shadowInstance))
+        {
+            shadowInstansList.Remove(shadowInstance);
+        }
     }
 
 

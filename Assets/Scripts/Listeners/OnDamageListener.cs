@@ -27,8 +27,8 @@ public class OnDamageListener : MonoBehaviour, IDamageable
     private IEnumerator DispatchAction(Vector2 location, DamageInfo info)
     {
         yield return (delay == 0) ? null : new WaitForSeconds(delay);
-        onHealthChanged.Invoke((info.MinHP > 0) ? (info.MinHP / info.MaxHP) : 0);
-        OnDamagedEvent.Invoke();
+        onHealthChanged?.Invoke((info.MinHP > 0) ? (info.MinHP / info.MaxHP) : 0);
+        OnDamagedEvent?.Invoke();
     }
 
 }

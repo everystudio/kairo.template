@@ -25,6 +25,8 @@ public enum ITEM_TYPE
     NET,
     TRAP,
     WEAPON,
+    CROP,
+    FOOD,
 
 }
 

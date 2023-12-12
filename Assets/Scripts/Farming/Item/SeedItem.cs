@@ -5,13 +5,9 @@ using anogame.inventory;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(menuName = "ScriptableObject/Inventory Seed Item")]
-public class SeedItem : InventoryItem, IItemAction, IItemType
+public class SeedItem : FarmItemBase, IItemAction
 {
     [SerializeField] private Crop cropPrefab;
-    public ITEM_TYPE GetItemType()
-    {
-        return ITEM_TYPE.SEED;
-    }
 
     public bool IsConsumable()
     {

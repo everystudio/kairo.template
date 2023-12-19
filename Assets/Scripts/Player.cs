@@ -96,47 +96,45 @@ public class Player : MonoBehaviour
             animator.SetFloat("y", movement.y);
         }
 
-        /*
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mousePosition.z = 0f;
-                Vector3Int gridPosition = targetTilemap.WorldToCell(mousePosition);
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f;
+        Vector3Int gridPosition = targetTilemap.WorldToCell(mousePosition);
 
-                activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
+        activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
 
-                if (playerInputActions.Player.Interaction.triggered)
+        if (playerInputActions.Player.Interaction.triggered)
+        {
+
+            // マウスの位置にTrigger2Dの当たり判定があるか調べる
+            Collider2D[] collider2Ds = Physics2D.OverlapPointAll(mousePosition);
+            foreach (var collider2D in collider2Ds)
+            {
+                //Debug.Log(collider2D.name);
+                if (collider2D.TryGetComponent<IInteractable>(out var interactable))
                 {
-
-                    // マウスの位置にTrigger2Dの当たり判定があるか調べる
-                    Collider2D[] collider2Ds = Physics2D.OverlapPointAll(mousePosition);
-                    foreach (var collider2D in collider2Ds)
-                    {
-                        //Debug.Log(collider2D.name);
-                        if (collider2D.TryGetComponent<IInteractable>(out var interactable))
-                        {
-                            interactable.Interact(gameObject);
-                        }
-                    }
-
+                    interactable.Interact(gameObject);
                 }
+            }
 
-                if (playerInputActions.Player.Interaction.inProgress && isRange)
-                {
-                    // 使う許可を取って
-                    if (actionInventoryUI.Use())
-                    {
-                        // 実際の処理はこっち
-                        Interaction(gridPosition);
-                    }
-                    else
-                    {
-                        InteractionHand(gridPosition);
-                    }
-                }
-                else
-                {
-                    //Debug.Log("範囲外");
-                }
-        */
+        }
+
+        if (playerInputActions.Player.Interaction.inProgress && isRange)
+        {
+            // 使う許可を取って
+            if (actionInventoryUI.Use())
+            {
+                // 実際の処理はこっち
+                Interaction(gridPosition);
+            }
+            else
+            {
+                InteractionHand(gridPosition);
+            }
+        }
+        else
+        {
+            //Debug.Log("範囲外");
+        }
     }
 
     private void Interaction(Vector3Int gridPosition)

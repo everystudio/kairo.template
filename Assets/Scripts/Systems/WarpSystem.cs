@@ -13,8 +13,7 @@ public class WarpSystem : SystemCore
     [SerializeField]
     private EventString OnSceneWarp;
 
-    [SerializeField]
-    private ScriptableReference player;
+    [SerializeField] private ScriptableReference player;
 
     [SerializeField]
     private EventFloat onWarpStart;

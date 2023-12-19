@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
+using anogame;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-public class WorldLight : MonoBehaviour
+public class WorldLight : Singleton<WorldLight>
 {
     public Transform lightsRoot;
     [Header("Day Light")]
@@ -36,6 +37,19 @@ public class WorldLight : MonoBehaviour
     private static List<ShadowInstance> shadowInstansList = new();
 
     public int shadowInstanceCount;
+
+    [SerializeField] private ScriptableReference mainCamera;
+
+    private void Update()
+    {
+        if (mainCamera != null && mainCamera.Reference != null)
+        {
+            var position = mainCamera.Reference.transform.position;
+            position.z = transform.position.z;
+            transform.position = position;
+        }
+    }
+
 
     [Range(0f, 24f)] public float DayTime = 12f;
     public float CurrentDayRatio => DayTime / 24;

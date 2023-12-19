@@ -95,15 +95,15 @@ public class WarpSystem : SystemCore
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(target));
 
-        Debug.Log(player.Reference.transform.position);
-        Debug.Log(playerLocation);
+        //Debug.Log(player.Reference.transform.position);
+        //Debug.Log(playerLocation);
         player.Reference.transform.position = playerLocation;
 
         yield return new WaitUntil(() => unloadPreviousScene.isDone);
 
         onWarpEnd?.Invoke(sceneWarpTime * 0.5f);
-
         OnSceneWarp?.Invoke(target);
+
     }
 
     [System.Serializable]

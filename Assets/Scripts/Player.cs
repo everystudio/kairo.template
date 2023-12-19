@@ -49,6 +49,15 @@ public class Player : MonoBehaviour
         playerInputActions.Enable();
         playerInputActions.Player.OpenInventory.performed += ctx => OpenInventory(ctx);
 
+        if (plowland == null || targetTilemap == null)
+        {
+            // Plowlandコンポーネントを持っているオブジェクトを探す
+            plowland = GameObject.FindObjectOfType<Plowland>();
+            targetTilemap = plowland.GetComponent<Tilemap>();
+
+            activeGridCursor.Setup(transform, plowland);
+        }
+
     }
 
     private void OpenInventory(InputAction.CallbackContext ctx)

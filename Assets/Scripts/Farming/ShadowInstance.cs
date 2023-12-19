@@ -24,24 +24,18 @@ public class ShadowInstance : MonoBehaviour
     private void OnEnable()
     {
         //Debug.Log("OnEnable");
-        WorldLight.Instance.RegisterShadow(this);
+        WorldLight.RegisterShadow(this);
     }
 
     private void OnDisable()
     {
         // ここ残してると終了時にエラーが出る
-        if (WorldLight.Instance != null)
-        {
-            WorldLight.Instance.UnregisterShadow(this);
-        }
+        WorldLight.UnregisterShadow(this);
     }
 
     private void OnDestroy()
     {
-        if (WorldLight.Instance != null)
-        {
-            WorldLight.Instance.UnregisterShadow(this);
-        }
+        WorldLight.UnregisterShadow(this);
     }
 
 

@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-public class WorldLight : Singleton<WorldLight>
+public class WorldLight : MonoBehaviour
 {
     public Transform lightsRoot;
     [Header("Day Light")]
@@ -33,7 +33,7 @@ public class WorldLight : Singleton<WorldLight>
     public AnimationCurve shadowAngle;
     public AnimationCurve shadowLength;
 
-    private List<ShadowInstance> shadowInstansList = new();
+    private static List<ShadowInstance> shadowInstansList = new();
 
     public int shadowInstanceCount;
 
@@ -102,12 +102,12 @@ public class WorldLight : Singleton<WorldLight>
         shadowInstanceCount = shadowInstansList.Count;
     }
 
-    public void RegisterShadow(ShadowInstance shadowInstance)
+    public static void RegisterShadow(ShadowInstance shadowInstance)
     {
         shadowInstansList.Add(shadowInstance);
     }
 
-    public void UnregisterShadow(ShadowInstance shadowInstance)
+    public static void UnregisterShadow(ShadowInstance shadowInstance)
     {
         if (shadowInstansList.Contains(shadowInstance))
         {

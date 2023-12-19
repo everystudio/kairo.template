@@ -7,13 +7,19 @@ using anogame.inventory;
 public class ActiveGridCursor : MonoBehaviour
 {
     private InventoryItem selectingItem;
-    [SerializeField] private Transform playerTransform;
 
-    [SerializeField] private Tilemap targetTilemap;
-
-    [SerializeField] private Plower plower;
+    private Transform playerTransform;
+    private Tilemap targetTilemap;
+    private Plowland plowland;
 
     private SpriteRenderer spriteRenderer;
+
+    public void Setup(Transform playerTransform, Plowland plower)
+    {
+        this.playerTransform = playerTransform;
+        this.plowland = plower;
+        targetTilemap = plower.GetComponent<Tilemap>();
+    }
 
     private void Awake()
     {
@@ -95,14 +101,14 @@ public class ActiveGridCursor : MonoBehaviour
         switch (itemType)
         {
             case ITEM_TYPE.WATERING_CAN:
-                if (plower.IsPlowed(grid))
+                if (plowland.IsPlowed(grid))
                 {
                     return Color.red;
                 }
                 break;
 
             case ITEM_TYPE.HOE:
-                if (plower.CanPlow(grid))
+                if (plowland.CanPlow(grid))
                 {
                     return Color.red;
                 }

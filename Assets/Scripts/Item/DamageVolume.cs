@@ -75,6 +75,8 @@ public class DamageVolume : MonoBehaviour
 
     public float RequestDamage(Health health)
     {
+        Debug.Log("canDealDamage:" + canDealDamage);
+        Debug.Log("health.IsDead:" + health.IsDead);
         if (!canDealDamage || health.IsDead)
         {
             return 0;
@@ -131,9 +133,11 @@ public class DamageVolume : MonoBehaviour
     public virtual void OnDamageRequested(Health health) { }
     private void ApplyDamage(Health health)
     {
+        Debug.Log("health:" + health.gameObject.name);
         if (health != null)
         {
             float getDamage = RequestDamage(health);
+            Debug.Log("getDamage:" + getDamage);
             if (getDamage != 0)
             {
                 hitCount += 1;

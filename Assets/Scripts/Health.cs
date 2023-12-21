@@ -38,7 +38,7 @@ public class Health : MonoBehaviour, IDamageableTag
         invulnerable = state;
     }
 
-    private bool isDead;
+    [SerializeField] private bool isDead;
     public bool IsDead
     {
         get { return isDead; }
@@ -156,6 +156,8 @@ public class Health : MonoBehaviour, IDamageableTag
 
     public void Damage(float amount, Vector3 hitlocation, GameObject cause)
     {
+        Debug.Log("Damage;" + "invulnerable" + invulnerable + "isDead" + isDead + "amount" + amount + "hitlocation" + hitlocation + "cause" + cause + "this" + this + "this.transform.position" + this.transform.position + "this.transform.position");
+
         if (invulnerable)
         {
             return;

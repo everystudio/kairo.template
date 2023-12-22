@@ -5,8 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private float interactionRange = 1f;
     private Player player;
+    [SerializeField] private float interactionRange = 1f;
+    [SerializeField] private ActiveGridCursor activeGridCursor;
 
     private void Start()
     {
@@ -15,10 +16,16 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        Vector2 cursorPosition = player.PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
+
+        Vector3Int gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
+        activeGridCursor.Display(transform.position, gridPosition, player.SelectingItem, out bool isRange);
+
+
         if (player.PlayerInputActions.Player.Interaction.triggered)
         {
             // マウスの位置にRayを飛ばす
-            Vector2 cursorPosition = player.PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
             Ray ray = Camera.main.ScreenPointToRay(cursorPosition);
 
             // Pyhsics2D.RaycastでRayが当たったオブジェクトを取得する

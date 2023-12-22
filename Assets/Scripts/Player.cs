@@ -16,11 +16,15 @@ public class Player : MonoBehaviour
     [SerializeField] private DamageVolume toolDamageVolume;
 
     [SerializeField] private ActiveGridCursor activeGridCursor;
+
     private InventoryItem selectingItem;
+    public InventoryItem SelectingItem => selectingItem;
 
     private Tilemap targetTilemap;
+    public Tilemap TargetTilemap => targetTilemap;
     //[SerializeField] private Plower plower;
-    private Plowland plowland;
+    private Plowland targetPlowland;
+    public Plowland TargetPlowland => targetPlowland;
 
     [SerializeField] private ActionInventoryUI actionInventoryUI;
 
@@ -35,11 +39,17 @@ public class Player : MonoBehaviour
 
     public Plowland GetPlowland()
     {
-        return plowland;
+        return targetPlowland;
     }
 
     public void OnLoadScene(string sceneName)
     {
+        Debug.Log("OnLoadScene:" + sceneName);
+        // Plowlandコンポーネントを持っているオブジェクトを探す
+        targetPlowland = GameObject.FindObjectOfType<Plowland>();
+        targetTilemap = targetPlowland.GetComponent<Tilemap>();
+
+        activeGridCursor.Setup(transform, targetPlowland);
     }
 
     private void Start()
@@ -55,15 +65,10 @@ public class Player : MonoBehaviour
         playerInputActions.Enable();
         playerInputActions.Player.OpenInventory.performed += ctx => OpenInventory(ctx);
 
-        if (plowland == null || targetTilemap == null)
-        {
-            // Plowlandコンポーネントを持っているオブジェクトを探す
-            plowland = GameObject.FindObjectOfType<Plowland>();
-            targetTilemap = plowland.GetComponent<Tilemap>();
 
-            activeGridCursor.Setup(transform, plowland);
-        }
         lastWarpLocation = null;
+
+
     }
 
     private void OpenInventory(InputAction.CallbackContext ctx)
@@ -74,12 +79,21 @@ public class Player : MonoBehaviour
 
     private void SetSelectingItem(InventoryItem arg0)
     {
+        Debug.Log("SetSelectingItem:" + arg0);
         selectingItem = arg0;
     }
 
     private void Update()
     {
         var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
+        Vector2 cursorPosition = PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //Debug.Log("cursor:" + cursorPosition + " mouse:" + Input.mousePosition);
+        mousePosition.z = 0f;
+        Vector3Int gridPosition = targetTilemap.WorldToCell(cursorPosition);
+
+        activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
 
         Vector2 isometricDirectionX = new Vector2(1f, 0.5f).normalized;
         Vector2 isometricDirectionY = new Vector2(-1f, 0.5f).normalized;
@@ -165,11 +179,11 @@ public class Player : MonoBehaviour
                 case ITEM_TYPE.NONE:
                     break;
                 case ITEM_TYPE.WATERING_CAN:
-                    plowland.Water(gridPosition);
+                    targetPlowland.Water(gridPosition);
                     break;
 
                 case ITEM_TYPE.HOE:
-                    plowland.Plow(gridPosition);
+                    targetPlowland.Plow(gridPosition);
                     break;
             }
         }
@@ -178,7 +192,7 @@ public class Player : MonoBehaviour
     {
         // 手とかで作業
         // plowlandに収穫できるものがあるか調べる
-        if (plowland.Harvest(gridPosition))
+        if (targetPlowland.Harvest(gridPosition))
         {
             // 収穫できたら終了
             return;

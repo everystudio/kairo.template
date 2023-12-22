@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     private PlayerInputActions playerInputActions;
+    public PlayerInputActions PlayerInputActions => playerInputActions;
 
     [SerializeField] private GameObject inventoryUI;
 
@@ -96,6 +97,13 @@ public class Player : MonoBehaviour
             animator.SetFloat("y", movement.y);
         }
 
+        /*
+        if (playerInputActions.Player.Interaction.triggered)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f;
+            Debug.Log(mousePosition);
+        }
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0f;
         Vector3Int gridPosition = targetTilemap.WorldToCell(mousePosition);
@@ -135,6 +143,7 @@ public class Player : MonoBehaviour
         {
             //Debug.Log("範囲外");
         }
+        */
     }
 
     private void Interaction(Vector3Int gridPosition)

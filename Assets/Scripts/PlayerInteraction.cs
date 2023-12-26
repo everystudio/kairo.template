@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using anogame.inventory;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
@@ -18,8 +20,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         Vector2 cursorPosition = player.PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
-
+        mousePosition.z = 0f;
         Vector3Int gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
+        //Debug.Log("gridPosition:" + gridPosition + " mousePosition:" + cursorPosition);
         activeGridCursor.Display(transform.position, gridPosition, player.SelectingItem, out bool isRange);
 
 
@@ -56,9 +59,41 @@ public class PlayerInteraction : MonoBehaviour
                 if (Vector2.Distance(transform.position, nearestInteractablePosition) < interactionRange)
                 {
                     nearestInteractable.Interact(gameObject);
+                    return;
                 }
             }
 
+
+            // 使う許可を取って
+            if (player.ActionInventoryUI.Use(out var useItem))
+            {
+                // 実際の処理はこっち
+                ItemInteraction(useItem, gridPosition);
+            }
+
+        }
+    }
+
+    private void ItemInteraction(InventoryItem useItem, Vector3Int gridPosition)
+    {
+
+        IItemAction itemAction = useItem as IItemAction;
+        IItemType itemType = useItem as IItemType;
+
+        if (itemType != null)
+        {
+            switch (itemType.GetItemType())
+            {
+                case ITEM_TYPE.NONE:
+                    break;
+                case ITEM_TYPE.WATERING_CAN:
+                    player.GetPlowland()?.Water(gridPosition);
+                    break;
+
+                case ITEM_TYPE.HOE:
+                    player.GetPlowland()?.Plow(gridPosition);
+                    break;
+            }
         }
     }
 }

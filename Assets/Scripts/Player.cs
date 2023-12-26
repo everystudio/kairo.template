@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     public Plowland TargetPlowland => targetPlowland;
 
     [SerializeField] private ActionInventoryUI actionInventoryUI;
+    public ActionInventoryUI ActionInventoryUI => actionInventoryUI;
 
     private Animator animator;
 

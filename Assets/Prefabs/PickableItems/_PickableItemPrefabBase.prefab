@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7289122451276116757}
   - component: {fileID: 7289122451276116762}
+  - component: {fileID: 8800630168934369945}
   m_Layer: 0
   m_Name: model
   m_TagString: Untagged
@@ -84,6 +85,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8800630168934369945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289122451276116756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 0
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 7289122451276116762}
 --- !u!1 &7289122452978038895
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +116,8 @@ GameObject:
   - component: {fileID: 7289122452978038893}
   - component: {fileID: 7289122452978038892}
   - component: {fileID: 8374292457615817396}
+  - component: {fileID: -5444978215241181760}
+  - component: {fileID: -9222521099773506040}
   m_Layer: 0
   m_Name: _PickableItemPrefabBase
   m_TagString: Untagged
@@ -157,3 +180,59 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.46083233, y: 0.46083224}
   m_EdgeRadius: 0
+--- !u!114 &-5444978215241181760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289122452978038895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 3884943720746847345
+  localRefs:
+    _Keys:
+    - {fileID: 8800630168934369945}
+    - {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 8374292457615817396}
+    - {fileID: 4800000, guid: e260cfa7296ee7642b167f1eb5be5023, type: 3}
+    - {fileID: 11500000, guid: e7a9c82684f827a419e98ed7957cda73, type: 3}
+    - {fileID: -5444978215241181760}
+    - {fileID: 7289122451276116762}
+    - {fileID: 7289122452978038893}
+    - {fileID: 7289122451276116757}
+    - {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+    - {fileID: 11500000, guid: da3901fd8cb9b794a95673d811580c51, type: 3}
+    - {fileID: 7289122452978038895}
+    - {fileID: 7289122452978038892}
+    - {fileID: -9222521099773506040}
+    - {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+    - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - {fileID: 7289122451276116756}
+    - {fileID: 21300000, guid: 386b17628013b6f469cd04f9e91cefd6, type: 3}
+    - {fileID: 2800000, guid: 386b17628013b6f469cd04f9e91cefd6, type: 3}
+    - {fileID: 11400000, guid: 60047c102d672c44cbe6d493cfdba74b, type: 2}
+    _Values: 585bccfdbe432f77e2231df3e3d89e03f2b2069920bc8208d3c6f695177cfa2faad76001eb9b0d168f8fcddc468c641076027ae112990346b04686a6010314289222048cd649a512a8b7ac09401c9d02cfe05210a38621021607c2c32bafa75972187d0dcb71ba48a821fab3ce46a76a71912d98f9f7517098c684127a04300b3237a4dd00aed90b1707db79b19dca4d86f09ab21f20903589728c8ec9b1a513
+--- !u!114 &-9222521099773506040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289122452978038895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 7289122452978038893}

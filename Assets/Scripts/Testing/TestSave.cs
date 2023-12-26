@@ -6,6 +6,7 @@ public class TestSave : MonoBehaviour
 {
     void Update()
     {
+        Debug.Log("TestSave");
         // kキーを押したらセーブ
         if (Input.GetKeyDown(KeyCode.K))
         {

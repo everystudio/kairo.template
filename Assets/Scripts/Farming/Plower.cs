@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using anogame;
 
 public class Plower : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Plower : MonoBehaviour
 
     [SerializeField] private SpriteRenderer gridCursor;
 
+    private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private void Start()
@@ -38,7 +40,8 @@ public class Plower : MonoBehaviour
 
     public bool IsPlowed(Vector3Int grid)
     {
-        return targetTile.GetTile(grid) == plowedTile;
+        return plowedTilePositionList.Contains(grid);
+        //return targetTile.GetTile(grid) == plowedTile;
     }
 
     //掘ることができるタイルのばあいtrueを返す
@@ -46,6 +49,8 @@ public class Plower : MonoBehaviour
     {
         if (targetTile.HasTile(grid))
         {
+            return IsPlowed(grid) == false;
+            /*
             var tile = targetTile.GetTile(grid);
             if (tile == plowedTile)
             {
@@ -55,6 +60,7 @@ public class Plower : MonoBehaviour
             {
                 return true;
             }
+            */
         }
         else
         {
@@ -82,6 +88,15 @@ public class Plower : MonoBehaviour
     // 地面を掘るメソッド
     public bool Plow(Vector3Int grid)
     {
+        if (CanPlow(grid) == false)
+        {
+            return false;
+        }
+
+        plowedTilePositionList.Add(grid);
+        targetTile.SetTile(grid, plowedTile);
+        return true;
+        /*
         if (targetTile.HasTile(grid))
         {
             var tile = targetTile.GetTile(grid);
@@ -100,38 +115,34 @@ public class Plower : MonoBehaviour
             Debug.Log("タイルがありません");
             return false;
         }
+        */
+    }
+
+    public bool IsWet(Vector3Int grid)
+    {
+        return wetTilePositionList.Contains(grid);
     }
 
     // 水やりをするメソッド
     public bool Water(Vector3Int grid)
     {
-        if (targetTile.HasTile(grid))
+        if (IsWet(grid))
         {
-            if (wetTilePositionList.Contains(grid))
-            {
-                Debug.Log("すでに水やりされています");
-                return false;
-            }
-            var tile = targetTile.GetTile(grid);
-            if (tile == plowedTile)
-            {
-                wetTilePositionList.Add(grid);
-                UpdateWetTile();
-                return true;
-            }
-            else
-            {
-                Debug.Log("耕されていません");
-                return false;
-            }
-        }
-        else
-        {
-            Debug.Log("タイルがありません");
+            Debug.Log("すでに水やりされています");
             return false;
         }
-    }
 
+        if (IsPlowed(grid) == false)
+        {
+            Debug.Log("耕されていません");
+            return false;
+        }
+
+        wetTilePositionList.Add(grid);
+        UpdateWetTile();
+        return true;
+    }
+    /*
     private void Updateaa()
     {
         //DrawCursor();
@@ -190,6 +201,7 @@ public class Plower : MonoBehaviour
         }
     }
 
+
     private void DrawCursor()
     {
 
@@ -209,4 +221,7 @@ public class Plower : MonoBehaviour
             gridCursor.color = Color.white;
         }
     }
+
+    */
+
 }

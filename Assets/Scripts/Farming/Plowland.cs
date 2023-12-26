@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using anogame;
 
 [RequireComponent(typeof(Tilemap))]
-public class Plowland : MonoBehaviour
+public class Plowland : MonoBehaviour, ISaveable
 {
     private Tilemap targetTile;
     [SerializeField] private SpriteRenderer gridCursor;
 
     [SerializeField] private TileBase plowedTile;
+
+    private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private Dictionary<Vector3Int, Crop> cropDictionary = new Dictionary<Vector3Int, Crop>();
@@ -58,10 +61,13 @@ public class Plowland : MonoBehaviour
     }
     public bool IsPlowed(Vector3Int grid)
     {
-        return targetTile.GetTile(grid) == plowedTile;
+        return plowedTilePositionList.Contains(grid);
+        //return targetTile.GetTile(grid) == plowedTile;
     }
     public bool IsWet(Vector3Int grid)
     {
+        return wetTilePositionList.Contains(grid);
+        /*
         if (targetTile == null)
         {
             return false;
@@ -73,8 +79,8 @@ public class Plowland : MonoBehaviour
         {
             return true;
         }
-
         return false;
+        */
     }
 
     //掘ることができるタイルのばあいtrueを返す
@@ -82,6 +88,8 @@ public class Plowland : MonoBehaviour
     {
         if (targetTile.HasTile(grid))
         {
+            return IsPlowed(grid) == false;
+            /*
             var tile = targetTile.GetTile(grid);
             if (tile == plowedTile)
             {
@@ -91,6 +99,7 @@ public class Plowland : MonoBehaviour
             {
                 return true;
             }
+            */
         }
         else
         {
@@ -105,6 +114,13 @@ public class Plowland : MonoBehaviour
             UpdateWetTile();
         }
     }
+    private void UpdatePlowedTile()
+    {
+        foreach (var plowedTilePosition in plowedTilePositionList)
+        {
+            targetTile.SetTile(plowedTilePosition, plowedTile);
+        }
+    }
     private void UpdateWetTile()
     {
         foreach (var wetTilePosition in wetTilePositionList)
@@ -116,6 +132,15 @@ public class Plowland : MonoBehaviour
     // 地面を掘るメソッド
     public bool Plow(Vector3Int grid)
     {
+        if (CanPlow(grid) == false)
+        {
+            return false;
+        }
+
+        plowedTilePositionList.Add(grid);
+        targetTile.SetTile(grid, plowedTile);
+        return true;
+        /*
         if (targetTile.HasTile(grid))
         {
             var tile = targetTile.GetTile(grid);
@@ -131,14 +156,31 @@ public class Plowland : MonoBehaviour
         }
         else
         {
-            Debug.Log("タイルがありません");
+            Debug.Log("タイルがありません" + grid + ":" + targetTile);
             return false;
         }
+        */
     }
 
     // 水やりをするメソッド
     public bool Water(Vector3Int grid)
     {
+        if (IsWet(grid))
+        {
+            //Debug.Log("すでに水やりされています");
+            return false;
+        }
+
+        if (IsPlowed(grid) == false)
+        {
+            //Debug.Log("耕されていません");
+            return false;
+        }
+
+        wetTilePositionList.Add(grid);
+        UpdateWetTile();
+        return true;
+        /*
         if (targetTile.HasTile(grid))
         {
             if (wetTilePositionList.Contains(grid))
@@ -165,6 +207,7 @@ public class Plowland : MonoBehaviour
             //Debug.Log("タイルがありません");
             return false;
         }
+        */
     }
 
     public bool AddCrop(Vector3Int grid, Crop cropPrefab)
@@ -201,4 +244,43 @@ public class Plowland : MonoBehaviour
         }
         return false;
     }
+
+
+    [System.Serializable]
+    public class SaveData
+    {
+        public List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
+        public List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
+    }
+    public string GetKey()
+    {
+        // インスタンスのユニークなIDを返す
+        return $"Plower_{GetInstanceID()}";
+    }
+
+    public string OnSave()
+    {
+        Debug.Log("Plower.OnSave");
+        return JsonUtility.ToJson(new SaveData()
+        {
+            plowedTilePositionList = plowedTilePositionList,
+            wetTilePositionList = wetTilePositionList,
+        });
+    }
+
+    public void OnLoad(string json)
+    {
+        Debug.Log("Plower.OnLoad");
+        var saveData = JsonUtility.FromJson<SaveData>(json);
+        plowedTilePositionList = saveData.plowedTilePositionList;
+        wetTilePositionList = saveData.wetTilePositionList;
+        UpdatePlowedTile();
+        UpdateWetTile();
+    }
+
+    public bool IsSaveable()
+    {
+        return true;
+    }
+
 }

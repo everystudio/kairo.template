@@ -21,16 +21,23 @@ public class TestOtherScene : MonoBehaviour
 
             Dictionary<string, string> saveData = new Dictionary<string, string>();
 
-            foreach (GameObject obj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+            var objsList = new List<GameObject[]>();
+            objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
+            objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
+
+            foreach (var objs in objsList)
             {
-                // ISaveableを実装しているオブジェクトを取得
-                foreach (ISaveable saveable in obj.GetComponentsInChildren<ISaveable>())
+                foreach (GameObject obj in objs)
                 {
-                    // 保存
-                    string json = saveable.OnSave();
-                    Debug.Log(saveable.GetKey());
-                    Debug.Log(json);
-                    saveData.Add(saveable.GetKey(), json);
+                    // ISaveableを実装しているオブジェクトを取得
+                    foreach (ISaveable saveable in obj.GetComponentsInChildren<ISaveable>())
+                    {
+                        // 保存
+                        string json = saveable.OnSave();
+                        Debug.Log(saveable.GetKey());
+                        Debug.Log(json);
+                        saveData.Add(saveable.GetKey(), json);
+                    }
                 }
             }
 
@@ -44,16 +51,21 @@ public class TestOtherScene : MonoBehaviour
 
             Dictionary<string, string> saveData = ES3.Load<Dictionary<string, string>>("saveData");
 
-            GameObject[] objs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            var objsList = new List<GameObject[]>();
+            objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
+            objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
 
             List<ISaveable> saveableList = new List<ISaveable>();
 
-            foreach (GameObject obj in objs)
+            foreach (var objs in objsList)
             {
-                // ISaveableを実装しているオブジェクトを取得
-                foreach (ISaveable saveable in obj.GetComponentsInChildren<ISaveable>())
+                foreach (GameObject obj in objs)
                 {
-                    saveableList.Add(saveable);
+                    // ISaveableを実装しているオブジェクトを取得
+                    foreach (ISaveable saveable in obj.GetComponentsInChildren<ISaveable>())
+                    {
+                        saveableList.Add(saveable);
+                    }
                 }
             }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66c9ebd403d7ad43b3428e9bdb5ae51, type: 3}
   m_Name: Tool-Sickle
   m_EditorClassIdentifier: 
-  itemID: 43f3ad60-e8ba-4139-b04f-5a199f38dd98
+  itemID: kama43f3ad60-e8ba-4139-b04f-5a199f38dd98kama
   displayName: "\u30AB\u30DE"
   description: "\u8349\u306A\u3069\u3092\u5208\u308B\u3053\u3068\u304C\u3067\u304D\u308B"
   icon: {fileID: 21300000, guid: 0396f4c197a19234ba5829198fae4629, type: 3}

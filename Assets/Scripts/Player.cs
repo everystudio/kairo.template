@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public WarpLocation lastWarpLocation;
 
+    [SerializeField] private PlayerBuilding playerBuilding;
+
     public Plowland GetPlowland()
     {
         return targetPlowland;
@@ -64,28 +66,53 @@ public class Player : MonoBehaviour
 
         playerInputActions = new PlayerInputActions();
         playerInputActions.Enable();
+        playerInputActions.Player.Enable();
         playerInputActions.Player.OpenInventory.performed += ctx => OpenInventory(ctx);
 
-
+        playerInputActions.Building.Disable();
         lastWarpLocation = null;
 
+        playerBuilding.gameObject.SetActive(false);
 
     }
 
     private void OpenInventory(InputAction.CallbackContext ctx)
     {
         inventoryUI.SetActive(!inventoryUI.activeSelf);
-        Debug.Log(inventoryUI.activeSelf ? "OpenInventory" : "CloseInventory");
+        //Debug.Log(inventoryUI.activeSelf ? "OpenInventory" : "CloseInventory");
     }
 
     private void SetSelectingItem(InventoryItem arg0)
     {
-        Debug.Log("SetSelectingItem:" + arg0);
+        //Debug.Log("SetSelectingItem:" + arg0);
         selectingItem = arg0;
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            playerInputActions.Building.Enable();
+            playerInputActions.Player.Disable();
+
+            playerBuilding.gameObject.SetActive(true);
+            playerBuilding.OnEndBuilding.RemoveAllListeners();
+            playerBuilding.OnEndBuilding.AddListener((bool canBuild, Vector3Int gridPosition) =>
+            {
+                if (canBuild)
+                {
+                    Debug.Log("建築完了");
+                    // 建築完了
+                    // ここで建築する
+                }
+                playerInputActions.Building.Disable();
+                playerInputActions.Player.Enable();
+            });
+
+            playerBuilding.Building(playerInputActions, targetTilemap, playerBuilding.gameObject);
+        }
+
+
         var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
         Vector2 cursorPosition = PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

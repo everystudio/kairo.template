@@ -62,21 +62,27 @@ public class PlayerInteraction : MonoBehaviour
                     return;
                 }
             }
+        }
 
-
+        if (isRange && player.PlayerInputActions.Player.Interaction.inProgress)
+        {
             // 使う許可を取って
             if (player.ActionInventoryUI.Use(out var useItem))
             {
                 // 実際の処理はこっち
                 ItemInteraction(useItem, gridPosition);
             }
+            else
+            {
 
+            }
         }
+
+
     }
 
     private void ItemInteraction(InventoryItem useItem, Vector3Int gridPosition)
     {
-
         IItemAction itemAction = useItem as IItemAction;
         IItemType itemType = useItem as IItemType;
 
@@ -94,6 +100,17 @@ public class PlayerInteraction : MonoBehaviour
                     player.GetPlowland()?.Plow(gridPosition);
                     break;
             }
+        }
+    }
+
+    private void InteractionHand(Vector3Int gridPosition)
+    {
+        // 手とかで作業
+        // plowlandに収穫できるものがあるか調べる
+        if (player.GetPlowland() != null && player.GetPlowland().Harvest(gridPosition))
+        {
+            // 収穫できたら終了
+            return;
         }
     }
 }

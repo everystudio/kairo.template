@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using anogame;
 using anogame.inventory;
 using UnityEngine.Events;
+using System;
 
 public class CollectInventory : InventoryBase<InventoryItem>, IInteractable
 {
     public static UnityEvent<CollectInventory> OnInventoryOpen = new UnityEvent<CollectInventory>();
+    [SerializeField] private EventBool OnPauseTimeSystem;
+
     public void Interact(GameObject owner)
     {
         OnInventoryOpen.Invoke(this);
+        OnPauseTimeSystem?.Invoke(true);
     }
 
     public void BuyItemAll()
@@ -31,5 +36,15 @@ public class CollectInventory : InventoryBase<InventoryItem>, IInteractable
         }
         ItemManager.Instance.AddCoin(getCoin);
 
+    }
+
+    public void SetInventoryUI(CollectInventoryUI collectInventoryUI)
+    {
+        collectInventoryUI.OnClose.RemoveAllListeners();
+        collectInventoryUI.OnClose.AddListener(() =>
+        {
+            OnPauseTimeSystem?.Invoke(false);
+            collectInventoryUI.OnClose.RemoveAllListeners();
+        });
     }
 }

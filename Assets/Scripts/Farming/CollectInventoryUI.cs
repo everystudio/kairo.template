@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using anogame.inventory;
 
 public class CollectInventoryUI : InventoryUI
@@ -11,5 +12,5 @@ public class CollectInventoryUI : InventoryUI
         ChestInventory.OnInventoryOpen.AddListener(SetTargetInventory);
     }
     */
-
+    public UnityEvent OnClose = new UnityEvent();
 }

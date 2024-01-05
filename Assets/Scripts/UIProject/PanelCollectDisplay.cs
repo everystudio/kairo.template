@@ -17,12 +17,14 @@ public class PanelCollectDisplay : MonoBehaviour
     public void Open(CollectInventory collectInventory)
     {
         collectInventoryUI.SetTargetInventory(collectInventory);
+        collectInventory.SetInventoryUI(collectInventoryUI);
         displayRoot.SetActive(true);
     }
 
     public void Close()
     {
         displayRoot.SetActive(false);
+        collectInventoryUI.OnClose.Invoke();
     }
 
     private void Update()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,6 +13,7 @@ public class Test : MonoBehaviour
     //public float searchZ = 0f;
     public List<PathNode> walkableNodeList = new List<PathNode>();
 
+    public DialogueDatabase testdb;
 
     private void Start()
     {
@@ -31,7 +33,12 @@ public class Test : MonoBehaviour
             }
         }
         */
-        RefreshWalkableNodeList();
+
+        //RefreshWalkableNodeList();
+
+        //Debug.Log(UnityEngine.EventSystems.EventSystem.current);
+
+        DialogueManager.AddDatabase(testdb);
     }
 
     private List<PathNode> RefreshWalkableNodeList()

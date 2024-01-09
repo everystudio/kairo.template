@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0a5c4bf340dede6439278516fd4414b5
+guid: 8d4d3beb68674d84ab7a4ec8641e5649
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -152,7 +152,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -59, y: -81}
+        - {x: -57, y: -39}
+        - {x: 57, y: -37}
+        - {x: 56, y: -81}
       tessellationDetail: 0
       bones: []
       spriteID: 33bb0b626801be7499bf198bdf52b78c

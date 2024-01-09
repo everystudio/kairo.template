@@ -57,7 +57,7 @@ public class WorldLight : Singleton<WorldLight>
     // このダサいの後でちゃんと直してね
     public void OnUpdateTime(int dayTime)
     {
-        DayTime = dayTime / 60 + ((dayTime % 60) / 60f) + 6f;
+        DayTime = dayTime / 60 + ((dayTime % 60) / 60f);
         UpdateDayTime(DayTime);
     }
     public void UpdateDayTime(float dayTime)

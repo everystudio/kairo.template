@@ -76,6 +76,18 @@ public class Player : MonoBehaviour
 
     }
 
+    public void OnPause(bool isPause)
+    {
+        if (isPause)
+        {
+            playerInputActions.Disable();
+        }
+        else
+        {
+            playerInputActions.Enable();
+        }
+    }
+
     private void OpenInventory(InputAction.CallbackContext ctx)
     {
         inventoryUI.SetActive(!inventoryUI.activeSelf);

@@ -24,9 +24,13 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Assertions;
 
+using anogame;
+
 public class Fade : MonoBehaviour
 {
     IFade fade;
+
+    public EventBool OnFadeFinished;
 
     void Start()
     {

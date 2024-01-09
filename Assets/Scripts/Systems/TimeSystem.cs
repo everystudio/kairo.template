@@ -8,6 +8,7 @@ public class TimeSystem : SystemCore
     [SerializeField] private EventInt OnTime;
     public float time;
 
+    [SerializeField] private int startHour = 6;
 
     [SerializeField] private int oneDayMinute = 10;
     private float timeRate
@@ -19,9 +20,15 @@ public class TimeSystem : SystemCore
         }
     }
 
+    private void Start()
+    {
+        StartDay(0);
+    }
+
     public void StartDay(int addDay)
     {
-        time = 0;
+        time = startHour * 60 * 60;
+        Debug.Log(time);
         OnTick(0);
     }
 

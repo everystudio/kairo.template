@@ -12,7 +12,7 @@ public class DisplayTime : MonoBehaviour
     {
         //Debug.Log(timeSeconds + "秒経過");
         // フォーマットで00:00 にする
-        timeText.text = string.Format("{0:00}:{1:00}", (timeSeconds / 60) + 6, (timeSeconds % 60) / 10 * 10);
+        timeText.text = string.Format("{0:00}:{1:00}", (timeSeconds / 60), (timeSeconds % 60) / 10 * 10);
     }
 
 

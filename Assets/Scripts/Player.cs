@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
     public void OnLoadScene(string sceneName)
     {
-        Debug.Log("OnLoadScene:" + sceneName);
+        //Debug.Log("OnLoadScene:" + sceneName);
         // Plowlandコンポーネントを持っているオブジェクトを探す
         targetPlowland = GameObject.FindObjectOfType<Plowland>();
         targetTilemap = targetPlowland.GetComponent<Tilemap>();

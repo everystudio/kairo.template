@@ -8,14 +8,26 @@ using System;
 
 public class CollectInventory : InventoryBase<InventoryItem>, IInteractable
 {
-    public static UnityEvent<CollectInventory> OnInventoryOpen = new UnityEvent<CollectInventory>();
+    public static UnityEvent<CollectInventory, GameObject> OnInventoryOpen = new UnityEvent<CollectInventory, GameObject>();
     [SerializeField] private EventBool OnPauseTimeSystem;
 
     public void Interact(GameObject owner)
     {
-        OnInventoryOpen.Invoke(this);
+        OnInventoryOpen.Invoke(this, owner);
         OnPauseTimeSystem?.Invoke(true);
     }
+
+    public override bool AccpeptableItem(InventoryItem item)
+    {
+        if (item is ToolItem)
+        {
+            //Debug.Log("ツールアイテムは売れない");
+            return false;
+        }
+
+        return true;
+    }
+
 
     public void BuyItemAll()
     {

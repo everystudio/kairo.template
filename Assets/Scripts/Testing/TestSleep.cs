@@ -14,11 +14,14 @@ public class TestSleep : MonoBehaviour
 
     [SerializeField] private Image fadeScreenImage;
 
+    [SerializeField] private EventInt OnEndToday;
+
     private void Awake()
     {
         sleepButton = GetComponent<Button>();
         sleepButton.onClick.AddListener(() =>
         {
+            /*
             OnPauseTime?.Invoke(true);
 
             fadeScreenImage.DOFade(1, 1).OnComplete(() =>
@@ -32,10 +35,8 @@ public class TestSleep : MonoBehaviour
                 });
 
             });
-
-
-
-
+            */
+            OnEndToday?.Invoke(1);
         });
     }
 

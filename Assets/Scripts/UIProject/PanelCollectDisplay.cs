@@ -7,6 +7,8 @@ public class PanelCollectDisplay : MonoBehaviour
     [SerializeField] private CollectInventoryUI collectInventoryUI = null;
     [SerializeField] private GameObject displayRoot;
 
+    private GameObject lastOwner;
+
     private void Awake()
     {
         displayRoot.SetActive(false);
@@ -14,8 +16,9 @@ public class PanelCollectDisplay : MonoBehaviour
     }
 
 
-    public void Open(CollectInventory collectInventory)
+    public void Open(CollectInventory collectInventory, GameObject owner)
     {
+        lastOwner = owner;
         collectInventoryUI.SetTargetInventory(collectInventory);
         collectInventory.SetInventoryUI(collectInventoryUI);
         displayRoot.SetActive(true);
@@ -25,13 +28,27 @@ public class PanelCollectDisplay : MonoBehaviour
     {
         displayRoot.SetActive(false);
         collectInventoryUI.OnClose.Invoke();
+        lastOwner = null;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetMouseButtonDown(1))
         {
             Close();
+        }
+
+        if (lastOwner == null)
+        {
+            return;
+        }
+
+        if (lastOwner.TryGetComponent(out Player player))
+        {
+            if (player.PlayerInputActions.Player.CloseInventory.triggered)
+            {
+                Close();
+            }
         }
     }
 }

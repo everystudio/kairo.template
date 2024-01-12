@@ -7,27 +7,38 @@ using System;
 public class NextDaySequence : MonoBehaviour
 {
     [SerializeField] private ScriptableReference fadeCanvas;
-
     private GameObject panelDayResults;
-    public void OnNextDay(Action onFinished)
+    [SerializeField] private EventInt OnAdvanceDay;
+
+    public void EndToday()
+    {
+        OnNextDay(() =>
+        {
+            OnAdvanceDay?.Invoke(1);
+        }, () =>
+        {
+            Debug.Log("NextDaySequence Finished");
+        });
+    }
+
+    public void OnNextDay(Action onClearToday, Action onFinished)
     {
         fadeCanvas.Reference.GetComponent<Fade>().FadeIn(0.75f, () =>
         {
             panelDayResults = UIController.Instance.AddPanel("PanelDayResults");
             panelDayResults.GetComponent<PanelDayResults>().OnClose.AddListener(() =>
             {
-                ClearToday(onFinished);
+                ClearToday(onClearToday, onFinished);
             });
             fadeCanvas.Reference.GetComponent<Fade>().FadeOut(0.1f);
         });
-
-
     }
 
-    private void ClearToday(Action onFinished)
+    private void ClearToday(Action onClearToday, Action onFinished)
     {
         fadeCanvas.Reference.GetComponent<Fade>().FadeIn(0.01f, () =>
        {
+           onClearToday.Invoke();
            UIController.Instance.RemovePanel(panelDayResults);
            fadeCanvas.Reference.GetComponent<Fade>().FadeOut(0.75f, () =>
            {
@@ -36,14 +47,4 @@ public class NextDaySequence : MonoBehaviour
        });
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            OnNextDay(() =>
-            {
-                Debug.Log("NextDaySequence Finished");
-            });
-        }
-    }
 }

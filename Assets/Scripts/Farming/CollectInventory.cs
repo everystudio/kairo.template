@@ -6,10 +6,15 @@ using anogame.inventory;
 using UnityEngine.Events;
 using System;
 
-public class CollectInventory : InventoryBase<InventoryItem>, IInteractable
+public class CollectInventory : PlayerInventory, IInteractable
 {
     public static UnityEvent<CollectInventory, GameObject> OnInventoryOpen = new UnityEvent<CollectInventory, GameObject>();
     [SerializeField] private EventBool OnPauseTimeSystem;
+
+    protected override string GetSaveKey()
+    {
+        return "collectInventory";
+    }
 
     public void Interact(GameObject owner)
     {
@@ -57,6 +62,8 @@ public class CollectInventory : InventoryBase<InventoryItem>, IInteractable
         {
             OnPauseTimeSystem?.Invoke(false);
             collectInventoryUI.OnClose.RemoveAllListeners();
+
+            OnSave();
         });
     }
 }

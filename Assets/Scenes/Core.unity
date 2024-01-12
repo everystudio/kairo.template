@@ -5100,7 +5100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryItemPrefab: {fileID: 9217695285537241055, guid: 26ea10ebfbec05e4f9b403eef45d302b, type: 3}
   inventorySlotRoot: {fileID: 2058869662}
-  targetInventory: {fileID: 1054074906}
+  targetInventory: {fileID: 0}
 --- !u!114 &762838290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8163,7 +8163,7 @@ GameObject:
   - component: {fileID: 5685024336642705961}
   - component: {fileID: 1054074901}
   - component: {fileID: 1054074900}
-  - component: {fileID: 1054074906}
+  - component: {fileID: 5685024336642705966}
   - component: {fileID: 1054074905}
   - component: {fileID: 5685024336642705962}
   - component: {fileID: 5685024336642705964}
@@ -8262,22 +8262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded13ee81444ef74796cf94ea6d3004d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1054074906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054074895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70177320ef5b9994f9a56ae67c5d0596, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capacity: 20
-  inventoryUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &1066876587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9375,7 +9359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryItemPrefab: {fileID: 4616599014847303849, guid: 1cdfb88b00e5df04687a1ea6529622f8, type: 3}
   inventorySlotRoot: {fileID: 1148942050}
-  targetInventory: {fileID: 1054074906}
+  targetInventory: {fileID: 5685024336642705966}
   selectingIndex: -1
   displaySize: 8
   slots: []
@@ -13034,7 +13018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryItemPrefab: {fileID: 9217695285537241055, guid: 26ea10ebfbec05e4f9b403eef45d302b, type: 3}
   inventorySlotRoot: {fileID: 618918441}
-  targetInventory: {fileID: 1054074906}
+  targetInventory: {fileID: 0}
 --- !u!114 &1838070401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14561,7 +14545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryItemPrefab: {fileID: 9217695285537241055, guid: 26ea10ebfbec05e4f9b403eef45d302b, type: 3}
   inventorySlotRoot: {fileID: 1506314377}
-  targetInventory: {fileID: 1054074906}
+  targetInventory: {fileID: 5685024336642705966}
 --- !u!1001 &2079105029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15958,6 +15942,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onFalse:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5685024336642705966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054074895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a0600b6bb762d742852709fe923ef9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 20
+  inventoryUpdated:
     m_PersistentCalls:
       m_Calls: []
 --- !u!210 &5711452538477864845

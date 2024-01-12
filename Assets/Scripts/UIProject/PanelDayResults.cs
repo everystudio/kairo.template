@@ -16,10 +16,15 @@ public class PanelDayResults : UIPanel
 
     [HideInInspector] public UnityEvent OnClose = new UnityEvent();
 
+    private PlayerInventory.SaveDataInventory saveData;
+
     protected override void initialize()
     {
         base.initialize();
         Debug.Log("PanelDayResults.initialize");
+
+        var json = ES3.Load<string>("collectInventory");
+        saveData = JsonUtility.FromJson<PlayerInventory.SaveDataInventory>(json);
 
         // bannerRoot以下にあるBannerDayResultを取得
         bannerDayResults = new List<BannerDayResult>();

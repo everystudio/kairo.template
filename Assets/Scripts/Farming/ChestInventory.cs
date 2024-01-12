@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using anogame.inventory;
 using anogame;
 
-public class ChestInventory : Inventory, IInteractable
+public class ChestInventory : PlayerInventory, IInteractable
 {
     public static UnityEvent<ChestInventory> OnInventoryOpen = new UnityEvent<ChestInventory>();
 

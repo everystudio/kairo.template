@@ -1437,7 +1437,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1843767014}
   m_HandleRect: {fileID: 1843767013}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5100,7 +5100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryItemPrefab: {fileID: 9217695285537241055, guid: 26ea10ebfbec05e4f9b403eef45d302b, type: 3}
   inventorySlotRoot: {fileID: 2058869662}
-  targetInventory: {fileID: 0}
+  targetInventory: {fileID: 5685024336642705966}
 --- !u!114 &762838290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8770,7 +8770,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2095276587}
   m_HandleRect: {fileID: 2095276586}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

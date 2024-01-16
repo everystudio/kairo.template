@@ -18,4 +18,9 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 2348db71ceda124468a77a3515d6e4a3, type: 3}
   pickable: {fileID: 7020721006917378986, guid: e9ba49c3970dea844920ffa1ffceba3a, type: 3}
   stackable: 1
+  itemType: 0
+  itemTags: 01000000
+  buyPrice: 0
+  sellPrice: 0
   consumable: 1
+  animationTriggerName: swing

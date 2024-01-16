@@ -20,7 +20,7 @@ public class ObjectInitializer : MonoBehaviour
     private string GetKey()
     {
         // シーンごとに名前をユニークにする
-        return $"{gameObject.scene.name}_{gameObject.name}";
+        return $"{gameObject.scene.name}_{gameObject.name}_{GetInstanceID()}";
     }
 
     private void Start()
@@ -28,7 +28,7 @@ public class ObjectInitializer : MonoBehaviour
         if (!ES3.KeyExists(GetKey()))
         {
             Initialize();
-            //ES3.Save(GetKey(), true);
+            ES3.Save(GetKey(), true);
         }
 
         GetComponent<TilemapRenderer>().enabled = false;

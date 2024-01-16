@@ -14,7 +14,14 @@ public class BannerDayResult : MonoBehaviour
     public void Set(string label, int gold)
     {
         labelText.text = label;
-        goldText.text = gold.ToString() + "G";
+        if (0 <= gold)
+        {
+            goldText.text = gold.ToString() + "G";
+        }
+        else
+        {
+            goldText.text = "----G";
+        }
     }
 
     public void ViewGoldUp(int gold, Action onCompleted)

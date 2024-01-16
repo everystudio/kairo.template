@@ -4,13 +4,43 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using anogame;
+using anogame.inventory;
 using System;
 
 public class PanelDayResults : UIPanel
 {
-    private string[] bannerLabels = { "春", "夏", "秋", "冬" };
+    private string[] bannerLabels = { "農業", "採取", "採鉱", "食料", "他", "合計" };
+    private ITEM_TAG[] itemTags = { ITEM_TAG.CROPS, ITEM_TAG.COLLECTIONS, ITEM_TAG.MININGS, ITEM_TAG.FOODS, ITEM_TAG.OTHER, ITEM_TAG.ALL };
     [SerializeField] private GameObject bannerRoot;
+    [SerializeField] private GameObject bannerPrefab;
     private List<BannerDayResult> bannerDayResults;
+
+    private int GetGoldByTag(ITEM_TAG tag)
+    {
+        int gold = 0;
+        if (saveData.capacity == 0)
+        {
+            return gold;
+        }
+        foreach (var slot in saveData.inventorySlotDatas)
+        {
+            var inventoryItem = InventoryItem.GetFromID(slot.itemID);
+
+            if (inventoryItem == null)
+            {
+                continue;
+            }
+
+            if (inventoryItem is FarmItemBase farmItem)
+            {
+                if (farmItem.ItemTags.Contains(tag) || tag == ITEM_TAG.ALL)
+                {
+                    gold += farmItem.GetSellPrice() * slot.amount;
+                }
+            }
+        }
+        return gold;
+    }
 
     [SerializeField] private Button nextButton;
 
@@ -20,6 +50,12 @@ public class PanelDayResults : UIPanel
 
     protected override void initialize()
     {
+        if (bannerLabels.Length != itemTags.Length)
+        {
+            Debug.LogError("bannerLabels.Length != itemTags.Length");
+        }
+
+
         base.initialize();
         Debug.Log("PanelDayResults.initialize");
 
@@ -27,6 +63,21 @@ public class PanelDayResults : UIPanel
         {
             var json = ES3.Load<string>(Defines.KEY_COLLECT_INVENTORY);
             saveData = JsonUtility.FromJson<PlayerInventory.SaveDataInventory>(json);
+
+            foreach (var slot in saveData.inventorySlotDatas)
+            {
+                var inventoryItem = InventoryItem.GetFromID(slot.itemID);
+
+                if (inventoryItem == null)
+                {
+                    continue;
+                }
+
+                if (inventoryItem is FarmItemBase farmItem)
+                {
+                    Debug.Log($"itemID={slot.itemID} amount={slot.amount} price={farmItem.GetSellPrice()}");
+                }
+            }
         }
         else
         {
@@ -36,28 +87,21 @@ public class PanelDayResults : UIPanel
 
         // bannerRoot以下にあるBannerDayResultを取得
         bannerDayResults = new List<BannerDayResult>();
+        // bannerRoot以下の子要素を全て削除
         foreach (Transform child in bannerRoot.transform)
         {
-            var bannerDayResult = child.GetComponent<BannerDayResult>();
-            if (bannerDayResult != null)
-            {
-                bannerDayResults.Add(bannerDayResult);
-            }
+            Destroy(child.gameObject);
         }
-
-        for (int i = 0; i < bannerDayResults.Count; i++)
+        // bannerRoot以下にbannerPrefabを生成
+        for (int i = 0; i < bannerLabels.Length; i++)
         {
-            if (i < bannerLabels.Length)
-            {
-                bannerDayResults[i].Set(bannerLabels[i], 0);
-            }
-            else
-            {
-                bannerDayResults[i].gameObject.SetActive(false);
-            }
+            var banner = Instantiate(bannerPrefab, bannerRoot.transform);
+            var bannerDayResult = banner.GetComponent<BannerDayResult>();
+            bannerDayResult.Set(bannerLabels[i], -1);
+            bannerDayResults.Add(bannerDayResult);
         }
 
-        Goldup(0, 4);
+        Goldup(0, bannerDayResults.Count);
 
         nextButton.onClick.AddListener(() =>
         {
@@ -68,7 +112,8 @@ public class PanelDayResults : UIPanel
 
     private void Goldup(int v1, int v2)
     {
-        bannerDayResults[v1].ViewGoldUp(100, () =>
+        int gold = GetGoldByTag(itemTags[v1]);
+        bannerDayResults[v1].ViewGoldUp(gold, () =>
         {
             if (v1 + 1 < v2)
             {

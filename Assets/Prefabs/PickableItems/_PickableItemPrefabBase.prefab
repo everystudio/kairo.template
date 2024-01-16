@@ -236,3 +236,4 @@ MonoBehaviour:
   saveChildren: 0
   componentsToSave:
   - {fileID: 7289122452978038893}
+  - {fileID: 7289122452978038892}

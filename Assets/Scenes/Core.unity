@@ -2985,7 +2985,7 @@ MonoBehaviour:
     hasFixedUpdate: 0
     updateInterval: 0
     fixedUpdateInterval: 0
-  OnPauseTimeSystem: {fileID: 11400000, guid: b49434c5841a0d447b7403951b171723, type: 2}
+  OnEndToday: {fileID: 11400000, guid: 862d0095f2465074f9f3bf4e4bbea97e, type: 2}
 --- !u!114 &437050626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3056,6 +3056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeCanvas: {fileID: 11400000, guid: 7f59672d6bbc58b4f84a128df1590f9d, type: 2}
   OnAdvanceDay: {fileID: 11400000, guid: 12b9935373eec0246b06168b182e79fa, type: 2}
+  OnPauseTimeSystem: {fileID: 0}
 --- !u!1 &440999805
 GameObject:
   m_ObjectHideFlags: 0
@@ -4407,6 +4408,7 @@ GameObject:
   - component: {fileID: 608046434}
   - component: {fileID: 608046435}
   - component: {fileID: 608046436}
+  - component: {fileID: 608046437}
   m_Layer: 0
   m_Name: SaveSystem
   m_TagString: Untagged
@@ -4446,6 +4448,7 @@ MonoBehaviour:
     hasFixedUpdate: 0
     updateInterval: 0
     fixedUpdateInterval: 0
+  OnCurrentSceneSaveRequest: {fileID: 0}
 --- !u!114 &608046436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,6 +4469,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SaveSystem, Assembly-CSharp
         m_MethodName: OnLoadScene
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &608046437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608046433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6786570590fda94b87d610cb6c918ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventObject: {fileID: 11400000, guid: 779c947ccb722404dacd20b8235e6b6e, type: 2}
+  eventAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 608046435}
+        m_TargetAssemblyTypeName: SaveSystem, Assembly-CSharp
+        m_MethodName: OnSaveCurrentScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

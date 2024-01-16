@@ -10,10 +10,11 @@ public class CollectInventory : PlayerInventory, IInteractable
 {
     public static UnityEvent<CollectInventory, GameObject> OnInventoryOpen = new UnityEvent<CollectInventory, GameObject>();
     [SerializeField] private EventBool OnPauseTimeSystem;
+    [SerializeField] private EventInt OnSaveRequest;
 
     protected override string GetSaveKey()
     {
-        return "collectInventory";
+        return Defines.KEY_COLLECT_INVENTORY;
     }
 
     public void Interact(GameObject owner)
@@ -60,10 +61,12 @@ public class CollectInventory : PlayerInventory, IInteractable
         collectInventoryUI.OnClose.RemoveAllListeners();
         collectInventoryUI.OnClose.AddListener(() =>
         {
+            Debug.Log("CollectInventoryUI.OnClose");
             OnPauseTimeSystem?.Invoke(false);
             collectInventoryUI.OnClose.RemoveAllListeners();
 
-            OnSave();
+            // ここで保存要求
+            OnSaveRequest?.Invoke(1);
         });
     }
 }

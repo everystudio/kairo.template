@@ -19,4 +19,7 @@ MonoBehaviour:
   pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
   stackable: 1
   itemType: 13
+  itemTags: 00000000
+  buyPrice: 5
+  sellPrice: 0
   cropPrefab: {fileID: 6794719883609477358, guid: 8c41c9967f6eb194ba8182b1b0917881, type: 3}

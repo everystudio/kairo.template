@@ -8,6 +8,8 @@ using System;
 public class SaveSystem : SystemCore
 {
 
+    [SerializeField] private EventInt OnCurrentSceneSaveRequest;
+
     public override void OnLoadSystem()
     {
         // シーンの切り替わりを検知する
@@ -25,17 +27,28 @@ public class SaveSystem : SystemCore
         Debug.Log("OnLoadScene:" + sceneName);
 
         ES3AutoSaveMgr.Current.Load();
+        LoadSceneByName("Core");
+        LoadSceneByName(sceneName);
+
+    }
+
+
+    public void LoadSceneByName(string sceneName)
+    {
+
+        string keySaveScene = GetSaveSceneKey(sceneName);
 
         // シーン内のすべてのGameObjectを取得
-        if (!ES3.KeyExists("saveData"))
+        if (!ES3.KeyExists(keySaveScene))
         {
             return;
         }
-        Dictionary<string, string> saveData = ES3.Load<Dictionary<string, string>>("saveData");
+        Dictionary<string, string> saveData = ES3.Load<Dictionary<string, string>>(keySaveScene);
 
         var objsList = new List<GameObject[]>();
-        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
-        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
+        //objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
+        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName).GetRootGameObjects());
+        //objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
 
         List<ISaveable> saveableList = new List<ISaveable>();
 
@@ -64,17 +77,32 @@ public class SaveSystem : SystemCore
     }
 
 
-    public void OnCloseScene(string sceneName)
+    public void OnSaveCurrentScene()
     {
-        Debug.Log("OnCloseScene:" + sceneName);
-
+        Debug.Log("OnSaveCurrentScene:" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         ES3AutoSaveMgr.Current.Save();
+        OnSaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        OnSaveScene("Core");
+    }
+
+    public string GetSaveSceneKey(string sceneName)
+    {
+        return "saveScene_" + sceneName;
+    }
+
+    public void OnSaveScene(string sceneName)
+    {
+        Debug.Log("OnSaveScene:" + sceneName);
+
+        string keySaveScene = GetSaveSceneKey(sceneName);
+
 
         Dictionary<string, string> saveData = new Dictionary<string, string>();
 
         var objsList = new List<GameObject[]>();
-        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
-        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
+        //objsList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects());
+        objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName).GetRootGameObjects());
+        //objsList.Add(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Core").GetRootGameObjects());
 
         foreach (var objs in objsList)
         {
@@ -91,8 +119,14 @@ public class SaveSystem : SystemCore
                 }
             }
         }
-
-        ES3.Save<Dictionary<string, string>>("saveData", saveData);
-
+        ES3.Save<Dictionary<string, string>>(keySaveScene, saveData);
     }
+
+
+
+
+
+
+
+
 }

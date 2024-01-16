@@ -5,7 +5,8 @@ using anogame;
 
 public class DaySystem : SystemCore
 {
-    [SerializeField] private EventBool OnPauseTimeSystem;
+    [SerializeField] private EventInt OnEndToday;
+
     public override void OnLoadSystem()
     {
     }
@@ -16,10 +17,7 @@ public class DaySystem : SystemCore
 
         if (24 + 2 <= dayHour)
         {
-            OnPauseTimeSystem?.Invoke(true);
-
-
-
+            OnEndToday?.Invoke(1);
         }
     }
 }

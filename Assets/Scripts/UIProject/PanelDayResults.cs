@@ -23,8 +23,16 @@ public class PanelDayResults : UIPanel
         base.initialize();
         Debug.Log("PanelDayResults.initialize");
 
-        var json = ES3.Load<string>("collectInventory");
-        saveData = JsonUtility.FromJson<PlayerInventory.SaveDataInventory>(json);
+        if (ES3.KeyExists(Defines.KEY_COLLECT_INVENTORY))
+        {
+            var json = ES3.Load<string>(Defines.KEY_COLLECT_INVENTORY);
+            saveData = JsonUtility.FromJson<PlayerInventory.SaveDataInventory>(json);
+        }
+        else
+        {
+            saveData = new PlayerInventory.SaveDataInventory();
+        }
+
 
         // bannerRoot以下にあるBannerDayResultを取得
         bannerDayResults = new List<BannerDayResult>();

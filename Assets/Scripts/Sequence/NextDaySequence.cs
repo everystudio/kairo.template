@@ -9,14 +9,17 @@ public class NextDaySequence : MonoBehaviour
     [SerializeField] private ScriptableReference fadeCanvas;
     private GameObject panelDayResults;
     [SerializeField] private EventInt OnAdvanceDay;
+    [SerializeField] private EventBool OnPauseTimeSystem;
 
     public void EndToday()
     {
+        OnPauseTimeSystem?.Invoke(true);
         OnNextDay(() =>
         {
             OnAdvanceDay?.Invoke(1);
         }, () =>
         {
+            OnPauseTimeSystem?.Invoke(false);
             Debug.Log("NextDaySequence Finished");
         });
     }

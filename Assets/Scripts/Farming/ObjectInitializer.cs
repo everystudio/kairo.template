@@ -16,15 +16,18 @@ public class ObjectInitializer : MonoBehaviour
 
     private bool isInitialized = false;
 
+    public int uniqueSerialNumber = 0;
+
 
     private string GetKey()
     {
         // シーンごとに名前をユニークにする
-        return $"{gameObject.scene.name}_{gameObject.name}_{GetInstanceID()}";
+        return $"{gameObject.scene.name}_{gameObject.name}_{uniqueSerialNumber}";
     }
 
     private void Start()
     {
+        Debug.Log(GetKey());
         if (!ES3.KeyExists(GetKey()))
         {
             Initialize();

@@ -59,9 +59,13 @@ public class PanelDayResults : UIPanel
         base.initialize();
         Debug.Log("PanelDayResults.initialize");
 
-        if (ES3.KeyExists(Defines.KEY_COLLECT_INVENTORY))
+        // SaveSystemコンポーネントを探してくる
+        var saveSystem = FindObjectOfType<SaveSystem>();
+
+        if (saveSystem.GetData(Defines.KEY_COLLECT_INVENTORY, out string json))
         {
-            var json = ES3.Load<string>(Defines.KEY_COLLECT_INVENTORY);
+            Debug.Log("データ見つかった");
+
             saveData = JsonUtility.FromJson<PlayerInventory.SaveDataInventory>(json);
 
             foreach (var slot in saveData.inventorySlotDatas)

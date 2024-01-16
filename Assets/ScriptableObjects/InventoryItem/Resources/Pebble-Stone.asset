@@ -20,7 +20,7 @@ MonoBehaviour:
   stackable: 1
   itemType: 0
   itemTags: 02000000
-  buyPrice: 100
+  buyPrice: 10
   sellPrice: 0
   consumable: 0
   animationTriggerName: swing

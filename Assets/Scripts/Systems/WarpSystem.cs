@@ -24,6 +24,8 @@ public class WarpSystem : SystemCore
     [SerializeField]
     private float sceneWarpTime;
 
+    [SerializeField] private EventString OnRemoveScene;
+
     private string currentScene;
 
     public override void OnLoadSystem()
@@ -76,6 +78,8 @@ public class WarpSystem : SystemCore
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(target, LoadSceneMode.Additive);
         asyncOperation.allowSceneActivation = false;
+
+        OnRemoveScene?.Invoke(previous);
 
         AsyncOperation unloadPreviousScene = SceneManager.UnloadSceneAsync(previous);
 

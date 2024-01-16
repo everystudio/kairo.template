@@ -4409,6 +4409,7 @@ GameObject:
   - component: {fileID: 608046435}
   - component: {fileID: 608046436}
   - component: {fileID: 608046437}
+  - component: {fileID: 608046438}
   m_Layer: 0
   m_Name: SaveSystem
   m_TagString: Untagged
@@ -4497,6 +4498,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SaveSystem, Assembly-CSharp
         m_MethodName: OnSaveCurrentScene
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &608046438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608046433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755b90dbfd3ccf7488766b4a118b297c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventObject: {fileID: 11400000, guid: 9aa316c3d08964a45b7d20c75572ef27, type: 2}
+  eventAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 608046435}
+        m_TargetAssemblyTypeName: SaveSystem, Assembly-CSharp
+        m_MethodName: OnRemoveScene
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6371,6 +6400,7 @@ MonoBehaviour:
   onWarpStart: {fileID: 11400000, guid: ef957864219026e4881f60590dd88ab9, type: 2}
   onWarpEnd: {fileID: 11400000, guid: ec81c667c81987d488d8de1c15df70a7, type: 2}
   sceneWarpTime: 1
+  OnRemoveScene: {fileID: 11400000, guid: 9aa316c3d08964a45b7d20c75572ef27, type: 2}
 --- !u!1 &934016587
 GameObject:
   m_ObjectHideFlags: 0

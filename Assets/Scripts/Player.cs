@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
     public void OnLoadScene(string sceneName)
     {
-        //Debug.Log("OnLoadScene:" + sceneName);
+        Debug.Log("OnLoadScene:" + sceneName);
         // Plowlandコンポーネントを持っているオブジェクトを探す
         targetPlowland = GameObject.FindObjectOfType<Plowland>();
         targetTilemap = targetPlowland.GetComponent<Tilemap>();
@@ -131,9 +131,11 @@ public class Player : MonoBehaviour
 
         //Debug.Log("cursor:" + cursorPosition + " mouse:" + Input.mousePosition);
         mousePosition.z = 0f;
-        Vector3Int gridPosition = targetTilemap.WorldToCell(cursorPosition);
-
-        activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
+        if (targetTilemap != null)
+        {
+            Vector3Int gridPosition = targetTilemap.WorldToCell(cursorPosition);
+            activeGridCursor.Display(transform.position, gridPosition, selectingItem, out bool isRange);
+        }
 
         Vector2 isometricDirectionX = new Vector2(1f, 0.5f).normalized;
         Vector2 isometricDirectionY = new Vector2(-1f, 0.5f).normalized;

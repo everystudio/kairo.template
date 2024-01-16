@@ -21,9 +21,15 @@ public class PlayerInteraction : MonoBehaviour
         Vector2 cursorPosition = player.PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
         mousePosition.z = 0f;
-        Vector3Int gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
-        //Debug.Log("gridPosition:" + gridPosition + " mousePosition:" + cursorPosition);
-        activeGridCursor.Display(transform.position, gridPosition, player.SelectingItem, out bool isRange);
+
+        bool isRange = false;
+        Vector3Int gridPosition = Vector3Int.zero;
+        if (player.TargetTilemap != null)
+        {
+            gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
+            //Debug.Log("gridPosition:" + gridPosition + " mousePosition:" + cursorPosition);
+            activeGridCursor.Display(transform.position, gridPosition, player.SelectingItem, out isRange);
+        }
 
 
         if (player.PlayerInputActions.Player.Interaction.triggered)

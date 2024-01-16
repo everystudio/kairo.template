@@ -26,12 +26,14 @@ public class SaveSystem : SystemCore
     {
         Debug.Log("OnLoadScene:" + sceneName);
 
-        ES3AutoSaveMgr.Current.Load();
+        if (ES3AutoSaveMgr.Current != null)
+        {
+            ES3AutoSaveMgr.Current.Load();
+        }
         LoadSceneByName("Core");
         LoadSceneByName(sceneName);
 
     }
-
 
     public void LoadSceneByName(string sceneName)
     {
@@ -76,14 +78,98 @@ public class SaveSystem : SystemCore
         }
     }
 
+    public bool GetData(string searchKey, out string value)
+    {
+        // シーンの名前をすべて取得
+        var sceneNames = new List<string>();
+        for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+        {
+            sceneNames.Add(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).name);
+        }
+
+
+        foreach (var sceneName in sceneNames)
+        {
+            string keySaveScene = GetSaveSceneKey(sceneName);
+
+            // シーン内のすべてのGameObjectを取得
+            if (!ES3.KeyExists(keySaveScene))
+            {
+                continue;
+            }
+            Dictionary<string, string> saveData = ES3.Load<Dictionary<string, string>>(keySaveScene);
+
+            foreach (var data in saveData)
+            {
+                if (data.Key == searchKey)
+                {
+                    value = data.Value;
+                    return true;
+                }
+            }
+        }
+        value = "";
+        return false;
+
+    }
+
+    public bool DeleteData(string searchKey)
+    {
+        // シーンの名前をすべて取得
+        var sceneNames = new List<string>();
+        for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+        {
+            sceneNames.Add(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).name);
+        }
+        foreach (var sceneName in sceneNames)
+        {
+            string keySaveScene = GetSaveSceneKey(sceneName);
+
+            // シーン内のすべてのGameObjectを取得
+            if (!ES3.KeyExists(keySaveScene))
+            {
+                continue;
+            }
+            Dictionary<string, string> saveData = ES3.Load<Dictionary<string, string>>(keySaveScene);
+
+            foreach (var data in saveData)
+            {
+                if (data.Key == searchKey)
+                {
+                    saveData.Remove(data.Key);
+                    ES3.Save<Dictionary<string, string>>(keySaveScene, saveData);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 
     public void OnSaveCurrentScene()
     {
         Debug.Log("OnSaveCurrentScene:" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        ES3AutoSaveMgr.Current.Save();
+        if (ES3AutoSaveMgr.Current != null)
+        {
+            ES3AutoSaveMgr.Current.Save();
+        }
         OnSaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         OnSaveScene("Core");
     }
+    public void OnRemoveScene(string sceneName)
+    {
+        Debug.Log("Remove Scene:" + sceneName);
+        if (ES3AutoSaveMgr.Current != null)
+        {
+            ES3AutoSaveMgr.Current.Save();
+        }
+        OnSaveScene(sceneName);
+        OnSaveScene("Core");
+
+    }
+
 
     public string GetSaveSceneKey(string sceneName)
     {
@@ -121,6 +207,7 @@ public class SaveSystem : SystemCore
         }
         ES3.Save<Dictionary<string, string>>(keySaveScene, saveData);
     }
+
 
 
 

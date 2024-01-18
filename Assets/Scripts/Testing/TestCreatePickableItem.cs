@@ -7,7 +7,7 @@ public class TestCreatePickableItem : MonoBehaviour
 {
     [SerializeField] private InventoryItem pickableItem;
 
-    private PickableItem pickableItemComponent;
+    private PickableItemBase pickableItemComponent;
 
     void Start()
     {

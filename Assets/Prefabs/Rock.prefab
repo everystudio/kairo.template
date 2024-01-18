@@ -392,5 +392,5 @@ MonoBehaviour:
   saveActive: 1
   saveChildren: 0
   componentsToSave:
-  - {fileID: 3234826253458740418}
   - {fileID: 3234826253458740428}
+  - {fileID: 3234826253458740418}

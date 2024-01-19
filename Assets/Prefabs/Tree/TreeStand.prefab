@@ -210,11 +210,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7be25038c90a4489e5c03717f0c18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageableTag: 
-  currentHP: 0
+  damageableTag: axe
+  currentHP: 3
   maxHP: 3
   canBecomeInvulnerable: 0
   startInvulnerable: 0
+  isDead: 0
 --- !u!95 &7787198626076563978
 Animator:
   serializedVersion: 5

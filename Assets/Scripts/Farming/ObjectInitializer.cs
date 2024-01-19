@@ -14,9 +14,9 @@ public class ObjectInitializer : MonoBehaviour
     // 出現する割合
     [SerializeField] private float[] spawnRates;
 
-    private bool isInitialized = false;
-
     public int uniqueSerialNumber = 0;
+
+    public bool debugNoSave = false;
 
 
     private string GetKey()
@@ -31,7 +31,10 @@ public class ObjectInitializer : MonoBehaviour
         if (!ES3.KeyExists(GetKey()))
         {
             Initialize();
-            ES3.Save(GetKey(), true);
+            if (debugNoSave == false)
+            {
+                ES3.Save(GetKey(), true);
+            }
         }
 
         GetComponent<TilemapRenderer>().enabled = false;
@@ -40,7 +43,6 @@ public class ObjectInitializer : MonoBehaviour
     private void Initialize()
     {
         Debug.Log("ObjectInitializer.Initialize");
-        isInitialized = true;
 
         // タイルマップを取得
         var tilemap = GetComponent<Tilemap>();

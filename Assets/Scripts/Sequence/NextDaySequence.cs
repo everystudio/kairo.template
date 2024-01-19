@@ -11,8 +11,16 @@ public class NextDaySequence : MonoBehaviour
     [SerializeField] private EventInt OnAdvanceDay;
     [SerializeField] private EventBool OnPauseTimeSystem;
 
+    private bool isStartSequence = false;
+
     public void EndToday()
     {
+        Debug.Log("EndToday:" + isStartSequence);
+        if (isStartSequence)
+        {
+            return;
+        }
+        isStartSequence = true;
         OnPauseTimeSystem?.Invoke(true);
         OnNextDay(() =>
         {
@@ -21,6 +29,7 @@ public class NextDaySequence : MonoBehaviour
         {
             OnPauseTimeSystem?.Invoke(false);
             Debug.Log("NextDaySequence Finished");
+            isStartSequence = false;
         });
     }
 

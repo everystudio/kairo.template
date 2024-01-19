@@ -7,6 +7,8 @@ public class DaySystem : SystemCore
 {
     [SerializeField] private EventInt OnEndToday;
 
+    private bool isEndToday = false;
+
     public override void OnLoadSystem()
     {
     }
@@ -17,7 +19,16 @@ public class DaySystem : SystemCore
 
         if (24 + 2 <= dayHour)
         {
-            OnEndToday?.Invoke(1);
+            if (isEndToday == false)
+            {
+                isEndToday = true;
+                OnEndToday?.Invoke(1);
+            }
         }
+    }
+
+    public void AdvanceToday(int day)
+    {
+        isEndToday = false;
     }
 }

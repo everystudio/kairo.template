@@ -14,7 +14,7 @@ public class AddCoreScene : MonoBehaviour
         // 現在のシーンに、Coreシーンがなければ追加する
         if (scene.isLoaded == false)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Core", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Core", LoadSceneMode.Additive);
             enabled = false;
         }
 

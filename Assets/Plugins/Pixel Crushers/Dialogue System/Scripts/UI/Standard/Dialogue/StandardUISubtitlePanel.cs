@@ -24,7 +24,7 @@ namespace PixelCrushers.DialogueSystem
         [Tooltip("(Optional) Text element for actor's name.")]
         public UITextField portraitName;
 
-        [Tooltip("Subtitle text.")]
+        [Tooltip("ここSubtitle text.")]
         public UITextField subtitleText;
 
         [Tooltip("Add speaker's name to subtitle text.")]
@@ -160,7 +160,7 @@ namespace PixelCrushers.DialogueSystem
             get
             {
                 if (m_dialogueUI == null)
-                { 
+                {
                     m_dialogueUI = GetComponentInParent<StandardDialogueUI>();
                     if (m_dialogueUI == null) m_dialogueUI = DialogueManager.dialogueUI as StandardDialogueUI;
                 }
@@ -497,9 +497,9 @@ namespace PixelCrushers.DialogueSystem
         }
 
         protected virtual void ShowContinueButtonNow()
-        { 
+        {
             Tools.SetGameObjectActive(continueButton, true);
-            if (InputDeviceManager.autoFocus) Select(); 
+            if (InputDeviceManager.autoFocus) Select();
             if (continueButton != null && continueButton.onClick.GetPersistentEventCount() == 0)
             {
                 continueButton.onClick.RemoveAllListeners();
@@ -559,7 +559,7 @@ namespace PixelCrushers.DialogueSystem
             lastActorID = subtitle.speakerInfo.id;
             CheckSubtitleAnimator(subtitle);
             if (!onlyShowNPCPortraits || subtitle.speakerInfo.isNPC)
-            {                
+            {
                 if (portraitImage != null)
                 {
                     var sprite = subtitle.GetSpeakerPortrait();

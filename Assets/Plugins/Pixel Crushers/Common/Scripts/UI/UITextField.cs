@@ -43,7 +43,7 @@ namespace PixelCrushers
 #if USE_STM
         [SerializeField]
         private SuperTextMesh m_superTextMesh;
-
+あああ
         public SuperTextMesh superTextMesh
         {
             get { return m_superTextMesh; }

@@ -194,8 +194,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 160
-        y: 30
+        x: 200
+        y: 53
         width: 160
         height: 30
     - id: 1
@@ -203,11 +203,11 @@ MonoBehaviour:
       - title: Title
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Description
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Actor
         value: 2
         type: 5
@@ -219,15 +219,15 @@ MonoBehaviour:
       - title: Menu Text
         value: "\u30E1\u30CB\u30E5\u30FC\u30C6\u30AD\u30B9\u30C8"
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Dialogue Text
         value: "\u30C0\u30A4\u30A2\u30ED\u30B0\u30C6\u30AD\u30B9\u30C8"
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Sequence
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       conversationID: 1
       isRoot: 0
       isGroup: 0

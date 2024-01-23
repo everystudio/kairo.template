@@ -17,6 +17,10 @@ public class AddCoreScene : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("Core", LoadSceneMode.Additive);
             enabled = false;
         }
+        else
+        {
+            enabled = false;
+        }
 
     }
 }

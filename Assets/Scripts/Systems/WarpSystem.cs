@@ -50,7 +50,18 @@ public class WarpSystem : SystemCore
 
     private void Start()
     {
-        OnSceneWarp?.Invoke(currentScene);
+        // シーン内のLocationPointを取得
+        LocationPoint[] locationPoints = FindObjectsOfType<LocationPoint>();
+
+        if (locationPoints.Length == 0)
+        {
+            Debug.Log("LocationPointがありません");
+            return;
+        }
+
+        LocationPoint startLocation = locationPoints[0];
+        player.Reference.transform.position = startLocation.SpawnPosition;
+
     }
 
     private void Warp(WarpLocation location)

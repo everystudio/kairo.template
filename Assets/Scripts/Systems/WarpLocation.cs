@@ -46,6 +46,26 @@ public class WarpLocation : ScriptableObject
         UnityEditor.EditorUtility.SetDirty(this);
     }
 
+    public void RefreshPosition(LocationPoint locationPoint, string label = "")
+    {
+        position = locationPoint.SpawnPosition;
+        scene = locationPoint.gameObject.scene.name;
+        scenePath = locationPoint.gameObject.scene.path;
+
+        string locationName = "";
+        if (string.IsNullOrEmpty(label))
+        {
+            locationName = $"WarpLocation_{scene}_{position}";
+        }
+        else
+        {
+            locationName = $"{label}_{scene}_{position}";
+        }
+        locationPoint.name = locationName;
+        setterName = locationPoint.name;
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+
     public void GoToLocation()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)

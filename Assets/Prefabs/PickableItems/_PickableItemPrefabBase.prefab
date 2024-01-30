@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 8374292457615817396}
   - component: {fileID: -5444978215241181760}
   - component: {fileID: -9222521099773506040}
+  - component: {fileID: -3718649968389473867}
   m_Layer: 0
   m_Name: _PickableItemPrefabBase
   m_TagString: Untagged
@@ -237,3 +238,40 @@ MonoBehaviour:
   componentsToSave:
   - {fileID: 7289122452978038893}
   - {fileID: 7289122452978038892}
+--- !u!114 &-3718649968389473867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289122452978038895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274b80ab5b659c646ba9338870d14625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overrideName: 
+  overrideUseMessage: 
+  maxUseDistance: 3
+  events:
+    onSelect:
+      m_PersistentCalls:
+        m_Calls: []
+    onDeselect:
+      m_PersistentCalls:
+        m_Calls: []
+    onUse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7289122452978038892}
+          m_TargetAssemblyTypeName: anogame.inventory.PickableItemBase, Assembly-CSharp
+          m_MethodName: PickupItem
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

@@ -243,8 +243,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 204
-        y: 210
+        x: 276
+        y: 172
         width: 160
         height: 30
     entryGroups: []

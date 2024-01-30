@@ -43,4 +43,9 @@ public class TimeSystem : SystemCore
         OnTime?.Invoke((int)time / 60);
         //Debug.Log("TimeSystem.OnTick");
     }
+
+    public void DebugTime()
+    {
+        Debug.Log(time);
+    }
 }

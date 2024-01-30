@@ -1,0 +1,34 @@
+{
+    "name": "DialogueSystemActions",
+    "maps": [
+        {
+            "name": "Conversation",
+            "id": "af73f6ef-5a27-4b31-b618-c50d97123d17",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "557e31b1-bdc6-40c4-8262-5629eb5fa590",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7bb21392-d9c6-4fe8-aeb7-1283deb00250",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

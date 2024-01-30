@@ -6,6 +6,10 @@ using anogame.inventory;
 
 public class PickableItem : PickableItemBase, IInteractable
 {
+    private void Start()
+    {
+        UpdateDisplayName();
+    }
     public void Interact(GameObject owner)
     {
         var ownerInventory = owner.GetComponent<Inventory>();
@@ -16,6 +20,16 @@ public class PickableItem : PickableItemBase, IInteractable
         if (CanBePickedUp(ownerInventory))
         {
             PickupItem(ownerInventory);
+        }
+    }
+    public void UpdateDisplayName()
+    {
+        if (TryGetComponent<PixelCrushers.DialogueSystem.Usable>(out var usable))
+        {
+            if (Item != null)
+            {
+                usable.overrideName = Item.GetDisplayName();
+            }
         }
     }
 }

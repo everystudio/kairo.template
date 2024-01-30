@@ -6,6 +6,7 @@ using anogame;
 using anogame.inventory;
 using System;
 using UnityEngine.InputSystem;
+using PixelCrushers;
 
 public class Player : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     public ActionInventoryUI ActionInventoryUI => actionInventoryUI;
 
     private Animator animator;
+    [SerializeField] private Transform proximityTransform;
 
     private PlayerInputActions playerInputActions;
     public PlayerInputActions PlayerInputActions => playerInputActions;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public WarpLocation lastWarpLocation;
 
     [SerializeField] private PlayerBuilding playerBuilding;
+
+
 
     public Plowland GetPlowland()
     {
@@ -68,6 +72,9 @@ public class Player : MonoBehaviour
         playerInputActions.Enable();
         playerInputActions.Player.Enable();
         playerInputActions.Player.OpenInventory.performed += ctx => OpenInventory(ctx);
+
+        // デフォルトのインタラクションがFire2(右クリック)
+        InputDeviceManager.RegisterInputAction("Fire2", playerInputActions.Player.Interaction);
 
         playerInputActions.Building.Disable();
         lastWarpLocation = null;
@@ -151,6 +158,9 @@ public class Player : MonoBehaviour
         {
             animator.SetFloat("x", movement.x);
             animator.SetFloat("y", movement.y);
+
+            proximityTransform.localPosition = new Vector3(movement.x, movement.y, 0f).normalized * 0.5f;
+
         }
 
         /*

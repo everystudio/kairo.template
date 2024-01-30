@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tutorial01_start
   m_EditorClassIdentifier: 
   scene: Tutorial01
-  position: {x: 4.05, y: -1.27}
-  setterName: startpoint_Tutorial01_(4.05, -1.27)
+  position: {x: 1.48, y: -3.26}
+  setterName: startpoint_Tutorial01_(1.48, -3.26)
   scenePath: Assets/Scenes/Tutorials/Tutorial01.unity

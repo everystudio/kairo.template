@@ -240,6 +240,7 @@ namespace PixelCrushers.DialogueSystem
             Open();
             SetUIElementsActive(true);
             SetPortraitImage(portraitSprite);
+
             portraitActorName = (dialogueActor != null) ? dialogueActor.GetActorName() : portraitName;
             if (this.portraitName != null) this.portraitName.text = portraitActorName;
             if (subtitleText.text != null) subtitleText.text = string.Empty;
@@ -717,6 +718,7 @@ namespace PixelCrushers.DialogueSystem
             if (subtitle != null && useAnimatedPortraits && animator != null)
             {
                 var dialogueActor = DialogueActor.GetDialogueActorComponent(subtitle.speakerInfo.transform);
+                Debug.Log(dialogueActor);
                 if (dialogueActor != null) // && dialogueActor.standardDialogueUISettings.portraitAnimatorController != null)
                 {
                     var speakerPanelNumber = dialogueActor.GetSubtitlePanelNumber();
@@ -726,6 +728,9 @@ namespace PixelCrushers.DialogueSystem
                         (speakerPanelNumber == SubtitlePanelNumber.Default && subtitle.speakerInfo.isNPC && isDefaultNPCPanel) ||
                         (speakerPanelNumber == SubtitlePanelNumber.Default && subtitle.speakerInfo.isPlayer && isDefaultPCPanel) ||
                         (speakerPanelNumber == SubtitlePanelNumber.Custom && dialogueActor.standardDialogueUISettings.customSubtitlePanel == this);
+
+                    Debug.Log(isMyPanel);
+
                     if (isMyPanel)
                     {
                         if (m_setAnimatorCoroutine != null) DialogueManager.instance.StopCoroutine(m_setAnimatorCoroutine);

@@ -109,6 +109,7 @@ namespace PixelCrushers.DialogueSystem
         public void OverrideActorPanel(Actor actor, SubtitlePanelNumber subtitlePanelNumber,
             StandardUISubtitlePanel customPanel = null, bool immediate = false)
         {
+            Debug.Log("OverrideActorPanel");
             if (actor == null) return;
             if (customPanel == null) customPanel = actor.IsPlayer ? m_defaultPCPanel : m_defaultNPCPanel;
             var panel = GetPanelFromNumber(subtitlePanelNumber, customPanel);

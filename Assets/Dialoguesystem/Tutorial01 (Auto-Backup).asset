@@ -329,7 +329,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 89
+        x: 88.77568
         y: 134
         width: 160
         height: 30
@@ -384,8 +384,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 76
-        y: 184
+        x: 87.76471
+        y: 191.35294
         width: 160
         height: 30
     - id: 3
@@ -439,8 +439,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 90
-        y: 288
+        x: 88.52942
+        y: 264.47058
         width: 160
         height: 30
     - id: 4
@@ -466,7 +466,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: "\u3044\u3044\u3063\u3059\u306D"
+        value: "\u308F\u304B\u3063\u305F\u30FC"
         type: 0
         typeString: 
       - title: Sequence
@@ -756,8 +756,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 1
+    canvasScrollPosition: {x: 0, y: 18.644073}
+    canvasZoom: 1.1799998
   syncInfo:
     syncActors: 0
     syncItems: 0

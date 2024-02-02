@@ -17,7 +17,7 @@ public class DatabaseAutoSetter : MonoBehaviour
         {
             foreach (var database in databaseList)
             {
-                Debug.LogError("AddDatabase");
+                //Debug.LogError("AddDatabase");
                 DialogueManager.AddDatabase(database);
             }
             isDatabaseAdded = true;

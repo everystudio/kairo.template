@@ -385,7 +385,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 87.76471
-        y: 191.35294
+        y: 189.65802
         width: 160
         height: 30
     - id: 3
@@ -415,7 +415,12 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: SetActive(GameObject (1),true)
+        value: 'SetActive(PickableItemSize01,true);
+
+          SetActive(PickableItemSize01
+          (1),true);
+
+          SetActive(PickableItemSize01 (2),true)'
         type: 0
         typeString: 
       conversationID: 1
@@ -440,7 +445,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 88.52942
-        y: 264.47058
+        y: 266.1655
         width: 160
         height: 30
     - id: 4

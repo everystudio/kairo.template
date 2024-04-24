@@ -13,17 +13,14 @@ public class DatabaseAutoSetter : MonoBehaviour
     {
         Scene scene = SceneManager.GetSceneByName("Core");
 
-        if (isDatabaseAdded == false)
+        if (isDatabaseAdded == false && DialogueManager.hasInstance)
         {
             foreach (var database in databaseList)
             {
-                //Debug.LogError("AddDatabase");
                 DialogueManager.AddDatabase(database);
             }
             isDatabaseAdded = true;
-
         }
-
     }
 
     private void OnDisable()

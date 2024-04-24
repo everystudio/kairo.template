@@ -50,7 +50,7 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: IsPlayer
-      value: True
+      value: False
       type: 2
       typeString: CustomFieldType_Boolean
     portrait: {fileID: 0}
@@ -761,7 +761,7 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 18.644073}
+    canvasScrollPosition: {x: 15.254242, y: 35.59326}
     canvasZoom: 1.1799998
   syncInfo:
     syncActors: 0

@@ -131,7 +131,6 @@ public class Player : MonoBehaviour
             playerBuilding.Building(playerInputActions, targetTilemap, playerBuilding.gameObject);
         }
 
-
         var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
         Vector2 cursorPosition = PlayerInputActions.Player.CursorPosition.ReadValue<Vector2>();
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

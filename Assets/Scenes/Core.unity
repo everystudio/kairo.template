@@ -5391,7 +5391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -148.85002}
+  m_AnchoredPosition: {x: 0, y: -148.85004}
   m_SizeDelta: {x: 0, y: -297.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &762838289
@@ -13572,7 +13572,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -148.85002}
+  m_AnchoredPosition: {x: 0, y: -148.85004}
   m_SizeDelta: {x: 0, y: -297.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1838070400
@@ -16446,7 +16446,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054074895}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d83cdde12aaaa2479340509d2ba747f, type: 3}
   m_Name: 
@@ -16528,6 +16528,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capacity: 20
+  OnOpenInventory:
+    m_PersistentCalls:
+      m_Calls: []
   inventoryUpdated:
     m_PersistentCalls:
       m_Calls: []

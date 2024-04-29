@@ -81,6 +81,13 @@ public class Player : MonoBehaviour
 
         playerBuilding.gameObject.SetActive(false);
 
+        if (!UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("Core"))
+        {
+            targetPlowland = GameObject.FindObjectOfType<Plowland>();
+            targetTilemap = targetPlowland.GetComponent<Tilemap>();
+            activeGridCursor.Setup(transform, targetPlowland);
+        }
+
     }
 
     public void OnPause(bool isPause)

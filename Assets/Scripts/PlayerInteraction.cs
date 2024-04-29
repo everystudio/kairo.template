@@ -44,6 +44,8 @@ public class PlayerInteraction : MonoBehaviour
             float nearestDistance = Mathf.Infinity;
             Vector3 nearestInteractablePosition = Vector3.zero;
 
+            Debug.Log("hits.Length:" + hits.Length);
+
             foreach (var hit in hits)
             {
                 Debug.Log(hit.collider.gameObject.name);
@@ -75,6 +77,7 @@ public class PlayerInteraction : MonoBehaviour
             // 使う許可を取って
             if (player.ActionInventoryUI.Use(out var useItem))
             {
+                Debug.Log("UseItem:" + useItem);
                 // 実際の処理はこっち
                 ItemInteraction(useItem, gridPosition);
             }

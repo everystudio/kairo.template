@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using anogame;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Tilemap))]
 public class Plowland : MonoBehaviour, ISaveable
@@ -17,6 +18,9 @@ public class Plowland : MonoBehaviour, ISaveable
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private Dictionary<Vector3Int, Crop> cropDictionary = new Dictionary<Vector3Int, Crop>();
+
+    [SerializeField] private UnityEvent<Vector3Int> OnPlowed = new UnityEvent<Vector3Int>();
+    [SerializeField] private UnityEvent<Vector3Int> OnWaterd = new UnityEvent<Vector3Int>();
 
     public Tilemap GetTilemap()
     {
@@ -139,6 +143,7 @@ public class Plowland : MonoBehaviour, ISaveable
 
         plowedTilePositionList.Add(grid);
         targetTile.SetTile(grid, plowedTile);
+        OnPlowed.Invoke(grid);
         return true;
         /*
         if (targetTile.HasTile(grid))
@@ -179,6 +184,7 @@ public class Plowland : MonoBehaviour, ISaveable
 
         wetTilePositionList.Add(grid);
         UpdateWetTile();
+        OnWaterd.Invoke(grid);
         return true;
         /*
         if (targetTile.HasTile(grid))

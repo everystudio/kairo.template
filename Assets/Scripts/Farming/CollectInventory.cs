@@ -12,6 +12,9 @@ public class CollectInventory : PlayerInventory, IInteractable
     [SerializeField] private EventBool OnPauseTimeSystem;
     [SerializeField] private EventInt OnSaveRequest;
 
+    [SerializeField] private ScriptableReference playerObject;
+
+
     protected override string GetSaveKey()
     {
         return Defines.KEY_COLLECT_INVENTORY;
@@ -21,6 +24,8 @@ public class CollectInventory : PlayerInventory, IInteractable
     {
         OnInventoryOpen.Invoke(this, owner);
         OnPauseTimeSystem?.Invoke(true);
+
+        OnOpenInventory?.Invoke();
     }
 
     public override bool AccpeptableItem(InventoryItem item)

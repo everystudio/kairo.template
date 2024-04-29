@@ -52,10 +52,15 @@ public class ActiveGridCursor : MonoBehaviour
         }
     }
 
-    private void aaUpdate()
+    private void Update()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0f;
+        if (targetTilemap == null)
+        {
+            return;
+        }
+
         Vector3Int grid = targetTilemap.WorldToCell(mousePosition);
 
         if (targetTilemap.HasTile(grid))

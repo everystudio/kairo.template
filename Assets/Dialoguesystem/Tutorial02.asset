@@ -1165,7 +1165,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 174
+        x: 172
         y: 168
         width: 160
         height: 30
@@ -1196,9 +1196,13 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: SetActive(PickableItemSize01,true)
         type: 0
         typeString: CustomFieldType_Text
+      - title: Response Menu Sequence
+        value: 
+        type: 0
+        typeString: 
       conversationID: 2
       isRoot: 0
       isGroup: 0
@@ -1404,7 +1408,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: SetActive(collection_box,true)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2040,7 +2044,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: 
+        value: SetActive(PickableItemSize01 (1)kuwa,true)
         type: 0
         typeString: 
       conversationID: 5

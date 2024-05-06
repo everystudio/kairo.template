@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
 
     public void OnPause(bool isPause)
     {
+        Debug.Log("OnPause:" + isPause);
         if (isPause)
         {
             playerInputActions.Disable();
@@ -112,6 +113,11 @@ public class Player : MonoBehaviour
     {
         //Debug.Log("SetSelectingItem:" + arg0);
         selectingItem = arg0;
+    }
+
+    public void DebugLog(string message)
+    {
+        Debug.Log(message);
     }
 
     private void Update()

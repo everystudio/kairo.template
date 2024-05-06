@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 public class SeedItem : FarmItemBase, IItemAction
 {
     [SerializeField] private Crop cropPrefab;
+    public Crop CropPrefab => cropPrefab;
 
     public bool IsConsumable()
     {
@@ -31,7 +32,7 @@ public class SeedItem : FarmItemBase, IItemAction
         mousePosition.z = 0f;
         Vector3Int grid = plowland.GetTilemap().WorldToCell(mousePosition);
 
-        if (plowland.AddCrop(grid, cropPrefab))
+        if (plowland.AddCropSeed(grid, this))
         {
             return true;
         }

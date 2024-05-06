@@ -21,6 +21,7 @@ public class Plowland : MonoBehaviour, ISaveable
 
     [SerializeField] private UnityEvent<Vector3Int> OnPlowed = new UnityEvent<Vector3Int>();
     [SerializeField] private UnityEvent<Vector3Int> OnWaterd = new UnityEvent<Vector3Int>();
+    [SerializeField] private UnityEvent<Vector3Int, SeedItem> OnSeed = new UnityEvent<Vector3Int, SeedItem>();
 
     public Tilemap GetTilemap()
     {
@@ -216,7 +217,7 @@ public class Plowland : MonoBehaviour, ISaveable
         */
     }
 
-    public bool AddCrop(Vector3Int grid, Crop cropPrefab)
+    public bool AddCropSeed(Vector3Int grid, SeedItem seedItem)
     {
         if (IsPlowed(grid) == false)
         {
@@ -230,10 +231,12 @@ public class Plowland : MonoBehaviour, ISaveable
         }
         else
         {
-            var cropInstance = Instantiate(cropPrefab);
+            var cropInstance = Instantiate(seedItem.CropPrefab);
             cropInstance.Initialize(targetTile, grid);
 
             cropDictionary.Add(grid, cropInstance);
+
+            OnSeed.Invoke(grid, seedItem);
             return true;
         }
     }

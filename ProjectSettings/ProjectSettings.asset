@@ -878,11 +878,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 17ed4979-b6a5-4b62-a51b-f9335c2b350d
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: kairo.template
+  organizationId: 0d8d8a0e-076b-4460-8d82-f685255e63ea
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 

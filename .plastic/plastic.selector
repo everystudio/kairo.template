@@ -1,0 +1,4 @@
+repository "kairo.template@everystudio@cloud"
+  path "/"
+    smartbranch "/main"                
+     

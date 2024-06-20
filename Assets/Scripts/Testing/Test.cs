@@ -17,26 +17,6 @@ public class Test : MonoBehaviour
 
     private void Start()
     {
-        /*
-        //tilemapの中のタイルを全て取得
-        BoundsInt bounds = floorTilemap.cellBounds;
-        TileBase[] allTilesArray = floorTilemap.GetTilesBlock(bounds);
-
-        //タイルの位置を取得
-        foreach (var position in bounds.allPositionsWithin)
-        {
-            Vector3Int localPlace = new Vector3Int(position.x, position.y, position.z);
-            if (floorTilemap.HasTile(localPlace))
-            {
-                var tile = floorTilemap.GetTile(localPlace);
-                //Debug.Log(tile.name + " " + localPlace);
-            }
-        }
-        */
-
-        //RefreshWalkableNodeList();
-
-        //Debug.Log(UnityEngine.EventSystems.EventSystem.current);
 
         DialogueManager.AddDatabase(testdb);
     }
@@ -221,6 +201,12 @@ public class Test : MonoBehaviour
             }
         }
         return ret;
+    }
+
+    public void TestMethod(int test)
+    {
+        Debug.Log("");
+
     }
 
     void Update()

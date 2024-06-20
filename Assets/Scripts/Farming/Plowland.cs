@@ -9,7 +9,15 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Tilemap))]
 public class Plowland : MonoBehaviour, ISaveable
 {
-    private Tilemap targetTile;
+    public enum PlowTileState
+    {
+        Hard,
+        Plowed,
+        Wet,
+    }
+
+
+    private Tilemap targetTilemap;
     [SerializeField] private SpriteRenderer gridCursor;
 
     [SerializeField] private TileBase plowedTile;
@@ -25,12 +33,12 @@ public class Plowland : MonoBehaviour, ISaveable
 
     public Tilemap GetTilemap()
     {
-        return targetTile;
+        return targetTilemap;
     }
 
     private void Start()
     {
-        targetTile = GetComponent<Tilemap>();
+        targetTilemap = GetComponent<Tilemap>();
         Tilemap.tilemapTileChanged += OnTileChanged;
 
     }
@@ -60,61 +68,36 @@ public class Plowland : MonoBehaviour, ISaveable
         Debug.Log("wetTilePositionList.Count:" + wetTilePositionList.Count);
         foreach (var wetTilePosition in wetTilePositionList)
         {
-            targetTile.SetAnimationFrame(wetTilePosition, 0);
+            targetTilemap.SetAnimationFrame(wetTilePosition, 0);
         }
         wetTilePositionList.Clear();
     }
     public bool IsPlowed(Vector3Int grid)
     {
         return plowedTilePositionList.Contains(grid);
-        //return targetTile.GetTile(grid) == plowedTile;
     }
     public bool IsWet(Vector3Int grid)
     {
         return wetTilePositionList.Contains(grid);
-        /*
-        if (targetTile == null)
-        {
-            return false;
-        }
-
-        int animationFrame = targetTile.GetAnimationFrame(grid);
-        Debug.Log(animationFrame);
-        if (animationFrame == 1)
-        {
-            return true;
-        }
-        return false;
-        */
     }
 
     //掘ることができるタイルのばあいtrueを返す
     public bool CanPlow(Vector3Int grid)
     {
-        if (targetTile.HasTile(grid))
+        if (targetTilemap.HasTile(grid))
         {
-            return IsPlowed(grid) == false;
-            /*
-            var tile = targetTile.GetTile(grid);
+            var tile = targetTilemap.GetTile(grid);
             if (tile == plowedTile)
             {
-                return false;
+                Debug.Log("耕せるタイルです");
+                return IsPlowed(grid) == false;
             }
-            else
-            {
-                return true;
-            }
-            */
         }
-        else
-        {
-            //Debug.Log("タイルがありません");
-            return false;
-        }
+        return false;
     }
     private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
     {
-        if (tilemap == targetTile)
+        if (tilemap == targetTilemap)
         {
             UpdateWetTile();
         }
@@ -123,14 +106,15 @@ public class Plowland : MonoBehaviour, ISaveable
     {
         foreach (var plowedTilePosition in plowedTilePositionList)
         {
-            targetTile.SetTile(plowedTilePosition, plowedTile);
+            //targetTilemap.SetTile(plowedTilePosition, plowedTile);
+            targetTilemap.SetAnimationFrame(plowedTilePosition, (int)PlowTileState.Plowed);
         }
     }
     private void UpdateWetTile()
     {
         foreach (var wetTilePosition in wetTilePositionList)
         {
-            targetTile.SetAnimationFrame(wetTilePosition, 1);
+            targetTilemap.SetAnimationFrame(wetTilePosition, (int)PlowTileState.Wet);
         }
     }
 
@@ -143,29 +127,9 @@ public class Plowland : MonoBehaviour, ISaveable
         }
 
         plowedTilePositionList.Add(grid);
-        targetTile.SetTile(grid, plowedTile);
+        UpdatePlowedTile();
         OnPlowed.Invoke(grid);
         return true;
-        /*
-        if (targetTile.HasTile(grid))
-        {
-            var tile = targetTile.GetTile(grid);
-            if (tile == plowedTile)
-            {
-                return false;
-            }
-            else
-            {
-                targetTile.SetTile(grid, plowedTile);
-                return true;
-            }
-        }
-        else
-        {
-            Debug.Log("タイルがありません" + grid + ":" + targetTile);
-            return false;
-        }
-        */
     }
 
     // 水やりをするメソッド
@@ -187,34 +151,6 @@ public class Plowland : MonoBehaviour, ISaveable
         UpdateWetTile();
         OnWaterd.Invoke(grid);
         return true;
-        /*
-        if (targetTile.HasTile(grid))
-        {
-            if (wetTilePositionList.Contains(grid))
-            {
-                //Debug.Log("すでに水やりされています");
-                return false;
-            }
-
-            var tile = targetTile.GetTile(grid);
-            if (tile == plowedTile)
-            {
-                wetTilePositionList.Add(grid);
-                UpdateWetTile();
-                return true;
-            }
-            else
-            {
-                //Debug.Log("耕されていません");
-                return false;
-            }
-        }
-        else
-        {
-            //Debug.Log("タイルがありません");
-            return false;
-        }
-        */
     }
 
     public bool AddCropSeed(Vector3Int grid, SeedItem seedItem)
@@ -232,7 +168,7 @@ public class Plowland : MonoBehaviour, ISaveable
         else
         {
             var cropInstance = Instantiate(seedItem.CropPrefab);
-            cropInstance.Initialize(targetTile, grid);
+            cropInstance.Initialize(targetTilemap, grid);
 
             cropDictionary.Add(grid, cropInstance);
 

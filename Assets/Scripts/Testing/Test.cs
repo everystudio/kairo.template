@@ -202,13 +202,6 @@ public class Test : MonoBehaviour
         }
         return ret;
     }
-
-    public void TestMethod(int test)
-    {
-        Debug.Log("");
-
-    }
-
     void Update()
     {
         // マウスでクリックした位置のタイル情報を取得

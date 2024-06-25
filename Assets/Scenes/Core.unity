@@ -16759,6 +16759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRange: 1
   activeGridCursor: {fileID: 576191999}
+  plowableTile: {fileID: 11400000, guid: 72594f5dc0fdd96488021f55d197a4a8, type: 2}
 --- !u!114 &5685024336642705964
 MonoBehaviour:
   m_ObjectHideFlags: 0

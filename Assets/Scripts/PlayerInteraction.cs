@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using anogame.inventory;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Player))]
 public class PlayerInteraction : MonoBehaviour
@@ -10,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     private Player player;
     [SerializeField] private float interactionRange = 1f;
     [SerializeField] private ActiveGridCursor activeGridCursor;
+    [SerializeField] private TileBase plowableTile;
 
     private void Start()
     {
@@ -27,10 +29,52 @@ public class PlayerInteraction : MonoBehaviour
         if (player.TargetTilemap != null)
         {
             gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
+
+            if (player.PlayerInputActions.Player.Interaction.triggered)
+            {
+                // player.TargetTilemapのタイルを取得
+                TileBase tile = player.TargetTilemap.GetTile(gridPosition);
+                if (tile != null)
+                {
+                    // タイルがある場合はタイルの情報を取得
+                    Debug.Log("tileData:" + tile);
+                    if (tile == plowableTile)
+                    {
+                        Plowland plowland = player.GetPlowland();
+                        if (plowland.CanPlow(gridPosition))
+                        {
+                            plowland.Plow(gridPosition);
+                        }
+                        else if (plowland.IsPlowed(gridPosition))
+                        {
+                            if (!plowland.IsSeeded(gridPosition))
+                            {
+                                // gridPositionにある植えられる種の情報を取得
+                                TileBase seedTile = plowland.GetSeedTile(gridPosition);
+                                Debug.Log("seedTile:" + seedTile);
+                                if (seedTile != null)
+                                {
+                                    // タイルがある場合はタイルの情報を取得
+                                    Debug.Log("seedTileData:" + seedTile);
+
+                                    // InventroyItemからSeedItemを取得
+                                    SeedItem seedItem = InventoryItem.GetFromID("52882258-0ce7-45bd-9d64-92d5379f7545") as SeedItem;
+                                    plowland.AddCropSeed(gridPosition, seedItem);
+                                }
+                            }
+                            else if (!plowland.IsWet(gridPosition))
+                            {
+                                plowland.Water(gridPosition);
+                            }
+
+                        }
+                    }
+                }
+
+            }
             //Debug.Log("gridPosition:" + gridPosition + " mousePosition:" + cursorPosition);
             activeGridCursor.Display(transform.position, gridPosition, player.SelectingItem, out isRange);
         }
-
 
         if (player.PlayerInputActions.Player.Interaction.triggered)
         {
@@ -83,11 +127,8 @@ public class PlayerInteraction : MonoBehaviour
             }
             else
             {
-
             }
         }
-
-
     }
 
     private void ItemInteraction(InventoryItem useItem, Vector3Int gridPosition)

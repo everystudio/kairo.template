@@ -21,6 +21,7 @@ public class Plowland : MonoBehaviour, ISaveable
     [SerializeField] private SpriteRenderer gridCursor;
 
     [SerializeField] private TileBase plowedTile;
+    [SerializeField] private Tilemap seedTilemap;
 
     private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
     private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
@@ -39,6 +40,12 @@ public class Plowland : MonoBehaviour, ISaveable
     private void Start()
     {
         targetTilemap = GetComponent<Tilemap>();
+
+        if (seedTilemap != null)
+        {
+            seedTilemap.GetComponent<TilemapRenderer>().enabled = false;
+        }
+
         Tilemap.tilemapTileChanged += OnTileChanged;
 
     }
@@ -107,7 +114,10 @@ public class Plowland : MonoBehaviour, ISaveable
         foreach (var plowedTilePosition in plowedTilePositionList)
         {
             //targetTilemap.SetTile(plowedTilePosition, plowedTile);
-            targetTilemap.SetAnimationFrame(plowedTilePosition, (int)PlowTileState.Plowed);
+            if (!wetTilePositionList.Contains(plowedTilePosition))
+            {
+                targetTilemap.SetAnimationFrame(plowedTilePosition, (int)PlowTileState.Plowed);
+            }
         }
     }
     private void UpdateWetTile()
@@ -137,13 +147,13 @@ public class Plowland : MonoBehaviour, ISaveable
     {
         if (IsWet(grid))
         {
-            //Debug.Log("すでに水やりされています");
+            Debug.Log("すでに水やりされています");
             return false;
         }
 
         if (IsPlowed(grid) == false)
         {
-            //Debug.Log("耕されていません");
+            Debug.Log("耕されていません");
             return false;
         }
 
@@ -151,6 +161,11 @@ public class Plowland : MonoBehaviour, ISaveable
         UpdateWetTile();
         OnWaterd.Invoke(grid);
         return true;
+    }
+
+    public bool IsSeeded(Vector3Int grid)
+    {
+        return cropDictionary.ContainsKey(grid);
     }
 
     public bool AddCropSeed(Vector3Int grid, SeedItem seedItem)
@@ -188,6 +203,15 @@ public class Plowland : MonoBehaviour, ISaveable
             }
         }
         return false;
+    }
+
+    public TileBase GetSeedTile(Vector3Int grid)
+    {
+        if (seedTilemap.HasTile(grid))
+        {
+            return seedTilemap.GetTile(grid);
+        }
+        return null;
     }
 
 

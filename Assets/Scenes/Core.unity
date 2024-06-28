@@ -6907,7 +6907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &934016588
 Transform:
   m_ObjectHideFlags: 0
@@ -6941,8 +6941,9 @@ MonoBehaviour:
     updateInterval: 0.5
     fixedUpdateInterval: 0
   OnTime: {fileID: 11400000, guid: 9348335fcc196eb439268064f9083cef, type: 2}
+  OnDeltaTime: {fileID: 11400000, guid: 454771b45aafc56498c85289a7f106cb, type: 2}
   time: 0
-  startHour: 6
+  startHour: 0
   oneDayMinute: 1
 --- !u!114 &934016590
 MonoBehaviour:
@@ -11297,7 +11298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22, y: -50.799988}
+  m_AnchoredPosition: {x: -22, y: -50.80005}
   m_SizeDelta: {x: 160, y: 55.4}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1360549949

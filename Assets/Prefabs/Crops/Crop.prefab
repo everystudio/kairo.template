@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -3656474559915663839}
   - component: {fileID: 5819140190705402673}
   - component: {fileID: 645536732224935130}
+  - component: {fileID: 6210264865233313227}
   m_Layer: 0
   m_Name: Crop
   m_TagString: Untagged
@@ -138,15 +139,21 @@ MonoBehaviour:
   growSprites:
   - sprite: {fileID: -460725948, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
     days: 0
+    growTime: 0
   - sprite: {fileID: 382758211, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
     days: 1
+    growTime: 5
   - sprite: {fileID: 1941918815, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
     days: 2
+    growTime: 10
   - sprite: {fileID: 966437328, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
     days: 3
+    growTime: 15
   - sprite: {fileID: -1799418837, guid: 42f5fa803bbe03f4fb2dea50171e5c54, type: 3}
     days: 4
+    growTime: 20
   growDays: 0
+  growTime: 0
 --- !u!114 &7643248936906942341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +171,7 @@ MonoBehaviour:
   maxHP: 0
   canBecomeInvulnerable: 0
   startInvulnerable: 0
+  isDead: 0
 --- !u!114 &-7488195942731859605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,3 +278,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6210264865233313227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794719883609477360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab90e70cc2ec41a4fbce6235ddda8bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventObject: {fileID: 11400000, guid: 454771b45aafc56498c85289a7f106cb, type: 2}
+  eventAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6794719883609477358}
+        m_TargetAssemblyTypeName: Crop, Assembly-CSharp
+        m_MethodName: GrowupTime
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -184,6 +184,11 @@ public class Health : MonoBehaviour, IDamageableTag
 
     }
 
+    public void Damage(float amount)
+    {
+        Damage(amount, Vector3.zero, null);
+    }
+
     public void IncreaseHealth(int amount)
     {
         maxHP += amount;

@@ -30,7 +30,10 @@ public class PlayerInteraction : MonoBehaviour
         {
             gridPosition = player.TargetTilemap.WorldToCell(mousePosition);
 
-            if (player.PlayerInputActions.Player.Interaction.triggered)
+            // gridPositionとtransform.positionの距離がinteractionRange以下の場合
+            bool isInRange = Vector2.Distance(transform.position, mousePosition) < interactionRange;
+
+            if (player.PlayerInputActions.Player.Interaction.triggered && isInRange)
             {
                 // player.TargetTilemapのタイルを取得
                 TileBase tile = player.TargetTilemap.GetTile(gridPosition);
@@ -100,6 +103,7 @@ public class PlayerInteraction : MonoBehaviour
                 Debug.Log(hit.collider.gameObject.name);
                 // Rayが当たったオブジェクトのIDamageableTagを取得する
                 var interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+                Debug.Log("interactable:" + interactable);
                 if (interactable != null)
                 {
                     float distance = Vector2.Distance(transform.position, hit.collider.gameObject.transform.position);
@@ -111,6 +115,7 @@ public class PlayerInteraction : MonoBehaviour
                     }
                 }
             }
+
             if (nearestInteractable != null)
             {
                 if (Vector2.Distance(transform.position, nearestInteractablePosition) < interactionRange)

@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 2865311332221473088}
   - component: {fileID: -5037504068175795923}
   - component: {fileID: -7896108157745612750}
+  - component: {fileID: 8941351449225046473}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -397,3 +398,30 @@ MonoBehaviour:
   componentsToSave:
   - {fileID: 3234826253458740428}
   - {fileID: 3234826253458740418}
+--- !u!114 &8941351449225046473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234826253458740429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7f1d38a0cc6804996198e42a167e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3234826253458740418}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: Damage
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

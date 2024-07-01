@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using anogame.inventory;
 
-public class FarmTree : MonoBehaviour
+public class FarmTree : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool isStump = false;
     [SerializeField] private float stumpHealth = 2f;
@@ -55,6 +55,11 @@ public class FarmTree : MonoBehaviour
         }
     }
 
-
-
+    public void Interact(GameObject owner)
+    {
+        if (TryGetComponent(out Health health))
+        {
+            health.Damage(1, transform.position, gameObject);
+        }
+    }
 }

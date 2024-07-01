@@ -194,6 +194,12 @@ public class Plowland : MonoBehaviour, ISaveable
 
     public bool Harvest(Vector3Int gridPosition)
     {
+        Debug.Log(gridPosition);
+        Debug.Log($"Harvest:{cropDictionary.Count}");
+        foreach (var dict in cropDictionary)
+        {
+            Debug.Log(dict.Key);
+        }
         if (cropDictionary.ContainsKey(gridPosition))
         {
             if (cropDictionary[gridPosition].Harvest())

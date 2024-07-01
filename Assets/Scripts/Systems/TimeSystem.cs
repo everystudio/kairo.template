@@ -6,6 +6,8 @@ using anogame;
 public class TimeSystem : SystemCore
 {
     [SerializeField] private EventInt OnTime;
+    // 経過時間を秒で返す
+    [SerializeField] private EventFloat OnDeltaTime;
     public float time;
 
     [SerializeField] private int startHour = 6;
@@ -39,7 +41,13 @@ public class TimeSystem : SystemCore
 
     override public void OnTick(float deltaTime)
     {
+        if (deltaTime < 0f)
+        {
+            return;
+        }
+        //Debug.Log(deltaTime);
         time += deltaTime * timeRate;
+        OnDeltaTime?.Invoke(deltaTime);
         OnTime?.Invoke((int)time / 60);
         //Debug.Log("TimeSystem.OnTick");
     }

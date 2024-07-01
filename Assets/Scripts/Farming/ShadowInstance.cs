@@ -20,7 +20,7 @@ public class ShadowInstance : MonoBehaviour
         transform.localScale = new Vector3(1, 1f * baseLength * length, 1);
     }
 
-
+    /*
     private void OnEnable()
     {
         //Debug.Log("OnEnable");
@@ -32,7 +32,7 @@ public class ShadowInstance : MonoBehaviour
         // ここ残してると終了時にエラーが出る
         WorldLight.UnregisterShadow(this);
     }
-
+    */
     private void OnDestroy()
     {
         WorldLight.UnregisterShadow(this);

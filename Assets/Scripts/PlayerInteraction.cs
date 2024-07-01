@@ -41,12 +41,17 @@ public class PlayerInteraction : MonoBehaviour
                     if (tile == plowableTile)
                     {
                         Plowland plowland = player.GetPlowland();
-                        if (plowland.CanPlow(gridPosition))
+                        if (plowland.Harvest(gridPosition))
+                        {
+                            Debug.Log("Harvest♡");
+                        }
+                        else if (plowland.CanPlow(gridPosition))
                         {
                             plowland.Plow(gridPosition);
                         }
                         else if (plowland.IsPlowed(gridPosition))
                         {
+
                             if (!plowland.IsSeeded(gridPosition))
                             {
                                 // gridPositionにある植えられる種の情報を取得

@@ -16,17 +16,19 @@ public class Crop : MonoBehaviour
     {
         public Sprite sprite;
         public int days;
+        public float growTime;
     }
     [SerializeField] private GrowSprites[] growSprites;
 
     // 経過した日数
     public int growDays;
+    public float growTime;
 
     private bool IsGrowup()
     {
         //Debug.Log(growSprites[growSprites.Length - 1].days);
         //Debug.Log(growDays);
-        if (growSprites[growSprites.Length - 1].days <= growDays)
+        if (growSprites[growSprites.Length - 1].growTime <= growTime)
         {
             return true;
         }
@@ -73,13 +75,35 @@ public class Crop : MonoBehaviour
         }
 
         int animationFrame = targetTilemap.GetAnimationFrame(gridPosition);
-        if (animationFrame == 1)
+        if (animationFrame == (int)Plowland.PlowTileState.Wet)
         {
             return true;
         }
 
         return false;
     }
+
+    public void GrowupTime(float deltaTime)
+    {
+        //Debug.Log("GrowupTime");
+
+
+        if (IsWet() == false)
+        {
+            return;
+        }
+
+        growTime += deltaTime;
+        for (int i = 0; i < growSprites.Length; i++)
+        {
+            if (growSprites[i].growTime <= growTime)
+            {
+                model.sprite = growSprites[i].sprite;
+            }
+        }
+    }
+
+
 
     public void GrowupDay(int addDay)
     {

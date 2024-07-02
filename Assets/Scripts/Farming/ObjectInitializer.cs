@@ -69,7 +69,7 @@ public class ObjectInitializer : MonoBehaviour
             // ランダムにプレハブを生成する
             //SpawnRandomPrefab(worldPosition);
         }
-        Debug.Log("settableWorldPositions:" + settableWorldPositions.Count);
+        //Debug.Log("settableWorldPositions:" + settableWorldPositions.Count);
 
         // 作る個数を決める
         List<int> createCountList = new List<int>();
@@ -77,7 +77,7 @@ public class ObjectInitializer : MonoBehaviour
         {
             int createCount = Mathf.FloorToInt(settableWorldPositions.Count * spawnRates[i]);
             createCountList.Add(createCount);
-            Debug.Log("createCount:" + createCount);
+            //Debug.Log("createCount:" + createCount);
         }
 
         for (int i = 0; i < createCountList.Count; i++)

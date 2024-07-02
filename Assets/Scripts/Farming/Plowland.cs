@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 using anogame;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Tilemap))]
+[RequireComponent(typeof(Tilemap), typeof(SeedMap))]
 public class Plowland : MonoBehaviour, ISaveable
 {
     public enum PlowTileState
@@ -18,13 +18,14 @@ public class Plowland : MonoBehaviour, ISaveable
 
 
     private Tilemap targetTilemap;
+    private SeedMap seedMap;
     [SerializeField] private SpriteRenderer gridCursor;
 
     [SerializeField] private TileBase plowedTile;
     [SerializeField] private Tilemap seedTilemap;
 
-    private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
-    private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
+    [SerializeField] private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
+    [SerializeField] private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
 
     private Dictionary<Vector3Int, Crop> cropDictionary = new Dictionary<Vector3Int, Crop>();
 
@@ -40,6 +41,7 @@ public class Plowland : MonoBehaviour, ISaveable
     private void Start()
     {
         targetTilemap = GetComponent<Tilemap>();
+        seedMap = GetComponent<SeedMap>();
 
         if (seedTilemap != null)
         {
@@ -96,7 +98,7 @@ public class Plowland : MonoBehaviour, ISaveable
             var tile = targetTilemap.GetTile(grid);
             if (tile == plowedTile)
             {
-                Debug.Log("耕せるタイルです");
+                //Debug.Log("耕せるタイルです");
                 return IsPlowed(grid) == false;
             }
         }
@@ -104,6 +106,7 @@ public class Plowland : MonoBehaviour, ISaveable
     }
     private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
     {
+        Debug.Log("Plowland.OnTileChanged");
         if (tilemap == targetTilemap)
         {
             UpdateWetTile();
@@ -122,8 +125,10 @@ public class Plowland : MonoBehaviour, ISaveable
     }
     private void UpdateWetTile()
     {
+        Debug.Log($"UpdateWetTile wetTilePositionList.Count:{wetTilePositionList.Count}");
         foreach (var wetTilePosition in wetTilePositionList)
         {
+            Debug.Log(wetTilePosition);
             targetTilemap.SetAnimationFrame(wetTilePosition, (int)PlowTileState.Wet);
         }
     }
@@ -194,12 +199,14 @@ public class Plowland : MonoBehaviour, ISaveable
 
     public bool Harvest(Vector3Int gridPosition)
     {
+        /*
         Debug.Log(gridPosition);
         Debug.Log($"Harvest:{cropDictionary.Count}");
         foreach (var dict in cropDictionary)
         {
             Debug.Log(dict.Key);
         }
+        */
         if (cropDictionary.ContainsKey(gridPosition))
         {
             if (cropDictionary[gridPosition].Harvest())
@@ -211,13 +218,36 @@ public class Plowland : MonoBehaviour, ISaveable
         return false;
     }
 
-    public TileBase GetSeedTile(Vector3Int grid)
+    public SeedItem GetSeedItem(Vector3Int grid)
     {
-        if (seedTilemap.HasTile(grid))
+        Vector2Int grid2D = new Vector2Int(grid.x, grid.y);
+        // seedMapからgridに対応するSeedItemを取得
+        foreach (var seedMapItem in seedMap.seedMapItemList)
         {
-            return seedTilemap.GetTile(grid);
+            Rect rect = new Rect(
+                seedMapItem.startPosition.x,
+                seedMapItem.startPosition.y,
+                seedMapItem.size, seedMapItem.size);
+            if (rect.Contains(grid2D))
+            {
+                return seedMapItem.seedItem;
+            }
         }
+
         return null;
+    }
+
+    private void Update()
+    {
+        // スペースキーを押すとcropDictionaryの中身を表示
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log($"cropDictionary.Count:{cropDictionary.Count}");
+            foreach (var dict in cropDictionary)
+            {
+                Debug.Log($"grid:{dict.Key} crop:{dict.Value}");
+            }
+        }
     }
 
 

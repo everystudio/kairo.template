@@ -40,7 +40,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (tile != null)
                 {
                     // タイルがある場合はタイルの情報を取得
-                    Debug.Log("tileData:" + tile);
+                    //Debug.Log("tileData:" + tile);
                     if (tile == plowableTile)
                     {
                         Plowland plowland = player.GetPlowland();
@@ -58,15 +58,9 @@ public class PlayerInteraction : MonoBehaviour
                             if (!plowland.IsSeeded(gridPosition))
                             {
                                 // gridPositionにある植えられる種の情報を取得
-                                TileBase seedTile = plowland.GetSeedTile(gridPosition);
-                                Debug.Log("seedTile:" + seedTile);
-                                if (seedTile != null)
+                                SeedItem seedItem = plowland.GetSeedItem(gridPosition);
+                                if (seedItem != null)
                                 {
-                                    // タイルがある場合はタイルの情報を取得
-                                    Debug.Log("seedTileData:" + seedTile);
-
-                                    // InventroyItemからSeedItemを取得
-                                    SeedItem seedItem = InventoryItem.GetFromID("52882258-0ce7-45bd-9d64-92d5379f7545") as SeedItem;
                                     plowland.AddCropSeed(gridPosition, seedItem);
                                 }
                             }
@@ -96,14 +90,14 @@ public class PlayerInteraction : MonoBehaviour
             float nearestDistance = Mathf.Infinity;
             Vector3 nearestInteractablePosition = Vector3.zero;
 
-            Debug.Log("hits.Length:" + hits.Length);
+            //Debug.Log("hits.Length:" + hits.Length);
 
             foreach (var hit in hits)
             {
-                Debug.Log(hit.collider.gameObject.name);
+                //Debug.Log(hit.collider.gameObject.name);
                 // Rayが当たったオブジェクトのIDamageableTagを取得する
                 var interactable = hit.collider.gameObject.GetComponent<IInteractable>();
-                Debug.Log("interactable:" + interactable);
+                //Debug.Log("interactable:" + interactable);
                 if (interactable != null)
                 {
                     float distance = Vector2.Distance(transform.position, hit.collider.gameObject.transform.position);
@@ -126,6 +120,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        /*
         if (isRange && player.PlayerInputActions.Player.Interaction.inProgress)
         {
             // 使う許可を取って
@@ -139,6 +134,7 @@ public class PlayerInteraction : MonoBehaviour
             {
             }
         }
+        */
     }
 
     private void ItemInteraction(InventoryItem useItem, Vector3Int gridPosition)

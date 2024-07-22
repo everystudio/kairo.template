@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItemArray:
-  - item: {fileID: 11400000, guid: aafa5436438eec04285dd576336848fe, type: 2}
+  - item: {fileID: 11400000, guid: ea81626321c89c54ead12f6982130e8e, type: 2}
     amountRange: {x: 1, y: 1}
     dropCountRange: {x: 3, y: 4}
   dropRadius: 0.5

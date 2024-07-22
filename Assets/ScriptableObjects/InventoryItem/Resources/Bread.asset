@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: 
   itemID: 0cc022f6-944a-4034-a883-1c700d6c31a2
-  displayName: "\u3064\u308B\u306F\u3057"
-  description: "\u5CA9\u3092\u5272\u308B\u3053\u3068\u304C\u3067\u304D\u308B"
-  icon: {fileID: 21300000, guid: 9016a99499f0be64eb7ac977f659c821, type: 3}
+  displayName: "\u30D1\u30F3"
+  description: "\u30B3\u30E0\u30AE100%"
+  icon: {fileID: 21300000, guid: 8effa54ec542aae419498a810a345d34, type: 3}
   pickable: {fileID: 7289122452978038892, guid: ce1b1e32661a07a4b918a4ed1a195b54, type: 3}
   stackable: 0
   itemType: 0
-  itemTags: 00000000
+  itemTags: 05000000
   buyPrice: 100
   sellPrice: 0
   consumable: 0

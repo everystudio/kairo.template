@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432508908ad9f574a87e34fbb74775d6, type: 3}
+  m_Name: R-Bread
+  m_EditorClassIdentifier: 
+  recipeID: 92ef3125-3956-40c4-88f7-ec1d9af46f14
+  resultItem: {fileID: 11400000, guid: a184d2697e213db4c915e374eb14cf9d, type: 2}
+  resultAmount: 1
+  materials:
+  - item: {fileID: 11400000, guid: ea81626321c89c54ead12f6982130e8e, type: 2}
+    amount: 2

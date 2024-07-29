@@ -17,7 +17,6 @@ public class Test : MonoBehaviour
 
     private void Start()
     {
-
         DialogueManager.AddDatabase(testdb);
     }
 

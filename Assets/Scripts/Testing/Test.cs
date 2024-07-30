@@ -13,17 +13,13 @@ public class Test : MonoBehaviour
     //public float searchZ = 0f;
     public List<PathNode> walkableNodeList = new List<PathNode>();
 
-    public DialogueDatabase testdb;
-
-    private void Start()
-    {
-        DialogueManager.AddDatabase(testdb);
-    }
 
     private List<PathNode> RefreshWalkableNodeList()
     {
         walkableNodeList.Clear();
         BoundsInt bounds = floorTilemap.cellBounds;
+        Debug.Log(floorTilemap);
+        Debug.Log(bounds);
         TileBase[] allTilesArray = floorTilemap.GetTilesBlock(bounds);
 
         List<Vector3Int> obstaclePositionList = new List<Vector3Int>();
@@ -48,8 +44,10 @@ public class Test : MonoBehaviour
         foreach (var position in bounds.allPositionsWithin)
         {
             Vector3Int localPlace = new Vector3Int(position.x, position.y, position.z);
-            if (floorTilemap.HasTile(localPlace))
+            //Debug.Log(localPlace);
+            if (floorTilemap.HasTile(localPlace) && localPlace.z == 0)
             {
+                /*
                 var tile = floorTilemap.GetTile(localPlace);
                 if (tile.name.Contains("item15_01"))
                 {
@@ -71,7 +69,14 @@ public class Test : MonoBehaviour
                         walkableNodeList.Add(node);
                     }
                 }
+                */
+
+                PathNode node = new PathNode();
+                node.position = new Vector2Int(localPlace.x, localPlace.y);
+                walkableNodeList.Add(node);
+
             }
+
         }
         //Debug.Log("RefreshWalkableNodeList: " + walkableNodeList.Count);
         // nodesのneighborsを設定
@@ -185,6 +190,12 @@ public class Test : MonoBehaviour
         UnityEngine.Vector3[] ret = new UnityEngine.Vector3[0];
 
         List<PathNode> walkableNodeList = RefreshWalkableNodeList();
+        Debug.Log("walkableNodeList.Count: " + walkableNodeList.Count);
+        // walkableNodeListの中を表示する
+        foreach (var node in walkableNodeList)
+        {
+            //Debug.Log(node.position);
+        }
 
         Vector3Int targetNearestPosition = SearchWalkableNeiborPositionIgnoreZ(targetPosition, walkableNodeList);
 

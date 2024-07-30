@@ -24,7 +24,7 @@ public class CustomerController : StateMachineBase<CustomerController>
 
     [SerializeField] private Test test;
 
-    [SerializeField] private TestingShop testingShop;
+    //[SerializeField] private TestingShop testingShop;
 
     private Vector3 homePosition;
 
@@ -66,7 +66,7 @@ public class CustomerController : StateMachineBase<CustomerController>
                 Thread.Sleep(3000);
             });
 
-            var targetGridPosition = machine.testingShop.GetStandingPointRandom();
+            var targetGridPosition = new Vector3Int(20, 3, 0);// machine.testingShop.GetStandingPointRandom();
 
             ChangeState(
                 new CustomerController.Move(
@@ -89,17 +89,24 @@ public class CustomerController : StateMachineBase<CustomerController>
         }
         public override void OnEnterState()
         {
-            //Debug.Log($"targetPosition: {targetGridPosition}");
+            Debug.Log($"targetPosition: {targetGridPosition}");
 
             Vector3[] positions = machine.test.GetPathPositions(machine.transform.position, targetGridPosition);
+
+            foreach (var pos in positions)
+            {
+                Debug.Log(pos);
+            }
 
             // positionsの先頭に現在の位置を追加する
             var list = new List<Vector3>(positions);
             list.Insert(0, machine.transform.position);
 
+            Debug.Log(machine.nodeMover);
+
             machine.nodeMover.MoveNode(list.ToArray(), () =>
             {
-                //Debug.Log("Arrived");
+                Debug.Log("Arrived");
                 if (nextState != null)
                 {
                     ChangeState(nextState);
@@ -125,6 +132,7 @@ public class CustomerController : StateMachineBase<CustomerController>
             {
                 Thread.Sleep(1000);
             });
+            /*
             if (machine.testingShop.GetTargetItemGrid(out Vector3Int targetGridPosition))
             {
                 Debug.Log("見つけた");
@@ -140,13 +148,16 @@ public class CustomerController : StateMachineBase<CustomerController>
                 Vector3Int homeGrid = machine.testingShop.GetGridPosition(machine.homePosition);
                 ChangeState(new CustomerController.Move(machine, homeGrid, new CustomerController.Wait(machine)));
             }
+            */
 
-
+            ChangeState(new CustomerController.Move(
+                machine,
+                new Vector3Int(20, 3, 0),
+                new CustomerController.Wait(machine)));
         }
-
-
-
     }
+
+    /*
 
     private class Buy : StateBase<CustomerController>
     {
@@ -189,10 +200,9 @@ public class CustomerController : StateMachineBase<CustomerController>
                 Vector3Int homeGrid = machine.testingShop.GetGridPosition(machine.homePosition);
                 ChangeState(new CustomerController.Move(machine, homeGrid, new CustomerController.Wait(machine)));
             }
-
-
         }
     }
+    */
 
     private void BuyItem(ShelfController shelf, Action onComplete)
     {

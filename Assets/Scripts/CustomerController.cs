@@ -213,6 +213,9 @@ public class CustomerController : StateMachineBase<CustomerController>
             else
             {
                 Debug.Log("見つからなかった");
+                // Waitステートに
+                ChangeState(new CustomerController.Wait(machine));
+
             }
         }
     }

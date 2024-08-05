@@ -136,6 +136,9 @@ public class Player : MonoBehaviour
                     Debug.Log("建築完了");
                     // 建築完了
                     // ここで建築する
+
+
+
                 }
                 playerInputActions.Building.Disable();
                 playerInputActions.Player.Enable();

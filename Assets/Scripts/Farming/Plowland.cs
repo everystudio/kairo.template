@@ -40,6 +40,11 @@ public class Plowland : MonoBehaviour, ISaveable
         return targetTilemap;
     }
 
+    public void AddPlowableTile(Vector3Int grid)
+    {
+        tempPlowedTilePositionList.Add(grid);
+    }
+
     private void Start()
     {
         targetTilemap = GetComponent<Tilemap>();
@@ -51,11 +56,6 @@ public class Plowland : MonoBehaviour, ISaveable
         }
 
         Tilemap.tilemapTileChanged += OnTileChanged;
-
-        tempPlowedTilePositionList.Add(new Vector3Int(22, -1, 0));
-        tempPlowedTilePositionList.Add(new Vector3Int(22, -2, 0));
-        tempPlowedTilePositionList.Add(new Vector3Int(23, -1, 0));
-        tempPlowedTilePositionList.Add(new Vector3Int(23, -2, 0));
     }
     public void AdvanceDay(int addDay)
     {

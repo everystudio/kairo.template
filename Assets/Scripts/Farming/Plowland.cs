@@ -33,6 +33,8 @@ public class Plowland : MonoBehaviour, ISaveable
     [SerializeField] private UnityEvent<Vector3Int> OnWaterd = new UnityEvent<Vector3Int>();
     [SerializeField] private UnityEvent<Vector3Int, SeedItem> OnSeed = new UnityEvent<Vector3Int, SeedItem>();
 
+    private List<Vector3Int> tempPlowedTilePositionList = new List<Vector3Int>();
+
     public Tilemap GetTilemap()
     {
         return targetTilemap;
@@ -50,6 +52,10 @@ public class Plowland : MonoBehaviour, ISaveable
 
         Tilemap.tilemapTileChanged += OnTileChanged;
 
+        tempPlowedTilePositionList.Add(new Vector3Int(22, -1, 0));
+        tempPlowedTilePositionList.Add(new Vector3Int(22, -2, 0));
+        tempPlowedTilePositionList.Add(new Vector3Int(23, -1, 0));
+        tempPlowedTilePositionList.Add(new Vector3Int(23, -2, 0));
     }
     public void AdvanceDay(int addDay)
     {
@@ -131,6 +137,19 @@ public class Plowland : MonoBehaviour, ISaveable
             Debug.Log(wetTilePosition);
             targetTilemap.SetAnimationFrame(wetTilePosition, (int)PlowTileState.Wet);
         }
+    }
+
+    public List<Vector3Int> GetDryTilePositionList()
+    {
+        List<Vector3Int> dryTilePositionList = new List<Vector3Int>();
+        foreach (var plowedTilePosition in tempPlowedTilePositionList)
+        {
+            if (IsWet(plowedTilePosition) == false)
+            {
+                dryTilePositionList.Add(plowedTilePosition);
+            }
+        }
+        return dryTilePositionList;
     }
 
     // 地面を掘るメソッド

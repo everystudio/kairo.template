@@ -27,7 +27,7 @@ public class CustomerController : StateMachineBase<CustomerController>
     //[SerializeField] private TestingShop testingShop;
 
     private Vector3 homePosition;
-
+    private Plowland targetPlowland;
     public NodeMover nodeMover;
 
     private ItemController buyItemController;
@@ -39,6 +39,8 @@ public class CustomerController : StateMachineBase<CustomerController>
     {
         buyItemController = null;
         homePosition = transform.position;
+        targetPlowland = GameObject.FindObjectOfType<Plowland>();
+
         ChangeState(new CustomerController.Wait(this));
     }
 
@@ -66,13 +68,57 @@ public class CustomerController : StateMachineBase<CustomerController>
                 Thread.Sleep(3000);
             });
 
-            var targetGridPosition = new Vector3Int(20, 3, 0);// machine.testingShop.GetStandingPointRandom();
+            ChangeState(new CustomerController.Search(machine));
+        }
+    }
 
-            ChangeState(
-                new CustomerController.Move(
-                    machine,
-                    targetGridPosition,
-                    new CustomerController.Search(machine)));
+    private class Water : StateBase<CustomerController>
+    {
+        private Vector3Int targetGridPosition;
+
+        public Water(CustomerController machine, Vector3Int targetGridPosition) : base(machine)
+        {
+            this.machine = machine;
+            this.targetGridPosition = targetGridPosition;
+        }
+
+        public override void OnEnterState()
+        {
+            var _ = DelayWater();
+        }
+
+        private async Task DelayWater()
+        {
+            await Task.Run(() =>
+            {
+                Thread.Sleep(500);
+            });
+
+            Debug.Log(targetGridPosition);
+
+            if (machine.targetPlowland.IsPlowed(targetGridPosition) == false)
+            {
+                // 耕す
+                if (machine.targetPlowland.Plow(targetGridPosition))
+                {
+                    Debug.Log("耕した");
+                }
+                else
+                {
+                    Debug.Log("耕せなかった");
+                }
+            }
+
+            if (machine.targetPlowland.Water(targetGridPosition))
+            {
+                Debug.Log("水をやった");
+            }
+            else
+            {
+                Debug.Log("水をやれなかった");
+            }
+
+            ChangeState(new CustomerController.Search(machine));
         }
     }
 
@@ -114,6 +160,8 @@ public class CustomerController : StateMachineBase<CustomerController>
             });
         }
     }
+
+
     private class Search : StateBase<CustomerController>
     {
         public Search(CustomerController machine) : base(machine)
@@ -150,10 +198,22 @@ public class CustomerController : StateMachineBase<CustomerController>
             }
             */
 
-            ChangeState(new CustomerController.Move(
-                machine,
-                new Vector3Int(20, 3, 0),
-                new CustomerController.Wait(machine)));
+            List<Vector3Int> targetGridPositions = machine.targetPlowland.GetDryTilePositionList();
+
+            if (0 < targetGridPositions.Count)
+            {
+                int index = UnityEngine.Random.Range(0, targetGridPositions.Count);
+                Debug.Log("見つけた");
+                ChangeState(
+                    new CustomerController.Move(
+                        machine,
+                        targetGridPositions[index],
+                        new CustomerController.Water(machine, targetGridPositions[index])));
+            }
+            else
+            {
+                Debug.Log("見つからなかった");
+            }
         }
     }
 
@@ -219,4 +279,5 @@ public class CustomerController : StateMachineBase<CustomerController>
             onComplete.Invoke();
         });
     }
+
 }

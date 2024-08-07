@@ -43,6 +43,7 @@ public class Plowland : MonoBehaviour, ISaveable
     public void AddPlowableTile(Vector3Int grid)
     {
         tempPlowedTilePositionList.Add(grid);
+        Plow(grid);
     }
 
     private void Start()

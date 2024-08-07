@@ -8776,6 +8776,7 @@ MonoBehaviour:
   inventoryUI: {fileID: 2072576596}
   lastWarpLocation: {fileID: 0}
   playerBuilding: {fileID: 1964352169}
+  testSeedItem: {fileID: 11400000, guid: 9b843a6de11357645a2e2addd78c52fd, type: 2}
 --- !u!4 &1054074898
 Transform:
   m_ObjectHideFlags: 0

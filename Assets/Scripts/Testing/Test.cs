@@ -5,6 +5,25 @@ using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+using System.Reflection;
+
+[System.Serializable]
+public class SaveBuildingsModel
+{
+    public Vector3 position;
+    public string buildingName;
+    public int buildingLevel;
+}
+
+[System.Serializable]
+public class SaveDataModel
+{
+    public List<SaveBuildingsModel> buildings = new List<SaveBuildingsModel>();
+}
+
+
+
+
 public class Test : MonoBehaviour
 {
     [SerializeField] private Tilemap floorTilemap;
@@ -12,6 +31,38 @@ public class Test : MonoBehaviour
 
     //public float searchZ = 0f;
     public List<PathNode> walkableNodeList = new List<PathNode>();
+
+
+    public class Sample
+    {
+        public int appleNum;
+        public int orangeNum;
+        public string str;
+    }
+
+    private void Start()
+    {
+        Sample sample = new Sample();
+        sample.appleNum = 5;
+        sample.orangeNum = 10;
+
+        Sample sample2 = new Sample();
+        sample2.appleNum = 100;
+        sample2.orangeNum = 200;
+
+        string fieldName = "orangeNum";
+        FieldInfo fieldInfo = typeof(Sample).GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+        if (fieldInfo != null)
+        {
+            Debug.Log($"The value of '{fieldName}' is: {fieldInfo.GetValue(sample)}");
+            Debug.Log($"The value of '{fieldName}' is: {fieldInfo.GetValue(sample2)}");
+
+            // 値を変更する
+            fieldInfo.SetValue(sample, 10);
+            Debug.Log($"The new value of '{fieldName}' is: {fieldInfo.GetValue(sample)}");
+        }
+
+    }
 
 
     private List<PathNode> RefreshWalkableNodeList()

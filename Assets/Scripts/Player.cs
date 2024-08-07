@@ -43,6 +43,10 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerBuilding playerBuilding;
 
 
+    // デバッグ用
+    [SerializeField] private SeedItem testSeedItem;
+
+
 
     public Plowland GetPlowland()
     {
@@ -136,15 +140,33 @@ public class Player : MonoBehaviour
                     Debug.Log("建築完了");
                     // 建築完了
                     // ここで建築する
-
-
-
                 }
                 playerInputActions.Building.Disable();
                 playerInputActions.Player.Enable();
             });
 
             playerBuilding.Building(playerInputActions, targetTilemap, playerBuilding.gameObject);
+        }
+        else if (Input.GetKeyDown(KeyCode.F2))
+        {
+            // 種まき
+            playerInputActions.Building.Enable();
+            playerInputActions.Player.Disable();
+            playerBuilding.gameObject.SetActive(true);
+            playerBuilding.OnEndBuilding.RemoveAllListeners();
+            playerBuilding.OnEndBuilding.AddListener((bool canBuild, Vector3Int gridPosition) =>
+            {
+                if (canBuild)
+                {
+                    Debug.Log("種まき完了");
+                }
+                playerInputActions.Building.Disable();
+                playerInputActions.Player.Enable();
+            });
+
+            playerBuilding.SeedPlanting(playerInputActions, targetTilemap, testSeedItem);
+
+
         }
 
         var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();

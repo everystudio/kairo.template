@@ -17,11 +17,13 @@ public class PlayerBuilding : MonoBehaviour
     private Vector3Int gridPosition;
     private Tilemap targetTilemap;
     private GameObject building;
+    private SeedItem seedItem;
 
     [SerializeField] private TileBase plowTileBase;
 
     private Tilemap previewTilemap;
 
+    #region Plow
     public void Building(PlayerInputActions inputActions, Tilemap targetTilemap, GameObject building)
     {
         this.targetTilemap = targetTilemap;
@@ -29,42 +31,47 @@ public class PlayerBuilding : MonoBehaviour
         this.inputActions = inputActions;
         this.previewTilemap = GameObject.Find("previewTile").GetComponent<Tilemap>();
 
-        inputActions.Building.CursorPosition.performed += CursorPosition_performed;
-        inputActions.Building.Build.performed += Build_performed;
-        inputActions.Building.Cancel.performed += Cancel_performed;
-
-        OnEndBuilding.AddListener(OnEndBuildingAction);
+        inputActions.Building.CursorPosition.performed += PlowCursorPosition_performed;
+        inputActions.Building.Build.performed += PlowBuild_performed;
+        inputActions.Building.Cancel.performed += PlowCancel_performed;
+        OnEndBuilding.AddListener(PlowOnEndBuildingAction);
 
     }
 
-    private void OnEndBuildingAction(bool arg0, Vector3Int arg1)
+    private void PlowOnEndBuildingAction(bool arg0, Vector3Int arg1)
     {
-        inputActions.Building.CursorPosition.performed -= CursorPosition_performed;
-        inputActions.Building.Build.performed -= Build_performed;
-        inputActions.Building.Cancel.performed -= Cancel_performed;
+        inputActions.Building.CursorPosition.performed -= PlowCursorPosition_performed;
+        inputActions.Building.Build.performed -= PlowBuild_performed;
+        inputActions.Building.Cancel.performed -= PlowCancel_performed;
 
-        OnEndBuilding.RemoveListener(OnEndBuildingAction);
+        previewTilemap.ClearAllTiles();
+
+        OnEndBuilding.RemoveListener(PlowOnEndBuildingAction);
     }
 
-    private void CursorPosition_performed(InputAction.CallbackContext context)
+    private void PlowCursorPosition_performed(InputAction.CallbackContext context)
     {
         Vector2 cursorPosition = context.ReadValue<Vector2>();
-        //Debug.Log("OnBuildingCursorPosition:" + cursorPosition);
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
         mousePosition.z = 0f;
         gridPosition = targetTilemap.WorldToCell(mousePosition);
 
         previewTilemap.ClearAllTiles();
-        previewTilemap.SetTile(gridPosition, plowTileBase);
-        previewTilemap.SetTile(new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z), plowTileBase);
-        previewTilemap.SetTile(new Vector3Int(gridPosition.x, gridPosition.y + 1, gridPosition.z), plowTileBase);
-        previewTilemap.SetTile(new Vector3Int(gridPosition.x + 1, gridPosition.y + 1, gridPosition.z), plowTileBase);
-
-
-        //building.transform.position = targetTilemap.GetCellCenterWorld(gridPosition);
+        Vector2Int[] offsets = new Vector2Int[]
+        {
+                new Vector2Int(0, 0),
+                new Vector2Int(1, 0),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 1),
+        };
+        foreach (var offset in offsets)
+        {
+            Vector3Int offsetGrid = new Vector3Int(gridPosition.x + offset.x, gridPosition.y + offset.y, gridPosition.z);
+            previewTilemap.SetTile(offsetGrid, plowTileBase);
+        }
     }
 
-    private void Build_performed(InputAction.CallbackContext context)
+    private void PlowBuild_performed(InputAction.CallbackContext context)
     {
         Debug.Log("OnBuildingBuild:" + gridPosition);
         previewTilemap.ClearAllTiles();
@@ -72,20 +79,22 @@ public class PlayerBuilding : MonoBehaviour
         canBuild = true;
         if (canBuild)
         {
+            Vector2Int[] offsets = new Vector2Int[]
+            {
+                new Vector2Int(0, 0),
+                new Vector2Int(1, 0),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 1),
+            };
 
-            targetTilemap.SetTile(gridPosition, plowTileBase);
-            targetTilemap.SetTile(new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z), plowTileBase);
-            targetTilemap.SetTile(new Vector3Int(gridPosition.x, gridPosition.y + 1, gridPosition.z), plowTileBase);
-            targetTilemap.SetTile(new Vector3Int(gridPosition.x + 1, gridPosition.y + 1, gridPosition.z), plowTileBase);
+            Plowland plowland = targetTilemap.gameObject.GetComponent<Plowland>();
 
-            targetTilemap.gameObject.GetComponent<Plowland>().AddPlowableTile(gridPosition);
-            targetTilemap.gameObject.GetComponent<Plowland>().AddPlowableTile(new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z));
-            targetTilemap.gameObject.GetComponent<Plowland>().AddPlowableTile(new Vector3Int(gridPosition.x, gridPosition.y + 1, gridPosition.z));
-            targetTilemap.gameObject.GetComponent<Plowland>().AddPlowableTile(new Vector3Int(gridPosition.x + 1, gridPosition.y + 1, gridPosition.z));
-
-
-
-
+            foreach (var offset in offsets)
+            {
+                Vector3Int offsetGrid = new Vector3Int(gridPosition.x + offset.x, gridPosition.y + offset.y, gridPosition.z);
+                targetTilemap.SetTile(offsetGrid, plowTileBase);
+                plowland.AddPlowableTile(offsetGrid);
+            }
 
             OnEndBuilding.Invoke(true, gridPosition);
         }
@@ -94,9 +103,65 @@ public class PlayerBuilding : MonoBehaviour
             OnEndBuilding.Invoke(false, Vector3Int.zero);
         }
     }
-    private void Cancel_performed(InputAction.CallbackContext context)
+    private void PlowCancel_performed(InputAction.CallbackContext context)
     {
         OnEndBuilding.Invoke(false, Vector3Int.zero);
     }
+    #endregion
+
+    #region Seed Planting
+    public void SeedPlanting(PlayerInputActions inputActions, Tilemap targetTilemap, SeedItem seedItem)
+    {
+        this.targetTilemap = targetTilemap;
+        this.building = Instantiate(seedItem.CropPrefab).gameObject;
+        this.building.SetActive(true);
+        this.seedItem = seedItem;
+
+        this.inputActions = inputActions;
+        this.previewTilemap = GameObject.Find("previewTile").GetComponent<Tilemap>();
+
+        inputActions.Building.CursorPosition.performed += SeedCursorPosition_performed;
+        inputActions.Building.Build.performed += SeedBuild_performed;
+        inputActions.Building.Cancel.performed += SeedCancel_performed;
+        OnEndBuilding.AddListener(SeedOnEndBuildingAction);
+    }
+
+    private void SeedOnEndBuildingAction(bool arg0, Vector3Int arg1)
+    {
+        inputActions.Building.CursorPosition.performed -= SeedCursorPosition_performed;
+        inputActions.Building.Build.performed -= SeedBuild_performed;
+        inputActions.Building.Cancel.performed -= SeedCancel_performed;
+
+        Destroy(building);
+    }
+
+    private void SeedCursorPosition_performed(InputAction.CallbackContext context)
+    {
+        Vector2 cursorPosition = context.ReadValue<Vector2>();
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
+        mousePosition.z = 0f;
+        gridPosition = targetTilemap.WorldToCell(mousePosition);
+
+        building.transform.position = targetTilemap.GetCellCenterWorld(gridPosition);
+    }
+
+    private void SeedBuild_performed(InputAction.CallbackContext context)
+    {
+        Plowland plowland = targetTilemap.gameObject.GetComponent<Plowland>();
+
+        if (!plowland.AddCropSeed(gridPosition, seedItem))
+        {
+            Debug.Log("Can't plant seed");
+        }
+        OnEndBuilding.Invoke(false, Vector3Int.zero);
+
+    }
+
+    private void SeedCancel_performed(InputAction.CallbackContext context)
+    {
+        OnEndBuilding.Invoke(false, Vector3Int.zero);
+    }
+    #endregion
+
 
 }

@@ -31,6 +31,7 @@ public class CustomerController : StateMachineBase<CustomerController>
     public NodeMover nodeMover;
 
     private ItemController buyItemController;
+    CancellationTokenSource cts = new CancellationTokenSource();
 
     public static UnityEvent<ItemController> OnBuyItem = new UnityEvent<ItemController>();
 
@@ -170,12 +171,15 @@ public class CustomerController : StateMachineBase<CustomerController>
 
         public override void OnEnterState()
         {
-            var _ = DelaySearch();
+            var _ = DelaySearch(machine.cts.Token);
         }
 
 
-        private async Task DelaySearch()
+        private async Task DelaySearch(CancellationToken cancellationToken)
         {
+            // キャンセレーショントークンが止まっている場合は止める
+            cancellationToken.ThrowIfCancellationRequested();
+
             await Task.Run(() =>
             {
                 Thread.Sleep(1000);
@@ -281,6 +285,11 @@ public class CustomerController : StateMachineBase<CustomerController>
             //buyItemController = null;
             onComplete.Invoke();
         });
+    }
+
+    private void OnDestroy()
+    {
+        cts.Cancel();
     }
 
 }

@@ -83,7 +83,9 @@ public class Player : MonoBehaviour
         playerInputActions.Building.Disable();
         lastWarpLocation = null;
 
-        playerBuilding.gameObject.SetActive(false);
+        //playerBuilding.gameObject.SetActive(false);
+        playerBuilding.Initialize(playerInputActions);
+
 
         if (!UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("Core"))
         {
@@ -128,10 +130,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            playerInputActions.Building.Enable();
-            playerInputActions.Player.Disable();
-
-            playerBuilding.gameObject.SetActive(true);
             playerBuilding.OnEndBuilding.RemoveAllListeners();
             playerBuilding.OnEndBuilding.AddListener((bool canBuild, Vector3Int gridPosition) =>
             {
@@ -145,14 +143,11 @@ public class Player : MonoBehaviour
                 playerInputActions.Player.Enable();
             });
 
-            playerBuilding.Building(playerInputActions, targetTilemap, playerBuilding.gameObject);
+            playerBuilding.BuildingPlow(playerBuilding.gameObject);
         }
         else if (Input.GetKeyDown(KeyCode.F2))
         {
             // 種まき
-            playerInputActions.Building.Enable();
-            playerInputActions.Player.Disable();
-            playerBuilding.gameObject.SetActive(true);
             playerBuilding.OnEndBuilding.RemoveAllListeners();
             playerBuilding.OnEndBuilding.AddListener((bool canBuild, Vector3Int gridPosition) =>
             {
@@ -163,10 +158,7 @@ public class Player : MonoBehaviour
                 playerInputActions.Building.Disable();
                 playerInputActions.Player.Enable();
             });
-
-            playerBuilding.SeedPlanting(playerInputActions, targetTilemap, testSeedItem);
-
-
+            playerBuilding.BuildingSeedPlanting(testSeedItem);
         }
 
         var movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();

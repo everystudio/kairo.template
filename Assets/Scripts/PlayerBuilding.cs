@@ -16,6 +16,7 @@ public partial class PlayerBuilding : MonoBehaviour
     private PlayerInputActions inputActions;
     private Vector3Int gridPosition;
     private Tilemap targetTilemap;
+    private Plowland plowland;
     private GameObject building;
     private SeedItem seedItem;
 
@@ -23,9 +24,27 @@ public partial class PlayerBuilding : MonoBehaviour
 
     private Tilemap previewTilemap;
 
-    public partial void Building(PlayerInputActions inputActions, Tilemap targetTilemap, GameObject building);
-    public partial void SeedPlanting(PlayerInputActions inputActions, Tilemap targetTilemap, SeedItem seedItem);
+    private void Start()
+    {
+        plowland = GameObject.FindObjectOfType<Plowland>();
+        targetTilemap = plowland.GetComponent<Tilemap>();
+        previewTilemap = GameObject.Find("previewTile").GetComponent<Tilemap>();
+    }
 
+    public void Initialize(PlayerInputActions inputActions)
+    {
+        this.inputActions = inputActions;
+    }
+
+    private void OnStartBuilding()
+    {
+        inputActions.Player.Disable();
+        inputActions.Building.Enable();
+    }
+
+    public partial void BuildingPlow(GameObject buildingPrefab);
+    public partial void BuildingSeedPlanting(SeedItem seedItem);
+    public partial void BuildingBuilding(GameObject buildingPrefab, int size);
 
 
 }

@@ -6,18 +6,15 @@ using UnityEngine.Tilemaps;
 
 public partial class PlayerBuilding : MonoBehaviour
 {
-    public partial void Building(PlayerInputActions inputActions, Tilemap targetTilemap, GameObject building)
+    public partial void BuildingPlow(GameObject buildingPrefab)
     {
-        this.targetTilemap = targetTilemap;
-        this.building = building;
-        this.inputActions = inputActions;
-        this.previewTilemap = GameObject.Find("previewTile").GetComponent<Tilemap>();
+        OnStartBuilding();
+        this.building = buildingPrefab;
 
         inputActions.Building.CursorPosition.performed += PlowCursorPosition_performed;
         inputActions.Building.Build.performed += PlowBuild_performed;
         inputActions.Building.Cancel.performed += PlowCancel_performed;
         OnEndBuilding.AddListener(PlowOnEndBuildingAction);
-
     }
 
     private void PlowOnEndBuildingAction(bool arg0, Vector3Int arg1)
@@ -25,10 +22,10 @@ public partial class PlayerBuilding : MonoBehaviour
         inputActions.Building.CursorPosition.performed -= PlowCursorPosition_performed;
         inputActions.Building.Build.performed -= PlowBuild_performed;
         inputActions.Building.Cancel.performed -= PlowCancel_performed;
+        OnEndBuilding.RemoveListener(PlowOnEndBuildingAction);
 
         previewTilemap.ClearAllTiles();
 
-        OnEndBuilding.RemoveListener(PlowOnEndBuildingAction);
     }
 
     private void PlowCursorPosition_performed(InputAction.CallbackContext context)

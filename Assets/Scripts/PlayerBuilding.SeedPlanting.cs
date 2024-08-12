@@ -8,15 +8,13 @@ public partial class PlayerBuilding : MonoBehaviour
 {
 
     #region Seed Planting
-    public partial void SeedPlanting(PlayerInputActions inputActions, Tilemap targetTilemap, SeedItem seedItem)
+    public partial void BuildingSeedPlanting(SeedItem seedItem)
     {
-        this.targetTilemap = targetTilemap;
+        OnStartBuilding();
+
         this.building = Instantiate(seedItem.CropPrefab).gameObject;
         this.building.SetActive(true);
         this.seedItem = seedItem;
-
-        this.inputActions = inputActions;
-        this.previewTilemap = GameObject.Find("previewTile").GetComponent<Tilemap>();
 
         inputActions.Building.CursorPosition.performed += SeedCursorPosition_performed;
         inputActions.Building.Build.performed += SeedBuild_performed;
@@ -29,6 +27,7 @@ public partial class PlayerBuilding : MonoBehaviour
         inputActions.Building.CursorPosition.performed -= SeedCursorPosition_performed;
         inputActions.Building.Build.performed -= SeedBuild_performed;
         inputActions.Building.Cancel.performed -= SeedCancel_performed;
+        OnEndBuilding.RemoveListener(SeedOnEndBuildingAction);
 
         Destroy(building);
     }

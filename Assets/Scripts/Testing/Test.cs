@@ -32,6 +32,14 @@ public class Test : MonoBehaviour
     //public float searchZ = 0f;
     public List<PathNode> walkableNodeList = new List<PathNode>();
 
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
 
     public class Sample
     {
@@ -39,6 +47,8 @@ public class Test : MonoBehaviour
         public int orangeNum;
         public string str;
     }
+
+    public Direction direction;
 
     private void Start()
     {

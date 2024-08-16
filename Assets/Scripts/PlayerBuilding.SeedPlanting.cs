@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 
 public partial class PlayerBuilding : MonoBehaviour
 {
-
     #region Seed Planting
     public partial void BuildingSeedPlanting(SeedItem seedItem)
     {

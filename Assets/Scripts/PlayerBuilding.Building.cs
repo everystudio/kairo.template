@@ -7,8 +7,19 @@ using UnityEngine.Tilemaps;
 
 public partial class PlayerBuilding : MonoBehaviour
 {
+    private int buildingSize;
+    private GameObject buildingPrefab;
     public partial void BuildingBuilding(GameObject buildingPrefab, int size)
     {
+        OnStartBuilding();
+
+        buildingSize = size;
+        this.buildingPrefab = buildingPrefab;
+
+        this.building = Instantiate(buildingPrefab);
+        this.building.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.5f);
+        this.building.SetActive(true);
+
         inputActions.Building.CursorPosition.performed += BuildingCursorPosition_performed;
         inputActions.Building.Build.performed += BuildingBuild_performed;
         inputActions.Building.Cancel.performed += BuildingCancel_performed;
@@ -21,6 +32,8 @@ public partial class PlayerBuilding : MonoBehaviour
         inputActions.Building.Build.performed -= BuildingBuild_performed;
         inputActions.Building.Cancel.performed -= BuildingCancel_performed;
         OnEndBuilding.RemoveListener(BuildingOnEndBuildingAction);
+
+        Destroy(building);
     }
 
     private void BuildingCursorPosition_performed(InputAction.CallbackContext context)
@@ -36,12 +49,20 @@ public partial class PlayerBuilding : MonoBehaviour
 
     private void BuildingBuild_performed(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        Plowland plowland = targetTilemap.gameObject.GetComponent<Plowland>();
+
+        if (!plowland.BuildBuilding(gridPosition, buildingPrefab, buildingSize))
+        {
+            Debug.Log("Can't build building");
+        }
+
+        OnEndBuilding.Invoke(false, Vector3Int.zero);
+
     }
 
     private void BuildingCancel_performed(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        OnEndBuilding.Invoke(false, Vector3Int.zero);
     }
 
 

@@ -257,6 +257,17 @@ public class Plowland : MonoBehaviour, ISaveable
         return null;
     }
 
+    public bool BuildBuilding(Vector3Int grid, GameObject buildingPrefab, int size)
+    {
+        var buildingInstance = Instantiate(buildingPrefab);
+        buildingInstance.transform.position = targetTilemap.GetCellCenterWorld(grid);
+
+        // 後で管理する
+
+        return true;
+
+    }
+
     private void Update()
     {
         // スペースキーを押すとcropDictionaryの中身を表示

@@ -8777,6 +8777,7 @@ MonoBehaviour:
   lastWarpLocation: {fileID: 0}
   playerBuilding: {fileID: 1964352169}
   testSeedItem: {fileID: 11400000, guid: 9b843a6de11357645a2e2addd78c52fd, type: 2}
+  sampleBuildingPrefab: {fileID: 8280674996795565194, guid: b2e08212547d7ce46b261a61196650e4, type: 3}
 --- !u!4 &1054074898
 Transform:
   m_ObjectHideFlags: 0
@@ -13742,6 +13743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorTilemap: {fileID: 0}
   obstacleTilemapList: []
+  direction: 0
 --- !u!1 &1821188340
 GameObject:
   m_ObjectHideFlags: 0

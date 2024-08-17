@@ -20,4 +20,18 @@ public class PathNode
     {
         return this.position == position;
     }
+
+    public PathNode() { }
+    public PathNode(Vector2Int position)
+    {
+        this.position = position;
+    }
+    public PathNode(Vector3Int position)
+    {
+        this.position = new Vector2Int(position.x, position.z);
+    }
+    public PathNode(int x, int y)
+    {
+        this.position = new Vector2Int(x, y);
+    }
 }

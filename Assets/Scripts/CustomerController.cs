@@ -138,16 +138,19 @@ public class CustomerController : StateMachineBase<CustomerController>
         {
             Debug.Log($"targetPosition: {targetGridPosition}");
 
-            Vector3[] positions = machine.test.GetPathPositions(machine.transform.position, targetGridPosition);
-
-            foreach (var pos in positions)
-            {
-                Debug.Log(pos);
-            }
+            //Vector3[] positions = machine.test.GetPathPositions(machine.transform.position, targetGridPosition);
+            machine.targetPlowland.RefreshWalkableNodeList();
+            Vector3[] positions = machine.targetPlowland.GetPathPositions(machine.transform.position, targetGridPosition);
 
             // positionsの先頭に現在の位置を追加する
             var list = new List<Vector3>(positions);
             list.Insert(0, machine.transform.position);
+            /*
+            foreach (var pos in list)
+            {
+                Debug.Log(pos);
+            }
+            */
 
             Debug.Log(machine.nodeMover);
 

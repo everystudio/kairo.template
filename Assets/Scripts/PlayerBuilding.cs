@@ -44,7 +44,7 @@ public partial class PlayerBuilding : MonoBehaviour
 
     public partial void BuildingPlow(GameObject buildingPrefab);
     public partial void BuildingSeedPlanting(SeedItem seedItem);
-    public partial void BuildingBuilding(GameObject buildingPrefab, int size);
+    public partial void BuildingBuilding(MasterBuildingModel buildingModel);
 
 
 }

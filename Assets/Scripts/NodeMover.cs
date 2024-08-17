@@ -8,8 +8,8 @@ namespace anogame
     public class NodeMover : MonoBehaviour
     {
         public float speed = 1f;
-        private int currentIndex = 0;
-        private Vector3[] nodes;
+        [SerializeField] private int currentIndex = 0;
+        [SerializeField] private Vector3[] nodes;
         public void MoveNode(UnityEngine.Vector3[] nodes, Action onArrived = null)
         {
             currentIndex = 0;

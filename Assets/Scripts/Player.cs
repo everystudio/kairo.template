@@ -172,7 +172,7 @@ public class Player : MonoBehaviour
                 playerInputActions.Building.Disable();
                 playerInputActions.Player.Enable();
             });
-            playerBuilding.BuildingBuilding(sampleBuildingPrefab, 2);
+            playerBuilding.BuildingBuilding(ModelManager.Instance.buildingModelList[0]);
 
         }
 

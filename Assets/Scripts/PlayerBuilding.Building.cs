@@ -7,16 +7,13 @@ using UnityEngine.Tilemaps;
 
 public partial class PlayerBuilding : MonoBehaviour
 {
-    private int buildingSize;
-    private GameObject buildingPrefab;
-    public partial void BuildingBuilding(GameObject buildingPrefab, int size)
+    public MasterBuildingModel buildingModel;
+    public partial void BuildingBuilding(MasterBuildingModel buildingModel)
     {
         OnStartBuilding();
 
-        buildingSize = size;
-        this.buildingPrefab = buildingPrefab;
-
-        this.building = Instantiate(buildingPrefab);
+        this.buildingModel = buildingModel;
+        this.building = Instantiate(buildingModel.prefab);
         this.building.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.5f);
         this.building.SetActive(true);
 
@@ -44,14 +41,13 @@ public partial class PlayerBuilding : MonoBehaviour
         gridPosition = targetTilemap.WorldToCell(mousePosition);
 
         building.transform.position = targetTilemap.GetCellCenterWorld(gridPosition);
-
     }
 
     private void BuildingBuild_performed(InputAction.CallbackContext context)
     {
         Plowland plowland = targetTilemap.gameObject.GetComponent<Plowland>();
 
-        if (!plowland.BuildBuilding(gridPosition, buildingPrefab, buildingSize))
+        if (!plowland.BuildBuilding(gridPosition, buildingModel))
         {
             Debug.Log("Can't build building");
         }

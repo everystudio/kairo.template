@@ -16,7 +16,6 @@ public class Plowland : MonoBehaviour, ISaveable
         Wet,
     }
 
-
     private Tilemap targetTilemap;
     private SeedMap seedMap;
     [SerializeField] private SpriteRenderer gridCursor;
@@ -32,8 +31,9 @@ public class Plowland : MonoBehaviour, ISaveable
     [SerializeField] private UnityEvent<Vector3Int> OnPlowed = new UnityEvent<Vector3Int>();
     [SerializeField] private UnityEvent<Vector3Int> OnWaterd = new UnityEvent<Vector3Int>();
     [SerializeField] private UnityEvent<Vector3Int, SeedItem> OnSeed = new UnityEvent<Vector3Int, SeedItem>();
-
     private List<Vector3Int> tempPlowedTilePositionList = new List<Vector3Int>();
+    public List<PathNode> walkableNodeList = new List<PathNode>();
+    private List<UserBuildingModel> userBuildingModelList = new List<UserBuildingModel>();
 
     public Tilemap GetTilemap()
     {
@@ -45,6 +45,139 @@ public class Plowland : MonoBehaviour, ISaveable
         tempPlowedTilePositionList.Add(grid);
         Plow(grid);
     }
+
+    public void RefreshWalkableNodeList()
+    {
+        walkableNodeList.Clear();
+        // targetTilemapの全てのタイルを取得
+        foreach (var position in targetTilemap.cellBounds.allPositionsWithin)
+        {
+            Vector3Int localPlace = new Vector3Int(position.x, position.y, position.z);
+            if (targetTilemap.HasTile(localPlace) && position.z == 0)
+            {
+                PathNode node = new PathNode();
+                node.position = new Vector2Int(localPlace.x, localPlace.y);
+                walkableNodeList.Add(node);
+            }
+        }
+
+        // 建物の位置を一旦取得
+        List<PathNode> obstacleNodeList = new List<PathNode>();
+        foreach (var userBuildingModel in userBuildingModelList)
+        {
+            for (int x = 0; x < userBuildingModel.size; x++)
+            {
+                for (int y = 0; y < userBuildingModel.size; y++)
+                {
+                    Vector3Int position = new Vector3Int(userBuildingModel.position.x + x, userBuildingModel.position.y + y, userBuildingModel.position.z);
+                    obstacleNodeList.Add(new PathNode(position));
+                }
+            }
+        }
+
+        // walkableNodeListからobstacleNodeListを削除
+        foreach (var obstacleNode in obstacleNodeList)
+        {
+            walkableNodeList.RemoveAll(node => node.position == obstacleNode.position);
+        }
+
+        foreach (var node in walkableNodeList)
+        {
+            int x = node.position.x;
+            int y = node.position.y;
+
+            Vector2Int[] offsetPosition = new Vector2Int[]
+            {
+                new Vector2Int(-1, 0),
+                new Vector2Int(1, 0),
+                new Vector2Int(0, -1),
+                new Vector2Int(0, 1),
+            };
+
+            foreach (var offset in offsetPosition)
+            {
+                Vector2Int neighborPosition = node.position + offset;
+                PathNode neighbor = walkableNodeList.Find(n => n.position == neighborPosition);
+                foreach (var obstaclePosition in obstacleNodeList)
+                {
+                    if (obstaclePosition.position.x == neighborPosition.x && obstaclePosition.position.y == neighborPosition.y)
+                    {
+                        Debug.Log("obstaclePosition: " + obstaclePosition);
+                        continue;
+                    }
+                }
+                if (neighbor != null)
+                {
+                    node.neighbors.Add(neighbor);
+                }
+            }
+        }
+        //Debug.Log($"walkableNodeList.Count:{walkableNodeList.Count}");
+    }
+
+    public Vector3[] GetPathPositions(Vector3 startPosition, Vector3Int targetPosition)
+    {
+        Vector3Int startGrid = targetTilemap.WorldToCell(startPosition);
+
+        return GetTargetPositions(startGrid, targetPosition);
+    }
+
+    public Vector3[] GetTargetPositions(Vector3Int startPosition, Vector3Int targetPosition)
+    {
+        Vector3[] ret = new Vector3[0];
+        Vector3Int targetNearestPosition = SearchWalkableNeiborPositionIgnoreZ(targetPosition, walkableNodeList);
+
+        List<PathNode> nodes = GetTargetPathNode(startPosition, targetNearestPosition, walkableNodeList);
+
+        if (nodes.Count > 0)
+        {
+            ret = new Vector3[nodes.Count];
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                // ここ本当はタイルマップから変換する必要あり
+                Vector3 tileWorldPos = targetTilemap.GetCellCenterWorld(new Vector3Int(nodes[i].position.x, nodes[i].position.y, 0));
+                ret[i] = tileWorldPos;
+            }
+        }
+        return ret;
+    }
+
+    public List<PathNode> GetTargetPathNode(Vector3Int startPosition, Vector3Int targetPosition, List<PathNode> walkableNodeList)
+    {
+        Pathfinding pathfinding = new Pathfinding();
+        PathNode startNode = walkableNodeList.Find(n => n.position.x == startPosition.x && n.position.y == startPosition.y);
+        PathNode targetNode = walkableNodeList.Find(n => n.position.x == targetPosition.x && n.position.y == targetPosition.y);
+
+        List<PathNode> path = pathfinding.FindPath(startNode, targetNode);
+        return path;
+    }
+
+    public Vector3Int SearchWalkableNeiborPositionIgnoreZ(Vector3Int targetPosition, List<PathNode> walkableNodeList)
+    {
+        Vector2Int targetGrid = new Vector2Int(targetPosition.x, targetPosition.y);
+        Vector2Int[] offsetPosition = new Vector2Int[]
+        {
+                new Vector2Int(-1, 0),
+                new Vector2Int(1, 0),
+                new Vector2Int(0, -1),
+                new Vector2Int(0, 1),
+        };
+
+        foreach (var offset in offsetPosition)
+        {
+            Vector2Int neighborPosition = targetGrid + offset;
+            PathNode neighbor = walkableNodeList.Find(n => n.position == neighborPosition);
+            if (neighbor != null)
+            {
+                return new Vector3Int(neighbor.position.x, neighbor.position.y, targetPosition.z);
+            }
+        }
+        Debug.Log("SearchWalkableNeiborPositionIgnoreZ: not found");
+        return targetPosition;
+
+    }
+
+
 
     private void Start()
     {
@@ -219,14 +352,6 @@ public class Plowland : MonoBehaviour, ISaveable
 
     public bool Harvest(Vector3Int gridPosition)
     {
-        /*
-        Debug.Log(gridPosition);
-        Debug.Log($"Harvest:{cropDictionary.Count}");
-        foreach (var dict in cropDictionary)
-        {
-            Debug.Log(dict.Key);
-        }
-        */
         if (cropDictionary.ContainsKey(gridPosition))
         {
             if (cropDictionary[gridPosition].Harvest())
@@ -257,12 +382,24 @@ public class Plowland : MonoBehaviour, ISaveable
         return null;
     }
 
-    public bool BuildBuilding(Vector3Int grid, GameObject buildingPrefab, int size)
+    public bool BuildBuilding(Vector3Int grid, MasterBuildingModel buildingModel)
     {
-        var buildingInstance = Instantiate(buildingPrefab);
+        var buildingInstance = Instantiate(buildingModel.prefab);
         buildingInstance.transform.position = targetTilemap.GetCellCenterWorld(grid);
 
-        // 後で管理する
+
+        UserBuildingModel userBuildingModel = new UserBuildingModel()
+        {
+            id = buildingModel.id,
+            position = grid,
+            size = buildingModel.size,
+            level = 1,
+            isBuilding = true,
+        };
+        userBuildingModelList.Add(userBuildingModel);
+
+
+
 
         return true;
 
@@ -280,6 +417,10 @@ public class Plowland : MonoBehaviour, ISaveable
             }
         }
     }
+
+
+
+
 
 
     [System.Serializable]

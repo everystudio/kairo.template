@@ -210,7 +210,7 @@ public class CustomerController : StateMachineBase<CustomerController>
             if (0 < targetGridPositions.Count)
             {
                 int index = UnityEngine.Random.Range(0, targetGridPositions.Count);
-                Debug.Log("見つけた");
+                //Debug.Log("見つけた");
                 ChangeState(
                     new CustomerController.Move(
                         machine,
@@ -219,7 +219,7 @@ public class CustomerController : StateMachineBase<CustomerController>
             }
             else
             {
-                Debug.Log("見つからなかった");
+                //Debug.Log("見つからなかった");
                 // Waitステートに
                 ChangeState(new CustomerController.Wait(machine));
 

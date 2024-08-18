@@ -22,6 +22,8 @@ public class Plowland : MonoBehaviour, ISaveable
 
     [SerializeField] private TileBase plowedTile;
     [SerializeField] private Tilemap seedTilemap;
+    [SerializeField] private Tilemap previewTilemap;
+    [SerializeField] private TileBase previewTile;
 
     [SerializeField] private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
     [SerializeField] private List<Vector3Int> wetTilePositionList = new List<Vector3Int>();
@@ -74,12 +76,20 @@ public class Plowland : MonoBehaviour, ISaveable
                 }
             }
         }
+        Debug.Log($"obstacleNodeList.Count:{obstacleNodeList.Count}");
+        foreach (var node in obstacleNodeList)
+        {
+            Debug.Log(node.position);
+        }
+
+        Debug.Log($"walkableNodeList.Count:{walkableNodeList.Count}");
 
         // walkableNodeListからobstacleNodeListを削除
         foreach (var obstacleNode in obstacleNodeList)
         {
             walkableNodeList.RemoveAll(node => node.position == obstacleNode.position);
         }
+        Debug.Log($"walkableNodeList.Count:{walkableNodeList.Count}");
 
         foreach (var node in walkableNodeList)
         {
@@ -102,7 +112,7 @@ public class Plowland : MonoBehaviour, ISaveable
                 {
                     if (obstaclePosition.position.x == neighborPosition.x && obstaclePosition.position.y == neighborPosition.y)
                     {
-                        Debug.Log("obstaclePosition: " + obstaclePosition);
+                        //Debug.Log("obstaclePosition: " + obstaclePosition);
                         continue;
                     }
                 }
@@ -111,6 +121,11 @@ public class Plowland : MonoBehaviour, ISaveable
                     node.neighbors.Add(neighbor);
                 }
             }
+        }
+        previewTilemap.ClearAllTiles();
+        foreach (var node in walkableNodeList)
+        {
+            previewTilemap.SetTile(new Vector3Int(node.position.x, node.position.y, 0), previewTile);
         }
         //Debug.Log($"walkableNodeList.Count:{walkableNodeList.Count}");
     }
@@ -246,7 +261,7 @@ public class Plowland : MonoBehaviour, ISaveable
     }
     private void OnTileChanged(Tilemap tilemap, Tilemap.SyncTile[] arg2)
     {
-        Debug.Log("Plowland.OnTileChanged");
+        //Debug.Log("Plowland.OnTileChanged");
         if (tilemap == targetTilemap)
         {
             UpdateWetTile();

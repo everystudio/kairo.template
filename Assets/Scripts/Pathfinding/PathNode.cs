@@ -28,7 +28,7 @@ public class PathNode
     }
     public PathNode(Vector3Int position)
     {
-        this.position = new Vector2Int(position.x, position.z);
+        this.position = new Vector2Int(position.x, position.y);
     }
     public PathNode(int x, int y)
     {

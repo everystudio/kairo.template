@@ -9,7 +9,6 @@ public class Farmer : StateMachineBase<Farmer>
 {
     private Plowland targetPlowland;
     private NodeMover nodeMover;
-
     private Animator animator;
 
     CancellationTokenSource cts = new CancellationTokenSource();
@@ -120,7 +119,7 @@ public class Farmer : StateMachineBase<Farmer>
 
                 // 
                 movement = direction;
-                Debug.Log(movement);
+                //Debug.Log(movement);
 
                 machine.animator.SetFloat("x", direction.x);
                 machine.animator.SetFloat("y", direction.y);

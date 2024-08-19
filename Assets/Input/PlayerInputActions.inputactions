@@ -220,6 +220,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Idle",
+            "id": "80c05377-75ac-4445-8166-dcecc1fe1a13",
+            "actions": [
+                {
+                    "name": "CameraMove",
+                    "type": "Value",
+                    "id": "f0f1b8ba-83c1-4448-b925-3f6fae39b59e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MoveTrigger",
+                    "type": "Button",
+                    "id": "a58fe82e-d1c5-4c0e-93f0-6e02a61472b6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "69a0544b-691c-4690-a759-659ca14f3df8",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cbff958-feaf-45ea-981e-c3b952197b20",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

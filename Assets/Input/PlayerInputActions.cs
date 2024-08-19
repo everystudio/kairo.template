@@ -242,6 +242,54 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Idle"",
+            ""id"": ""80c05377-75ac-4445-8166-dcecc1fe1a13"",
+            ""actions"": [
+                {
+                    ""name"": ""CameraMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""f0f1b8ba-83c1-4448-b925-3f6fae39b59e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""a58fe82e-d1c5-4c0e-93f0-6e02a61472b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""69a0544b-691c-4690-a759-659ca14f3df8"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cbff958-feaf-45ea-981e-c3b952197b20"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -258,6 +306,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Building_CursorPosition = m_Building.FindAction("CursorPosition", throwIfNotFound: true);
         m_Building_Build = m_Building.FindAction("Build", throwIfNotFound: true);
         m_Building_Cancel = m_Building.FindAction("Cancel", throwIfNotFound: true);
+        // Idle
+        m_Idle = asset.FindActionMap("Idle", throwIfNotFound: true);
+        m_Idle_CameraMove = m_Idle.FindAction("CameraMove", throwIfNotFound: true);
+        m_Idle_MoveTrigger = m_Idle.FindAction("MoveTrigger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -455,6 +507,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public BuildingActions @Building => new BuildingActions(this);
+
+    // Idle
+    private readonly InputActionMap m_Idle;
+    private List<IIdleActions> m_IdleActionsCallbackInterfaces = new List<IIdleActions>();
+    private readonly InputAction m_Idle_CameraMove;
+    private readonly InputAction m_Idle_MoveTrigger;
+    public struct IdleActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public IdleActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @CameraMove => m_Wrapper.m_Idle_CameraMove;
+        public InputAction @MoveTrigger => m_Wrapper.m_Idle_MoveTrigger;
+        public InputActionMap Get() { return m_Wrapper.m_Idle; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(IdleActions set) { return set.Get(); }
+        public void AddCallbacks(IIdleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_IdleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_IdleActionsCallbackInterfaces.Add(instance);
+            @CameraMove.started += instance.OnCameraMove;
+            @CameraMove.performed += instance.OnCameraMove;
+            @CameraMove.canceled += instance.OnCameraMove;
+            @MoveTrigger.started += instance.OnMoveTrigger;
+            @MoveTrigger.performed += instance.OnMoveTrigger;
+            @MoveTrigger.canceled += instance.OnMoveTrigger;
+        }
+
+        private void UnregisterCallbacks(IIdleActions instance)
+        {
+            @CameraMove.started -= instance.OnCameraMove;
+            @CameraMove.performed -= instance.OnCameraMove;
+            @CameraMove.canceled -= instance.OnCameraMove;
+            @MoveTrigger.started -= instance.OnMoveTrigger;
+            @MoveTrigger.performed -= instance.OnMoveTrigger;
+            @MoveTrigger.canceled -= instance.OnMoveTrigger;
+        }
+
+        public void RemoveCallbacks(IIdleActions instance)
+        {
+            if (m_Wrapper.m_IdleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IIdleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_IdleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_IdleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public IdleActions @Idle => new IdleActions(this);
     public interface IPlayerActions
     {
         void OnOpenInventory(InputAction.CallbackContext context);
@@ -468,5 +574,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnCursorPosition(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+    }
+    public interface IIdleActions
+    {
+        void OnCameraMove(InputAction.CallbackContext context);
+        void OnMoveTrigger(InputAction.CallbackContext context);
     }
 }

@@ -10,16 +10,16 @@ namespace anogame
         public float speed = 1f;
         [SerializeField] private int currentIndex = 0;
         [SerializeField] private Vector3[] nodes;
-        public void MoveNode(UnityEngine.Vector3[] nodes, Action onArrived = null)
+        public void MoveNode(UnityEngine.Vector3[] nodes, Action<Vector3> onDirection, Action onArrived)
         {
             currentIndex = 0;
             this.nodes = nodes;
             // 初期位置強制移動
             transform.position = nodes[currentIndex];
-            StartCoroutine(Move(onArrived));
+            StartCoroutine(Move(onDirection, onArrived));
         }
 
-        private IEnumerator Move(Action onArrived = null)
+        private IEnumerator Move(Action<Vector3> onDirection, Action onArrived)
         {
             while (true)
             {
@@ -36,7 +36,9 @@ namespace anogame
                     currentIndex++;
                     continue;
                 }
-                transform.position += diff.normalized * speed * Time.deltaTime;
+                Vector3 direction = diff.normalized;
+                onDirection?.Invoke(direction);
+                transform.position += direction * speed * Time.deltaTime;
                 yield return null;
             }
 

@@ -154,7 +154,9 @@ public class CustomerController : StateMachineBase<CustomerController>
 
             Debug.Log(machine.nodeMover);
 
-            machine.nodeMover.MoveNode(list.ToArray(), () =>
+            machine.nodeMover.MoveNode(list.ToArray(), (direction) =>
+            {
+            }, () =>
             {
                 Debug.Log("Arrived");
                 if (nextState != null)

@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 2188029746381329959}
   - component: {fileID: 98817440553300729}
   - component: {fileID: 7679429201913713778}
+  - component: {fileID: 6788365799748276178}
   m_Layer: 5
   m_Name: PanelIdle
   m_TagString: Untagged
@@ -829,6 +830,27 @@ MonoBehaviour:
     view: Settings
     icon: {fileID: 21300000, guid: c215071d627cc2242a51024a7652a908, type: 3}
   tabPrefab: {fileID: 7071622008199415931}
+--- !u!95 &6788365799748276178
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2735835052004144286}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a93ae0f047db9034ea66664cc816f409, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3124060789562749698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,7 +1417,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118868564428359554}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7679429201913713778}
+        m_TargetAssemblyTypeName: PanelIdle, Assembly-CSharp
+        m_MethodName: Open
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &4876910878959794682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,7 +1973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0010425334}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1084256776473570638

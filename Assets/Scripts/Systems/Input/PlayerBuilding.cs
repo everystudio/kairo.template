@@ -46,5 +46,12 @@ public partial class PlayerBuilding : MonoBehaviour
     public partial void BuildingSeedPlanting(SeedItem seedItem);
     public partial void BuildingBuilding(MasterBuildingModel buildingModel);
 
+    public void Build(MenuIconModel menuIcon)
+    {
+        if (menuIcon.BuildingModel != null)
+        {
+            BuildingBuilding(menuIcon.BuildingModel);
+        }
 
+    }
 }

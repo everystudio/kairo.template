@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-[CreateAssetMenu(fileName = "WarpLocation", menuName = "ScriptableObjects/WarpLocation")]
+[CreateAssetMenu(fileName = "WarpLocation", menuName = "ScriptableObject/WarpLocation")]
 public class WarpLocation : ScriptableObject
 {
     [SerializeField]

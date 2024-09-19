@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using anogame;
 using System;
+using TMPro;
 
 public class PanelIdle : UIPanel
 {
@@ -12,11 +13,23 @@ public class PanelIdle : UIPanel
         public string name;
         public string view;
         public Sprite icon;
+        public List<MenuIconModel> menuIconModels = new List<MenuIconModel>();
     }
 
     [SerializeField] private RectTransform tabRoot;
     public List<TabModel> tabModels = new List<TabModel>();
     [SerializeField] private PanelIdleTab tabPrefab;
+
+    [SerializeField] private Transform contentRoot;
+
+    #region UI Parts
+
+    [SerializeField] private Transform prefabHolderRoot;
+    [SerializeField] private TextMeshProUGUI menuTitleText;
+
+    [SerializeField] private MenuIconButton menuIconButtonPrefab;
+
+    #endregion
 
     private Animator animator;
 
@@ -30,6 +43,13 @@ public class PanelIdle : UIPanel
             tab.Initialize(tabModel);
             tab.OnSelected += OnTabSelected;
         }
+
+        menuIconButtonPrefab.transform.SetParent(prefabHolderRoot);
+
+        // tabModelsの先頭のタブを選択状態にする
+        OnTabSelected(tabModels[0]);
+
+
         animator = GetComponent<Animator>();
     }
 
@@ -47,11 +67,26 @@ public class PanelIdle : UIPanel
         }
     }
 
-
-
     private void OnTabSelected(TabModel model)
     {
-        Debug.Log(model.name);
+        menuTitleText.text = model.view;
+
+        // ここでタブに対応するViewを表示する処理を書く
+
+        // contentRootの子オブジェクトを全てさくじょ
+        foreach (Transform child in contentRoot)
+        {
+            if (menuIconButtonPrefab.gameObject != child.gameObject)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        foreach (var menuIconModel in model.menuIconModels)
+        {
+            var menuIconButton = Instantiate(menuIconButtonPrefab, contentRoot);
+            menuIconButton.Initialize(menuIconModel);
+        }
     }
 
     protected override void shutdown()

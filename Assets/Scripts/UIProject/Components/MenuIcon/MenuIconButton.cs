@@ -13,19 +13,13 @@ public class MenuIconButton : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private MenuIconModel model;
 
-    private void Start()
-    {
-        if (model != null)
-        {
-            SetModel(model);
-        }
-    }
-    public void SetModel(MenuIconModel model)
+    public void Initialize(MenuIconModel model)
     {
         this.model = model;
         titleNameText.text = model.titleName;
         menuDescriptionText.text = model.description;
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Clicked");

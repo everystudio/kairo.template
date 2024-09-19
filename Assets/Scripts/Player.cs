@@ -142,7 +142,8 @@ public class Player : MonoBehaviour
                 playerInputActions.Player.Enable();
             });
 
-            playerBuilding.BuildingPlow(playerBuilding.gameObject);
+            // エラー用の対応しないだけなの！
+            //playerBuilding.BuildingPlow(playerBuilding.gameObject);
         }
         else if (Input.GetKeyDown(KeyCode.F2))
         {

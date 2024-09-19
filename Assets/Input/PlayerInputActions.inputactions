@@ -2,6 +2,102 @@
     "name": "PlayerInputActions",
     "maps": [
         {
+            "name": "Idle",
+            "id": "80c05377-75ac-4445-8166-dcecc1fe1a13",
+            "actions": [
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "888e5362-752a-4fa8-9f77-eb602a2a780d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "90a2da2d-3b83-4c98-aa04-e69605643001",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Building",
+            "id": "8dbb265c-c2ef-4f46-b7a6-d807b495ffc3",
+            "actions": [
+                {
+                    "name": "CursorPosition",
+                    "type": "Value",
+                    "id": "ee97701a-405e-4e9c-97ea-8d80267c0400",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "6cfb3527-b5bc-4c6c-ba58-8aceaa2c7c58",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "f7634178-c6f1-4300-9df3-d9ff44c1e7c4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "08e2ce25-e50a-4482-bdbf-ca4e869af2d2",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CursorPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b68b928-0066-4419-a132-fb2a82ae8711",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b462dbd-eaf3-47d1-b9e8-6a61a5c8186f",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Player",
             "id": "a077f846-02ae-456d-a40a-48e42d26cf4b",
             "actions": [
@@ -154,116 +250,48 @@
             ]
         },
         {
-            "name": "Building",
-            "id": "8dbb265c-c2ef-4f46-b7a6-d807b495ffc3",
+            "name": "CameraMove",
+            "id": "dfd82111-1408-44d7-8cc1-c9e4e12da3af",
             "actions": [
                 {
-                    "name": "CursorPosition",
-                    "type": "Value",
-                    "id": "ee97701a-405e-4e9c-97ea-8d80267c0400",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Build",
+                    "name": "MoveTrigger",
                     "type": "Button",
-                    "id": "6cfb3527-b5bc-4c6c-ba58-8aceaa2c7c58",
+                    "id": "60bcc4dd-c73c-4e8d-9046-945e5e2717b8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
-                {
-                    "name": "Cancel",
-                    "type": "Button",
-                    "id": "f7634178-c6f1-4300-9df3-d9ff44c1e7c4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "08e2ce25-e50a-4482-bdbf-ca4e869af2d2",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CursorPosition",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6b68b928-0066-4419-a132-fb2a82ae8711",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Build",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6b462dbd-eaf3-47d1-b9e8-6a61a5c8186f",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Idle",
-            "id": "80c05377-75ac-4445-8166-dcecc1fe1a13",
-            "actions": [
                 {
                     "name": "CameraMove",
                     "type": "Value",
-                    "id": "f0f1b8ba-83c1-4448-b925-3f6fae39b59e",
+                    "id": "84258c43-0aff-4ce3-93c5-f63670286d20",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "MoveTrigger",
-                    "type": "Button",
-                    "id": "a58fe82e-d1c5-4c0e-93f0-6e02a61472b6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "69a0544b-691c-4690-a759-659ca14f3df8",
+                    "id": "5a86c44f-d206-481f-8c3e-758a1628ba55",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e40439db-c1cb-4678-b82c-be82dce39510",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "CameraMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7cbff958-feaf-45ea-981e-c3b952197b20",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTrigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

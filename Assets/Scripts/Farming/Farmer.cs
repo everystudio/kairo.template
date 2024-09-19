@@ -61,7 +61,7 @@ public class Farmer : StateMachineBase<Farmer>
                 Thread.Sleep(1000);
             });
 
-            List<Vector3Int> targetGridPositions = machine.targetPlowland.GetDryTilePositionList();
+            List<Vector3Int> targetGridPositions = machine.targetPlowland.GetSeededAndDryTilePositionList();
 
             if (0 < targetGridPositions.Count)
             {

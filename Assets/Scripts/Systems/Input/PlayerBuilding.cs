@@ -42,7 +42,7 @@ public partial class PlayerBuilding : MonoBehaviour
         inputActions.Building.Enable();
     }
 
-    public partial void BuildingPlow(GameObject buildingPrefab);
+    public partial void BuildingPlow(int size);
     public partial void BuildingSeedPlanting(SeedItem seedItem);
     public partial void BuildingBuilding(MasterBuildingModel buildingModel);
 
@@ -51,6 +51,14 @@ public partial class PlayerBuilding : MonoBehaviour
         if (menuIcon.BuildingModel != null)
         {
             BuildingBuilding(menuIcon.BuildingModel);
+        }
+        else if (menuIcon.SeedItem != null)
+        {
+            BuildingSeedPlanting(menuIcon.SeedItem);
+        }
+        else if (0 < menuIcon.PlowSize)
+        {
+            BuildingPlow(menuIcon.PlowSize);
         }
 
     }

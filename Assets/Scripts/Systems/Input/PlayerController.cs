@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using anogame;
 using System;
+using UnityEngine.InputSystem;
 
 public class PlayerController : StateMachineBase<PlayerController>
 {
@@ -10,7 +11,7 @@ public class PlayerController : StateMachineBase<PlayerController>
     [SerializeField] private PlayerBuilding playerBuilding;
     private CameraMover cameraMover;
 
-    public UIPanel currentPanel;
+    public PanelIdle panelIdle;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerController : StateMachineBase<PlayerController>
 
         inputActions.Enable();
         inputActions.Player.Disable();
+        inputActions.CameraMove.Enable();
 
         ChangeState(new PlayerController.Idle(this));
     }
@@ -44,13 +46,15 @@ public class PlayerController : StateMachineBase<PlayerController>
             machine.inputActions.Building.Disable();
             machine.inputActions.Idle.Enable();
 
+            machine.inputActions.Idle.Cancel.performed += OnCancel;
+
             MenuIconButton.OnClick.AddListener(OnMenuIconClick);
 
-            if (machine.currentPanel == null)
+            if (machine.panelIdle == null)
             {
-                machine.currentPanel = UIController.Instance.AddPanel("PanelIdle").GetComponent<UIPanel>();
+                machine.panelIdle = UIController.Instance.AddPanel("PanelIdle").GetComponent<PanelIdle>();
             }
-            await machine.currentPanel.Show(3f);
+            await machine.panelIdle.Show(3f);
 
         }
 
@@ -59,8 +63,17 @@ public class PlayerController : StateMachineBase<PlayerController>
             machine.ChangeState(new PlayerController.Building(machine, arg0));
         }
 
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+
+            machine.panelIdle.Open(false);
+
+        }
+
+
         override public void OnExitState()
         {
+            machine.inputActions.Idle.Cancel.performed -= OnCancel;
             MenuIconButton.OnClick.RemoveListener(OnMenuIconClick);
         }
     }
@@ -84,12 +97,12 @@ public class PlayerController : StateMachineBase<PlayerController>
             //UIController.Instance.AddPanel("PanelBuilding");
             machine.playerBuilding.Build(menuIcon);
             machine.playerBuilding.OnEndBuilding.AddListener(OnEndBuilding);
-            await machine.currentPanel.Hide();
+            await machine.panelIdle.Hide();
         }
 
         private async void OnEndBuilding(bool arg0, Vector3Int arg1)
         {
-            await machine.currentPanel.Show();
+            await machine.panelIdle.Show();
             machine.ChangeState(new PlayerController.Idle(machine));
         }
 

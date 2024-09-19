@@ -6,10 +6,12 @@ using UnityEngine.Tilemaps;
 
 public partial class PlayerBuilding : MonoBehaviour
 {
-    public partial void BuildingPlow(GameObject buildingPrefab)
+    private int size;
+
+    public partial void BuildingPlow(int size)
     {
         OnStartBuilding();
-        this.building = buildingPrefab;
+        this.size = size;
 
         inputActions.Building.CursorPosition.performed += PlowCursorPosition_performed;
         inputActions.Building.Build.performed += PlowBuild_performed;

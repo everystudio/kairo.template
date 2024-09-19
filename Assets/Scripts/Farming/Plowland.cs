@@ -22,7 +22,7 @@ public class Plowland : MonoBehaviour, ISaveable
 
     [SerializeField] private TileBase plowedTile;
     [SerializeField] private Tilemap seedTilemap;
-    [SerializeField] private Tilemap previewTilemap;
+    [SerializeField] private Tilemap pathfindingTilemap;
     [SerializeField] private TileBase previewTile;
 
     [SerializeField] private List<Vector3Int> plowedTilePositionList = new List<Vector3Int>();
@@ -122,10 +122,10 @@ public class Plowland : MonoBehaviour, ISaveable
                 }
             }
         }
-        previewTilemap.ClearAllTiles();
+        pathfindingTilemap.ClearAllTiles();
         foreach (var node in walkableNodeList)
         {
-            previewTilemap.SetTile(new Vector3Int(node.position.x, node.position.y, 0), previewTile);
+            pathfindingTilemap.SetTile(new Vector3Int(node.position.x, node.position.y, 0), previewTile);
         }
         //Debug.Log($"walkableNodeList.Count:{walkableNodeList.Count}");
     }
@@ -286,6 +286,19 @@ public class Plowland : MonoBehaviour, ISaveable
             Debug.Log(wetTilePosition);
             targetTilemap.SetAnimationFrame(wetTilePosition, (int)PlowTileState.Wet);
         }
+    }
+
+    public List<Vector3Int> GetSeededAndDryTilePositionList()
+    {
+        List<Vector3Int> seededAndDryTilePositionList = new List<Vector3Int>();
+        foreach (var plowedTilePosition in tempPlowedTilePositionList)
+        {
+            if (IsWet(plowedTilePosition) == false && IsSeeded(plowedTilePosition))
+            {
+                seededAndDryTilePositionList.Add(plowedTilePosition);
+            }
+        }
+        return seededAndDryTilePositionList;
     }
 
     public List<Vector3Int> GetDryTilePositionList()

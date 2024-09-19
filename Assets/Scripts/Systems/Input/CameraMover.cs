@@ -13,8 +13,6 @@ public class CameraMover : MonoBehaviour
     // PlayerInputを取得するための変数
     private PlayerInputActions playerInput;
 
-    private InputAction cameraMoveTrigger;
-
     private bool isMoving = false;
 
     // Start is called before the first frame update
@@ -22,17 +20,15 @@ public class CameraMover : MonoBehaviour
     {
         this.playerInput = playerInput;
         // PlayerInputActionsのMoveのアクションにMoveCameraを登録
-        playerInput.Idle.CameraMove.performed += MoveCamera;
+        playerInput.CameraMove.CameraMove.performed += MoveCamera;
 
-        cameraMoveTrigger = playerInput.Idle.MoveTrigger;
-
-        cameraMoveTrigger.started += MoveTriggerStarted;
-        cameraMoveTrigger.canceled += MoveTriggerCanceled;
+        playerInput.CameraMove.MoveTrigger.started += MoveTriggerStarted;
+        playerInput.CameraMove.MoveTrigger.canceled += MoveTriggerCanceled;
     }
     private void OnDestroy()
     {
-        cameraMoveTrigger.started -= MoveTriggerStarted;
-        cameraMoveTrigger.canceled -= MoveTriggerCanceled;
+        playerInput.CameraMove.MoveTrigger.started -= MoveTriggerStarted;
+        playerInput.CameraMove.MoveTrigger.canceled -= MoveTriggerCanceled;
     }
 
     private void MoveTriggerStarted(InputAction.CallbackContext context)

@@ -35,6 +35,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CursorPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""396b50aa-09dd-4b93-b85b-0a6df352a168"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""86e7d954-7376-4574-bb9d-e5477a16b2b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +64,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e623bc2-0d9d-46d6-8d70-ee9acbe144bc"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee6c848f-0c01-4ba0-b65f-524060e205d8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -325,6 +365,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Idle
         m_Idle = asset.FindActionMap("Idle", throwIfNotFound: true);
         m_Idle_Cancel = m_Idle.FindAction("Cancel", throwIfNotFound: true);
+        m_Idle_CursorPosition = m_Idle.FindAction("CursorPosition", throwIfNotFound: true);
+        m_Idle_Interaction = m_Idle.FindAction("Interaction", throwIfNotFound: true);
         // Building
         m_Building = asset.FindActionMap("Building", throwIfNotFound: true);
         m_Building_CursorPosition = m_Building.FindAction("CursorPosition", throwIfNotFound: true);
@@ -403,11 +445,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Idle;
     private List<IIdleActions> m_IdleActionsCallbackInterfaces = new List<IIdleActions>();
     private readonly InputAction m_Idle_Cancel;
+    private readonly InputAction m_Idle_CursorPosition;
+    private readonly InputAction m_Idle_Interaction;
     public struct IdleActions
     {
         private @PlayerInputActions m_Wrapper;
         public IdleActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Cancel => m_Wrapper.m_Idle_Cancel;
+        public InputAction @CursorPosition => m_Wrapper.m_Idle_CursorPosition;
+        public InputAction @Interaction => m_Wrapper.m_Idle_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Idle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -420,6 +466,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @CursorPosition.started += instance.OnCursorPosition;
+            @CursorPosition.performed += instance.OnCursorPosition;
+            @CursorPosition.canceled += instance.OnCursorPosition;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IIdleActions instance)
@@ -427,6 +479,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @CursorPosition.started -= instance.OnCursorPosition;
+            @CursorPosition.performed -= instance.OnCursorPosition;
+            @CursorPosition.canceled -= instance.OnCursorPosition;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IIdleActions instance)
@@ -641,6 +699,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IIdleActions
     {
         void OnCancel(InputAction.CallbackContext context);
+        void OnCursorPosition(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
     }
     public interface IBuildingActions
     {

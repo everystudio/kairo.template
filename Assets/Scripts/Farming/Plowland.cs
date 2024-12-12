@@ -17,6 +17,7 @@ public class Plowland : MonoBehaviour, ISaveable
     }
 
     private Tilemap targetTilemap;
+    public Tilemap TargetTilemap => targetTilemap;
     private SeedMap seedMap;
     [SerializeField] private SpriteRenderer gridCursor;
 
@@ -426,12 +427,43 @@ public class Plowland : MonoBehaviour, ISaveable
         };
         userBuildingModelList.Add(userBuildingModel);
 
-
-
-
         return true;
-
     }
+
+    public void RemoveBuilding(Vector3Int grid)
+    {
+        UserBuildingModel userBuildingModel = userBuildingModelList.Find(model => model.position == grid);
+        if (userBuildingModel != null)
+        {
+            userBuildingModelList.Remove(userBuildingModel);
+        }
+    }
+
+    public UserBuildingModel GetUserBuildingModel(Vector3Int grid)
+    {
+        // gridの位置にある建物を取得
+        // 建物はpositionとsizeで判定
+        foreach (var userBuildingModel in userBuildingModelList)
+        {
+            for (int x = 0; x < userBuildingModel.size; x++)
+            {
+                for (int y = 0; y < userBuildingModel.size; y++)
+                {
+                    Vector3Int position = new Vector3Int(userBuildingModel.position.x + x, userBuildingModel.position.y + y, userBuildingModel.position.z);
+                    if (position == grid)
+                    {
+                        return userBuildingModel;
+                    }
+                }
+            }
+        }
+
+
+        return null;
+    }
+
+
+
 
     private void Update()
     {

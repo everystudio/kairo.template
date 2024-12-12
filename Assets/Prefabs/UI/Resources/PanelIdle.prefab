@@ -939,6 +939,7 @@ MonoBehaviour:
   prefabHolderRoot: {fileID: 3630143736049062391}
   menuTitleText: {fileID: 1591287108771043689}
   menuIconButtonPrefab: {fileID: 2529976813025588574}
+  pageBasePrefab: {fileID: 9029810040087723276, guid: ede5fd5644dc1204e8e56b798f095217, type: 3}
 --- !u!95 &6788365799748276178
 Animator:
   serializedVersion: 5
@@ -1432,7 +1433,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2448416461092284269}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.8399598
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2880,7 +2881,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00018912583}
+  m_AnchoredPosition: {x: 0, y: 0.012551957}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1084256776473570638

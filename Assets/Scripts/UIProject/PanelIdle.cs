@@ -4,6 +4,7 @@ using UnityEngine;
 using anogame;
 using System;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class PanelIdle : UIPanel
 {
@@ -28,6 +29,10 @@ public class PanelIdle : UIPanel
     [SerializeField] private TextMeshProUGUI menuTitleText;
 
     [SerializeField] private MenuIconButton menuIconButtonPrefab;
+
+
+    [SerializeField] private PageBase pageBasePrefab;
+    private PageBase pageBase;
 
     #endregion
 
@@ -64,6 +69,12 @@ public class PanelIdle : UIPanel
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Open(false);
+
+            if (pageBase == null)
+            {
+                pageBase = Instantiate(pageBasePrefab, transform);
+                pageBase.Open();
+            }
         }
     }
 
